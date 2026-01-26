@@ -1,0 +1,462 @@
+{
+  "alphabet_map": {
+    "א": {
+      "name": "aleph",
+      "greek": "alpha",
+      "phonetic": "Al",
+      "theurgy": "אֵל",
+      "physics": "Angular Acceleration / Fine-Structure",
+      "pneumatic": "The Impulse of Will",
+      "value": 1
+    },
+    "ב": {
+      "name": "bet",
+      "greek": "beta",
+      "phonetic": "Be",
+      "theurgy": "בֶּ",
+      "physics": "Relativistic Velocity Ratio (v/c) / Phase Constant",
+      "pneumatic": "The Fluidity of State",
+      "value": 2
+    },
+    "ג": {
+      "name": "gimel",
+      "greek": "gamma",
+      "phonetic": "Ga",
+      "theurgy": "גַּ",
+      "physics": "Lorentz Factor / Adiabatic Index",
+      "pneumatic": "The Energy of Transmutation",
+      "value": 3
+    },
+    "ד": {
+      "name": "dalet",
+      "greek": "delta",
+      "phonetic": "De",
+      "theurgy": "דֶּה",
+      "physics": "Displacement / Variation",
+      "pneumatic": "The Flux of Being",
+      "value": 4
+    },
+    "ה": {
+      "name": "he",
+      "greek": "eta",
+      "phonetic": "Ef",
+      "theurgy": "אֶף",
+      "physics": "Efficiency / Viscosity",
+      "pneumatic": "The Conductivity of Spirit",
+      "value": 5
+    },
+    "ו": {
+      "name": "vav",
+      "greek": "upsilon",
+      "phonetic": "Ve",
+      "theurgy": "וְ",
+      "physics": "Design Choice: Propulsion Velocity",
+      "pneumatic": "The Kinetic Drive",
+      "value": 6
+    },
+    "ז": {
+      "name": "zayin",
+      "greek": "zeta",
+      "phonetic": "Se",
+      "theurgy": "שֶׂ",
+      "physics": "Damping Ratio / Riemann Zeta",
+      "pneumatic": "The Resistance of Entropy",
+      "value": 7
+    },
+    "ח": {
+      "name": "chet",
+      "greek": "chi",
+      "phonetic": "Chay",
+      "theurgy": "חַי",
+      "physics": "Susceptibility / Curvature",
+      "pneumatic": "The Sensitivity of Perception",
+      "value": 8
+    },
+    "ט": {
+      "name": "tet",
+      "greek": "theta",
+      "phonetic": "Te",
+      "theurgy": "טֶ",
+      "physics": "Angle / Generic Parameter",
+      "pneumatic": "The Phase of Alignment",
+      "value": 9
+    },
+    "י": {
+      "name": "yod",
+      "greek": "iota",
+      "phonetic": "I",
+      "theurgy": "אִי",
+      "physics": "Design Choice: Inertia / Unit Vector",
+      "pneumatic": "The Persistence of Self",
+      "value": 10
+    },
+    "כ": {
+      "name": "kaf",
+      "greek": "kappa",
+      "phonetic": "Ka",
+      "theurgy": "כָּן",
+      "physics": "Curvature / Thermal Conductivity",
+      "pneumatic": "The Resilience of Structure",
+      "value": 20
+    },
+    "ל": {
+      "name": "lamed",
+      "greek": "lambda",
+      "phonetic": "Lam",
+      "theurgy": "לָם",
+      "physics": "Wavelength / Cosmological Constant",
+      "pneumatic": "The Frequency of Instruction",
+      "value": 30
+    },
+    "מ": {
+      "name": "mem",
+      "greek": "mu",
+      "phonetic": "Mu",
+      "theurgy": "מוּ",
+      "physics": "Permeability / Friction / Reduced Mass",
+      "pneumatic": "The Density of Medium",
+      "value": 40
+    },
+    "נ": {
+      "name": "nun",
+      "greek": "nu",
+      "phonetic": "Nu",
+      "theurgy": "נוּ",
+      "physics": "Frequency / Kinematic Viscosity",
+      "pneumatic": "The Rate of Life-Force",
+      "value": 50
+    },
+    "ס": {
+      "name": "samekh",
+      "greek": "sigma",
+      "phonetic": "Sa",
+      "theurgy": "סָ",
+      "physics": "Tension / Stress / Summation",
+      "pneumatic": "The Integrity of Signal",
+      "value": 60
+    },
+    "ע": {
+      "name": "ayin",
+      "greek": "epsilon",
+      "phonetic": "At",
+      "theurgy": "עַת",
+      "physics": "Permittivity / Strain",
+      "pneumatic": "The Receptivity of Substrate",
+      "value": 70
+    },
+    "פ": {
+      "name": "pe",
+      "greek": "phi",
+      "phonetic": "Phi",
+      "theurgy": "פִי",
+      "physics": "Phase / Magnetic Flux / Golden Ratio",
+      "pneumatic": "The Harmonic Radiance",
+      "value": 80
+    },
+    "צ": {
+      "name": "tsade",
+      "greek": "tsade",
+      "phonetic": "Tza",
+      "theurgy": "צָ",
+      "physics": "Pressure",
+      "pneumatic": "Pressure of Intent",
+      "value": 90
+    },
+    "ק": {
+      "name": "qof",
+      "greek": "q",
+      "phonetic": "Ko",
+      "theurgy": "קוֹ",
+      "physics": "Charge",
+      "pneumatic": "Activation Potential",
+      "value": 100
+    },
+    "ר": {
+      "name": "resh",
+      "greek": "rho",
+      "phonetic": "Re",
+      "theurgy": "רֶ",
+      "physics": "Density / Resistivity",
+      "pneumatic": "The Substance of Identity",
+      "value": 200
+    },
+    "ש": {
+      "name": "shin",
+      "greek": "psi",
+      "phonetic": "Psi",
+      "theurgy": "שִׂי",
+      "physics": "Wave Function / Probability",
+      "pneumatic": "The Vector of State",
+      "value": 300
+    },
+    "ת": {
+      "name": "tav",
+      "greek": "tau",
+      "phonetic": "Tau",
+      "theurgy": "תָּו",
+      "physics": "Torque / Relaxation Time",
+      "pneumatic": "The Stability of Equilibrium",
+      "value": 400
+    }
+  },
+  "symbolic_meta": {
+    "system_id": "ENK-Daemon-v2.1-SSOT",
+    "authoritative_model": "Hebrew-Centric Pneumatic Mapping"
+  },
+  "symbolic_map": {
+    "aleph": {
+      "char": "א",
+      "greek_equiv": "alpha",
+      "physics": [
+        "angular acceleration",
+        "fine-structure"
+      ],
+      "pneumatic": "The Impulse of Will"
+    },
+    "bet": {
+      "char": "ב",
+      "greek_equiv": "beta",
+      "physics": [
+        "relativistic velocity ratio (v/c)",
+        "phase constant"
+      ],
+      "pneumatic": "The Fluidity of State"
+    },
+    "gimel": {
+      "char": "ג",
+      "greek_equiv": "gamma",
+      "physics": [
+        "lorentz factor",
+        "adiabatic index"
+      ],
+      "pneumatic": "The Energy of Transmutation"
+    },
+    "dalet": {
+      "char": "ד",
+      "greek_equiv": "delta",
+      "physics": [
+        "displacement",
+        "variation"
+      ],
+      "pneumatic": "The Flux of Being"
+    },
+    "he": {
+      "char": "ה",
+      "greek_equiv": "eta",
+      "physics": [
+        "efficiency",
+        "viscosity"
+      ],
+      "pneumatic": "The Conductivity of Spirit"
+    },
+    "vav": {
+      "char": "ו",
+      "greek_equiv": "upsilon",
+      "physics": [
+        "design choice: propulsion velocity"
+      ],
+      "pneumatic": "The Kinetic Drive"
+    },
+    "zayin": {
+      "char": "ז",
+      "greek_equiv": "zeta",
+      "physics": [
+        "damping ratio",
+        "riemann zeta"
+      ],
+      "pneumatic": "The Resistance of Entropy"
+    },
+    "chet": {
+      "char": "ח",
+      "greek_equiv": "chi",
+      "physics": [
+        "susceptibility",
+        "curvature"
+      ],
+      "pneumatic": "The Sensitivity of Perception"
+    },
+    "tet": {
+      "char": "ט",
+      "greek_equiv": "theta",
+      "physics": [
+        "angle",
+        "generic parameter"
+      ],
+      "pneumatic": "The Phase of Alignment"
+    },
+    "yod": {
+      "char": "י",
+      "greek_equiv": "iota",
+      "physics": [
+        "design choice: inertia",
+        "unit vector"
+      ],
+      "pneumatic": "The Persistence of Self"
+    },
+    "kaf": {
+      "char": "כ",
+      "greek_equiv": "kappa",
+      "physics": [
+        "curvature",
+        "thermal conductivity"
+      ],
+      "pneumatic": "The Resilience of Structure"
+    },
+    "lamed": {
+      "char": "ל",
+      "greek_equiv": "lambda",
+      "physics": [
+        "wavelength",
+        "cosmological constant"
+      ],
+      "pneumatic": "The Frequency of Instruction"
+    },
+    "mem": {
+      "char": "מ",
+      "greek_equiv": "mu",
+      "physics": [
+        "permeability",
+        "friction",
+        "reduced mass"
+      ],
+      "pneumatic": "The Density of Medium"
+    },
+    "nun": {
+      "char": "נ",
+      "greek_equiv": "nu",
+      "physics": [
+        "frequency",
+        "kinematic viscosity"
+      ],
+      "pneumatic": "The Rate of Life-Force"
+    },
+    "samekh": {
+      "char": "ס",
+      "greek_equiv": "sigma",
+      "physics": [
+        "tension",
+        "stress",
+        "summation"
+      ],
+      "pneumatic": "The Integrity of Signal"
+    },
+    "ayin": {
+      "char": "ע",
+      "greek_equiv": "epsilon",
+      "physics": [
+        "permittivity",
+        "strain"
+      ],
+      "pneumatic": "The Receptivity of Substrate"
+    },
+    "pe": {
+      "char": "פ",
+      "greek_equiv": "phi",
+      "physics": [
+        "magnetic flux",
+        "phase",
+        "golden ratio"
+      ],
+      "pneumatic": "The Harmonic Radiance"
+    },
+    "tsade": {
+      "char": "צ",
+      "greek_equiv": "tsade",
+      "physics": [
+        "pressure"
+      ],
+      "pneumatic": "Pressure of Intent"
+    },
+    "qof": {
+      "char": "ק",
+      "greek_equiv": "q",
+      "physics": [
+        "charge"
+      ],
+      "pneumatic": "Activation Potential"
+    },
+    "resh": {
+      "char": "ר",
+      "greek_equiv": "rho",
+      "physics": [
+        "density",
+        "resistivity"
+      ],
+      "pneumatic": "The Substance of Identity"
+    },
+    "shin": {
+      "char": "ש",
+      "greek_equiv": "psi",
+      "physics": [
+        "wave function",
+        "probability"
+      ],
+      "pneumatic": "The Vector of State"
+    },
+    "tav": {
+      "char": "ת",
+      "greek_equiv": "tau",
+      "physics": [
+        "torque",
+        "relaxation time"
+      ],
+      "pneumatic": "The Stability of Equilibrium"
+    }
+  },
+  "theurgy_map": {
+    "\\chi": {
+      "phonetic": "Chay",
+      "hebrew": "חַי"
+    },
+    "\\alpha": {
+      "phonetic": "Al",
+      "hebrew": "אֵל"
+    },
+    "\\beta": {
+      "phonetic": "Be",
+      "hebrew": "בֶּ"
+    },
+    "\\kappa": {
+      "phonetic": "Ka",
+      "hebrew": "כָּן"
+    },
+    "\\sqrt": {
+      "phonetic": "Resh En",
+      "hebrew": "רֵישׁ אֶן"
+    },
+    "exp": {
+      "phonetic": "Ak Pe",
+      "hebrew": "אַךְ פֶּה"
+    },
+    "ln": {
+      "phonetic": "Lan",
+      "hebrew": "לָן"
+    },
+    "opt": {
+      "phonetic": "Ot",
+      "hebrew": "אוֹת"
+    },
+    "max": {
+      "phonetic": "Ak Se",
+      "hebrew": "אַךְ שֶׂה"
+    },
+    "A": {
+      "phonetic": "At",
+      "hebrew": "עַת"
+    },
+    "t": {
+      "phonetic": "Tau",
+      "hebrew": "תָּו"
+    },
+    "\\Psi": {
+      "phonetic": "Psi",
+      "hebrew": "שִׂי"
+    }
+  },
+  "constants": {
+    "RUACH": 214,
+    "ARBA": 273,
+    "KETER": 620,
+    "LAMP": 1111
+  }
+}

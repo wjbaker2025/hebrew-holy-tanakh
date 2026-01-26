@@ -1,0 +1,265 @@
+{
+  "hebrew_parsing_tag_legend": {
+    "tags": {
+      "1": {
+        "tag": "Conj",
+        "full_name": "Conjunction",
+        "types": {
+          "w": {
+            "strong": "9999",
+            "transliteration": "waw",
+            "translation": [
+              "and",
+              "furthermore",
+              "but..."
+            ]
+          }
+        }
+      },
+      "2": {
+        "tag": "Prep",
+        "full_name": "Preposition",
+        "types": {
+          "b": {
+            "strong": "9996",
+            "transliteration": "b^e",
+            "translation": "in"
+          },
+          "k": {
+            "strong": "9995",
+            "transliteration": "k^e",
+            "translation": "according to"
+          },
+          "l": {
+            "strong": "9997",
+            "transliteration": "l^e",
+            "translation": "with regard to"
+          },
+          "m": {
+            "strong": "4480",
+            "transliteration": "min",
+            "translation": "from"
+          }
+        }
+      },
+      "3": {
+        "tag": "V",
+        "full_name": "Verb",
+        "stems": [
+          "Hiphil",
+          "Hophal",
+          "Piel",
+          "Pual",
+          "Hithpael",
+          "Qal",
+          "Nifal",
+          "Qalpass"
+        ],
+        "aspects": {
+          "main": {
+            "Perf": "Perfect",
+            "Imperf": "Imperfect",
+            "ConjPerf": "Conjunctive Perfect",
+            "ConjImperf": "Conjunctive Imperfect",
+            "ConsecImperf": "Consecutive Imperfect"
+          },
+          "appended_to_imperfect": {
+            ".Cohort": "Cohortative",
+            ".h": "Cohortative force is likely assumed if a formal cohortative precedes or follows in the immediate context",
+            ".Jus": "Jussive (no meaning unless the immediate context uses forms that allow for this)"
+          }
+        },
+        "person": {
+          "1": "1st Person",
+          "2": "2nd Person",
+          "3": "3rd Person"
+        },
+        "gender": {
+          "m": "masculine",
+          "f": "feminine",
+          "c": "common"
+        },
+        "number": {
+          "s": "singular",
+          "p": "plural"
+        },
+        "nun_suffix": {
+          "Pn": "Paragogic nun (likely impressive)"
+        }
+      },
+      "3a": {
+        "tag": "V",
+        "full_name": "Verb",
+        "exception_type": "Imperative, Participle, QalPassParticiple",
+        "stems": [
+          "Hiphil",
+          "Hophal",
+          "Piel",
+          "Pual",
+          "Hithpael",
+          "Qal",
+          "Nifal",
+          "Qalpass"
+        ],
+        "aspects": {
+          "Imp": "Imperative",
+          "Prtcpl": "Participle",
+          "QalPassPrtcpl": "QalPassParticiple"
+        },
+        "gender": {
+          "m": "masculine",
+          "f": "feminine"
+        },
+        "number": {
+          "s": "singular",
+          "p": "plural"
+        }
+      },
+      "3b": {
+        "tag": "V",
+        "full_name": "Verb",
+        "exception_type": "Infinitive",
+        "stems": [
+          "Hiphil",
+          "Hophal",
+          "Piel",
+          "Pual",
+          "Hithpael",
+          "Qal",
+          "Nifal",
+          "Qalpass"
+        ],
+        "aspects": {
+          "Inf": "Infinitive Construct",
+          "InfAbs": "Infinitive Absolute"
+        }
+      },
+      "4": {
+        "tag": "Art",
+        "full_name": "Definite Article",
+        "type": {
+          "strong": "9998",
+          "transliteration": "hÄ“",
+          "translation": "the"
+        }
+      },
+      "5": {
+        "tags": {
+          "N": {
+            "full_name": "Noun"
+          },
+          "Adj": {
+            "full_name": "Adjective"
+          },
+          "Number": {
+            "full_name": "Number"
+          }
+        },
+        "gender": {
+          "m": "masculine",
+          "f": "feminine",
+          "c": "common"
+        },
+        "number": {
+          "s": "singular",
+          "p": "plural",
+          "d": "dual"
+        },
+        "state": {
+          "c": "genitival pronoun, unless in a construct pair",
+          "d": "determinate"
+        }
+      },
+      "5a": {
+        "tag": "N",
+        "exception": "Proper Noun",
+        "type": "Proper"
+      },
+      "5b": {
+        "tag": "N",
+        "exception": "Gentilic Noun",
+        "type": "g",
+        "number": {
+          "s": "singular",
+          "p": "plural"
+        },
+        "state": "d"
+      },
+      "5c": {
+        "tag": "Number",
+        "exception": "Ordinal Number",
+        "type": "o",
+        "gender": {
+          "m": "masculine",
+          "f": "feminine"
+        },
+        "number": {
+          "s": "singular",
+          "p": "plural"
+        },
+        "state": {
+          "c": "construct",
+          "d": "determinate"
+        }
+      },
+      "6": {
+        "tag": "DirObjM",
+        "full_name": "Direct Object Marker",
+        "type": {
+          "strong": "853",
+          "transliteration": "eth",
+          "comment": "untranslatable mark of the accusative case"
+        }
+      },
+      "7": {
+        "tags": {
+          "Pro": {
+            "full_name": "Pronoun"
+          },
+          "Pronominal Suffix": {
+            "full_name": "Pronominal Suffix"
+          }
+        },
+        "person": {
+          "1": "1st Person",
+          "2": "2nd Person",
+          "3": "3rd Person"
+        },
+        "gender": {
+          "m": "masculine",
+          "f": "feminine",
+          "c": "common"
+        },
+        "number": {
+          "s": "singular",
+          "p": "plural"
+        },
+        "nun_suffix": {
+          "Pn": "Paragogic nun (likely impressive)"
+        }
+      },
+      "7a": {
+        "tag": "Pro",
+        "exception": "Relative Pronoun",
+        "type": "r"
+      },
+      "8": {
+        "tag": "Adv",
+        "full_name": "Adverb"
+      },
+      "8a": {
+        "tag": "Adv",
+        "exception": "Negative Particle",
+        "type": "NegPrt"
+      },
+      "9": {
+        "tag": "I",
+        "full_name": "Interjection"
+      },
+      "10": {
+        "tag": "Interrog",
+        "full_name": "Interrogative"
+      }
+    }
+  }
+}

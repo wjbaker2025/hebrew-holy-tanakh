@@ -1,0 +1,143 @@
+{
+  "meta": {
+    "system": "Shematria / Ancient Hebrew Formal System"
+  },
+  "seven_palaces_topology": {
+    "nodes": {
+      "center_core": {
+        "letter": "ר",
+        "value": 200,
+        "location": "CPU_CORE",
+        "pos": [
+          0,
+          0,
+          0
+        ]
+      },
+      "top_gate": {
+        "letter": "ב",
+        "value": 2,
+        "location": "INPUT_GATE",
+        "pos": [
+          0,
+          10,
+          0
+        ]
+      },
+      "right_gate": {
+        "letter": "א",
+        "value": 1,
+        "location": "RIGHT_TERMINAL",
+        "pos": [
+          10,
+          0,
+          0
+        ]
+      },
+      "left_gate": {
+        "letter": "א",
+        "value": 1,
+        "location": "LEFT_TERMINAL",
+        "pos": [
+          -10,
+          0,
+          0
+        ]
+      },
+      "bottom_gate": {
+        "letter": "ה",
+        "value": 5,
+        "location": "GROUND",
+        "pos": [
+          0,
+          -10,
+          0
+        ]
+      },
+      "inner_right_spoke": {
+        "letter": "ד",
+        "value": 4,
+        "location": "INNER_GATE_R",
+        "pos": [
+          5,
+          -5,
+          0
+        ]
+      },
+      "inner_left_spoke": {
+        "letter": "ד",
+        "value": 4,
+        "location": "INNER_GATE_L",
+        "pos": [
+          -5,
+          -5,
+          0
+        ]
+      }
+    },
+    "operators": {
+      "multipliers": {
+        "ברוך": 2
+      },
+      "divisors": {
+        "ארור": 2,
+        "בין": 2
+      },
+      "modifiers": {
+        "מעל": "ADD",
+        "מתחת": "SUB",
+        "את": "MARKER"
+      }
+    },
+    "middot": [
+      "יום",
+      "לילה",
+      "שנה",
+      "שבוע",
+      "חודש",
+      "מועד",
+      "עת",
+      "שם",
+      "דבר",
+      "אמר",
+      "אות",
+      "שקל",
+      "ככר",
+      "גרה",
+      "בקע",
+      "אמה",
+      "זרת",
+      "טפח",
+      "קנה",
+      "איפה",
+      "הין",
+      "סאה",
+      "קב",
+      "לוג",
+      "עמר",
+      "בן",
+      "בת",
+      "איש",
+      "אשה"
+    ],
+    "set_values": {
+      "בית": 2,
+      "רוח": 2,
+      "באפיו": 2,
+      "רקיע": 3,
+      "יבשה": 3,
+      "דלתות": 4,
+      "תדשא": 4,
+      "הכוכבים": 5,
+      "יד": 20,
+      "נחש": 50,
+      "עיניים": 70,
+      "עין": 70,
+      "פה": 80,
+      "כנפות": 90,
+      "צרור": 90,
+      "אשה": 111,
+      "מאור": 1
+    }
+  }
+}

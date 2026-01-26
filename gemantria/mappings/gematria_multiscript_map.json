@@ -1,0 +1,686 @@
+{
+  "gematria_multiscript_map": {
+    "meta": {
+      "description": "Absolute mapping between Hebrew, Greek, and English gematria equivalents.",
+    },
+    "language_chars": {
+      "hebrew": {
+        "א": 1,
+        "ב": 2,
+        "ג": 3,
+        "ד": 4,
+        "ה": 5,
+        "ו": 6,
+        "ז": 7,
+        "ח": 8,
+        "ט": 9,
+        "י": 10,
+        "כ": 20,
+        "ל": 30,
+        "מ": 40,
+        "נ": 50,
+        "ס": 60,
+        "ע": 70,
+        "פ": 80,
+        "צ": 90,
+        "ק": 100,
+        "ר": 200,
+        "ש": 300,
+        "ת": 400,
+        " ": 0
+      },
+      "greek": {
+        "Α": 1,
+        "Β": 2,
+        "Γ": 3,
+        "Δ": 4,
+        "Ε": 5,
+        "Ζ": 7,
+        "Η": 8,
+        "Θ": 9,
+        "Ι": 10,
+        "Κ": 20,
+        "Λ": 30,
+        "Μ": 40,
+        "Ν": 50,
+        "Ξ": 60,
+        "Ο": 70,
+        "Π": 80,
+        "Ρ": 100,
+        "Σ": 200,
+        "Τ": 300,
+        "Υ": 400,
+        "Φ": 500,
+        "Χ": 600,
+        "Ψ": 700,
+        "Ω": 800,
+        " ": 0
+      },
+      "arabic": {
+        "ا": 1,
+        "ب": 2,
+        "ت": 400,
+        "ث": 500,
+        "ج": 3,
+        "ح": 8,
+        "خ": 600,
+        "د": 4,
+        "ذ": 700,
+        "ر": 200,
+        "ز": 7,
+        "س": 60,
+        "ش": 300,
+        "ص": 90,
+        "ض": 800,
+        "ط": 9,
+        "ظ": 900,
+        "ع": 70,
+        "غ": 1000,
+        "ف": 80,
+        "ق": 100,
+        "ك": 20,
+        "ل": 30,
+        "م": 40,
+        "ن": 50,
+        "ه": 5,
+        "و": 6,
+        "ي": 10,
+        " ": 0
+      },
+      "english": {
+        "A": 1,
+        "B": 2,
+        "C": 3,
+        "D": 4,
+        "E": 5,
+        "F": 6,
+        "G": 7,
+        "H": 8,
+        "I": 9,
+        "J": 10,
+        "K": 11,
+        "L": 12,
+        "M": 13,
+        "N": 14,
+        "O": 15,
+        "P": 16,
+        "Q": 17,
+        "R": 18,
+        "S": 19,
+        "T": 20,
+        "U": 21,
+        "V": 22,
+        "W": 23,
+        "X": 24,
+        "Y": 25,
+        "Z": 26,
+        " ": 0
+      }
+    },
+    "mappings": [
+      {
+        "english_letter": "a",
+        "biblical_gematria": 1,
+        "reversal_cipher_value": 100,
+        "reversal_cipher_letter": "q",
+        "genesis_order": 2,
+        "standard_hebrew": 1,
+        "hebrew_letter": "א",
+        "greek_letters": [
+          {
+            "letter": "α",
+            "name": "Alpha",
+            "biblical_gematria": 1,
+            "standard_greek_gematria": 1,
+            "reversal_cipher": 100
+          }
+        ]
+      },
+      {
+        "english_letter": "b",
+        "biblical_gematria": 2,
+        "reversal_cipher_value": 200,
+        "reversal_cipher_letter": "r",
+        "genesis_order": 1,
+        "standard_hebrew": 2,
+        "hebrew_letter": "ב",
+        "greek_letters": [
+          {
+            "letter": "β",
+            "name": "Beta",
+            "biblical_gematria": 2,
+            "standard_greek_gematria": 2,
+            "reversal_cipher": 100
+          }
+        ]
+      },
+      {
+        "english_letter": "c",
+        "biblical_gematria": 8,
+        "reversal_cipher_value": 40,
+        "reversal_cipher_letter": "m",
+        "genesis_order": 8,
+        "standard_hebrew": 8,
+        "hebrew_letter": "ח",
+        "greek_letters": [
+          {
+            "letter": "η",
+            "name": "Eta",
+            "biblical_gematria": 8,
+            "standard_greek_gematria": 8,
+            "reversal_cipher": 40
+          }
+        ]
+      },
+      {
+        "english_letter": "d",
+        "biblical_gematria": 4,
+        "reversal_cipher_value": 80,
+        "reversal_cipher_letter": "p",
+        "genesis_order": 4,
+        "standard_hebrew": 4,
+        "hebrew_letter": "ד",
+        "greek_letters": [
+          {
+            "letter": "δ",
+            "name": "Delta",
+            "biblical_gematria": 4,
+            "standard_greek_gematria": 4,
+            "reversal_cipher": 80
+          }
+        ]
+      },
+      {
+        "english_letter": "e",
+        "biblical_gematria": 5,
+        "reversal_cipher_value": 70,
+        "reversal_cipher_letter": "o",
+        "genesis_order": 5,
+        "standard_hebrew": 5,
+        "hebrew_letter": "ה",
+        "greek_letters": [
+          {
+            "letter": "ε",
+            "name": "Epsilon",
+            "biblical_gematria": 5,
+            "standard_greek_gematria": 5,
+            "reversal_cipher": 70
+          }
+        ]
+      },
+      {
+        "english_letter": "f",
+        "biblical_gematria": 80,
+        "reversal_cipher_value": 4,
+        "reversal_cipher_letter": "Th",
+        "genesis_order": 17,
+        "standard_hebrew": 80,
+        "hebrew_letter": "ף",
+        "greek_letters": [
+          {
+            "letter": "π",
+            "name": "Pi",
+            "biblical_gematria": 80,
+            "standard_greek_gematria": 80,
+            "reversal_cipher": 4
+          }
+        ]
+      },
+      {
+        "english_letter": "g",
+        "biblical_gematria": 3,
+        "reversal_cipher_value": 90,
+        "reversal_cipher_letter": "Ts",
+        "genesis_order": 3,
+        "standard_hebrew": 3,
+        "hebrew_letter": "ג",
+        "greek_letters": [
+          {
+            "letter": "γ",
+            "name": "Gamma",
+            "biblical_gematria": 3,
+            "standard_greek_gematria": 3,
+            "reversal_cipher": 90
+          },
+          {
+            "letter": "τ",
+            "name": "Tau",
+            "biblical_gematria": 3,
+            "standard_greek_gematria": 300,
+            "reversal_cipher": 90
+          }
+        ]
+      },
+      {
+        "english_letter": "h",
+        "biblical_gematria": 5,
+        "reversal_cipher_value": 70,
+        "reversal_cipher_letter": "o",
+        "genesis_order": 5,
+        "standard_hebrew": 5,
+        "hebrew_letter": "ה",
+        "greek_letters": [
+          {
+            "letter": "ε",
+            "name": "Epsilon",
+            "biblical_gematria": 5,
+            "standard_greek_gematria": 5,
+            "reversal_cipher": 70
+          }
+        ]
+      },
+      {
+        "english_letter": "i",
+        "biblical_gematria": 10,
+        "reversal_cipher_value": 20,
+        "reversal_cipher_letter": "k",
+        "genesis_order": 10,
+        "standard_hebrew": 10,
+        "hebrew_letter": "י",
+        "greek_letters": [
+          {
+            "letter": "ι",
+            "name": "Iota",
+            "biblical_gematria": 10,
+            "standard_greek_gematria": 10,
+            "reversal_cipher": 20
+          }
+        ]
+      },
+      {
+        "english_letter": "j",
+        "biblical_gematria": 10,
+        "reversal_cipher_value": 20,
+        "reversal_cipher_letter": "k",
+        "genesis_order": 10,
+        "standard_hebrew": 10,
+        "hebrew_letter": "י",
+        "greek_letters": [
+          {
+            "letter": "ι",
+            "name": "Iota",
+            "biblical_gematria": 10,
+            "standard_greek_gematria": 10,
+            "reversal_cipher": 20
+          }
+        ]
+      },
+      {
+        "english_letter": "k",
+        "biblical_gematria": 20,
+        "reversal_cipher_value": 10,
+        "reversal_cipher_letter": "i",
+        "genesis_order": 11,
+        "standard_hebrew": 20,
+        "hebrew_letter": "ך",
+        "greek_letters": [
+          {
+            "letter": "κ",
+            "name": "Kappa",
+            "biblical_gematria": 20,
+            "standard_greek_gematria": 20,
+            "reversal_cipher": 10
+          }
+        ]
+      },
+      {
+        "english_letter": "l",
+        "biblical_gematria": 30,
+        "reversal_cipher_value": 9,
+        "reversal_cipher_letter": "t",
+        "genesis_order": 12,
+        "standard_hebrew": 30,
+        "hebrew_letter": "ל",
+        "greek_letters": [
+          {
+            "letter": "λ",
+            "name": "Lambda",
+            "biblical_gematria": 30,
+            "standard_greek_gematria": 30,
+            "reversal_cipher": 9
+          }
+        ]
+      },
+      {
+        "english_letter": "m",
+        "biblical_gematria": 40,
+        "reversal_cipher_value": 8,
+        "reversal_cipher_letter": "c",
+        "genesis_order": 13,
+        "standard_hebrew": 40,
+        "hebrew_letter": "ם",
+        "greek_letters": [
+          {
+            "letter": "μ",
+            "name": "Mu",
+            "biblical_gematria": 40,
+            "standard_greek_gematria": 40,
+            "reversal_cipher": 8
+          }
+        ]
+      },
+      {
+        "english_letter": "n",
+        "biblical_gematria": 50,
+        "reversal_cipher_value": 7,
+        "reversal_cipher_letter": "z",
+        "genesis_order": 14,
+        "standard_hebrew": 50,
+        "hebrew_letter": "ן",
+        "greek_letters": [
+          {
+            "letter": "ν",
+            "name": "Nu",
+            "biblical_gematria": 50,
+            "standard_greek_gematria": 50,
+            "reversal_cipher": 7
+          }
+        ]
+      },
+      {
+        "english_letter": "o",
+        "biblical_gematria": 70,
+        "reversal_cipher_value": 5,
+        "reversal_cipher_letter": "h",
+        "genesis_order": 16,
+        "standard_hebrew": 70,
+        "hebrew_letter": "ע",
+        "greek_letters": [
+          {
+            "letter": "ο",
+            "name": "Omicron",
+            "biblical_gematria": 70,
+            "standard_greek_gematria": 70,
+            "reversal_cipher": 5
+          }
+        ]
+      },
+      {
+        "english_letter": "p",
+        "biblical_gematria": 80,
+        "reversal_cipher_value": 4,
+        "reversal_cipher_letter": "d",
+        "genesis_order": 17,
+        "standard_hebrew": 80,
+        "hebrew_letter": "ף",
+        "greek_letters": [
+          {
+            "letter": "π",
+            "name": "Pi",
+            "biblical_gematria": 80,
+            "standard_greek_gematria": 80,
+            "reversal_cipher": 4
+          }
+        ]
+      },
+      {
+        "english_letter": "q",
+        "biblical_gematria": 100,
+        "reversal_cipher_value": 1,
+        "reversal_cipher_letter": "a",
+        "genesis_order": 19,
+        "standard_hebrew": 100,
+        "hebrew_letter": "ק",
+        "greek_letters": [
+          {
+            "letter": "ρ",
+            "name": "Rho",
+            "biblical_gematria": 100,
+            "standard_greek_gematria": 100,
+            "reversal_cipher": 1
+          }
+        ]
+      },
+      {
+        "english_letter": "r",
+        "biblical_gematria": 200,
+        "reversal_cipher_value": 2,
+        "reversal_cipher_letter": "b",
+        "genesis_order": 20,
+        "standard_hebrew": 200,
+        "hebrew_letter": "ר",
+        "greek_letters": [
+          {
+            "letter": "σ",
+            "name": "Sigma",
+            "biblical_gematria": 200,
+            "standard_greek_gematria": 200,
+            "reversal_cipher": 2
+          }
+        ]
+      },
+      {
+        "english_letter": "s",
+        "biblical_gematria": 60,
+        "reversal_cipher_value": 6,
+        "reversal_cipher_letter": "v",
+        "genesis_order": 15,
+        "standard_hebrew": 60,
+        "hebrew_letter": "ס",
+        "greek_letters": [
+          {
+            "letter": "ξ",
+            "name": "Xi",
+            "biblical_gematria": 60,
+            "standard_greek_gematria": 60,
+            "reversal_cipher": 6
+          }
+        ]
+      },
+      {
+        "english_letter": "t",
+        "biblical_gematria": 9,
+        "reversal_cipher_value": 30,
+        "reversal_cipher_letter": "l",
+        "genesis_order": 9,
+        "standard_hebrew": 9,
+        "hebrew_letter": "ט",
+        "greek_letters": [
+          {
+            "letter": "θ",
+            "name": "Theta",
+            "biblical_gematria": 9,
+            "standard_greek_gematria": 9,
+            "reversal_cipher": 30
+          }
+        ]
+      },
+      {
+        "english_letter": "u",
+        "biblical_gematria": 6,
+        "reversal_cipher_value": 60,
+        "reversal_cipher_letter": "s",
+        "genesis_order": 6,
+        "standard_hebrew": 6,
+        "hebrew_letter": "ו",
+        "greek_letters": []
+      },
+      {
+        "english_letter": "v",
+        "biblical_gematria": 6,
+        "reversal_cipher_value": 60,
+        "reversal_cipher_letter": "s",
+        "genesis_order": 6,
+        "standard_hebrew": 6,
+        "hebrew_letter": "ו",
+        "greek_letters": []
+      },
+      {
+        "english_letter": "w",
+        "biblical_gematria": 6,
+        "reversal_cipher_value": 60,
+        "reversal_cipher_letter": "x",
+        "genesis_order": 6,
+        "standard_hebrew": 6,
+        "hebrew_letter": "ו",
+        "greek_letters": []
+      },
+      {
+        "english_letter": "x",
+        "biblical_gematria": 60,
+        "reversal_cipher_value": 6,
+        "reversal_cipher_letter": "v",
+        "genesis_order": 15,
+        "standard_hebrew": 60,
+        "hebrew_letter": "ס",
+        "greek_letters": [
+          {
+            "letter": "ξ",
+            "name": "Xi",
+            "biblical_gematria": 60,
+            "standard_greek_gematria": 60,
+            "reversal_cipher": 6
+          }
+        ]
+      },
+      {
+        "english_letter": "y",
+        "biblical_gematria": 10,
+        "reversal_cipher_value": 20,
+        "reversal_cipher_letter": "k",
+        "genesis_order": 10,
+        "standard_hebrew": 10,
+        "hebrew_letter": "י",
+        "greek_letters": [
+          {
+            "letter": "ι",
+            "name": "Iota",
+            "biblical_gematria": 10,
+            "standard_greek_gematria": 10,
+            "reversal_cipher": 20
+          }
+        ]
+      },
+      {
+        "english_letter": "z",
+        "biblical_gematria": 7,
+        "reversal_cipher_value": 50,
+        "reversal_cipher_letter": "n",
+        "genesis_order": 7,
+        "standard_hebrew": 7,
+        "hebrew_letter": "ז",
+        "greek_letters": [
+          {
+            "letter": "ζ",
+            "name": "Zeta",
+            "biblical_gematria": 7,
+            "standard_greek_gematria": 7,
+            "reversal_cipher": 50
+          }
+        ]
+      }
+    ],
+    "simple_values": {
+      "1": {
+        "hebrew": "א",
+        "greek": "α",
+        "english": "a"
+      },
+      "2": {
+        "hebrew": "ב",
+        "greek": "β",
+        "english": "b"
+      },
+      "3": {
+        "hebrew": "ג",
+        "greek": "γ",
+        "english": "g"
+      },
+      "4": {
+        "hebrew": "ד",
+        "greek": "δ",
+        "english": "d"
+      },
+      "5": {
+        "hebrew": "ה",
+        "greek": "ε",
+        "english": "e"
+      },
+      "6": {
+        "hebrew": "ו",
+        "greek": "ζ",
+        "english": "v"
+      },
+      "7": {
+        "hebrew": "ז",
+        "greek": "η",
+        "english": "z"
+      },
+      "8": {
+        "hebrew": "ח",
+        "greek": "θ",
+        "english": "ch"
+      },
+      "9": {
+        "hebrew": "ט",
+        "greek": "ι",
+        "english": "t"
+      },
+      "10": {
+        "hebrew": "י",
+        "greek": "κ",
+        "english": "y"
+      },
+      "20": {
+        "hebrew": "כ",
+        "greek": "λ",
+        "english": "k"
+      },
+      "30": {
+        "hebrew": "ל",
+        "greek": "μ",
+        "english": "l"
+      },
+      "40": {
+        "hebrew": "מ",
+        "greek": "ν",
+        "english": "m"
+      },
+      "50": {
+        "hebrew": "נ",
+        "greek": "ξ",
+        "english": "n"
+      },
+      "60": {
+        "hebrew": "ס",
+        "greek": "ο",
+        "english": "s"
+      },
+      "70": {
+        "hebrew": "ע",
+        "greek": "π",
+        "english": "o"
+      },
+      "80": {
+        "hebrew": "פ",
+        "greek": "ρ",
+        "english": "p"
+      },
+      "90": {
+        "hebrew": "צ",
+        "greek": "σ",
+        "english": "ts"
+      },
+      "100": {
+        "hebrew": "ק",
+        "greek": "τ",
+        "english": "q"
+      },
+      "200": {
+        "hebrew": "ר",
+        "greek": "υ",
+        "english": "r"
+      },
+      "300": {
+        "hebrew": "ש",
+        "greek": "φ",
+        "english": "sh"
+      },
+      "400": {
+        "hebrew": "ת",
+        "greek": "χ",
+        "english": "t"
+      }
+    }
+  }
+}
