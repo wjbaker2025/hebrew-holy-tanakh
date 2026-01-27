@@ -506,7 +506,34 @@
             "ς": 200
         };
 
-        const FALLBACK_ENGLISH_ENTRIES = [];
+        const FALLBACK_ENGLISH_ENTRIES = [
+            { letter: "a", values: { biblical: 1, standard: 1, genesis: 2, reversal: 100 } },
+            { letter: "b", values: { biblical: 2, standard: 2, genesis: 1, reversal: 200 } },
+            { letter: "c", values: { biblical: 8, standard: 8, genesis: 8, reversal: 40 } },
+            { letter: "d", values: { biblical: 4, standard: 4, genesis: 4, reversal: 80 } },
+            { letter: "e", values: { biblical: 5, standard: 5, genesis: 5, reversal: 70 } },
+            { letter: "f", values: { biblical: 80, standard: 80, genesis: 17, reversal: 4 } },
+            { letter: "g", values: { biblical: 3, standard: 3, genesis: 3, reversal: 90 } },
+            { letter: "h", values: { biblical: 5, standard: 5, genesis: 5, reversal: 70 } },
+            { letter: "i", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
+            { letter: "j", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
+            { letter: "k", values: { biblical: 20, standard: 20, genesis: 11, reversal: 10 } },
+            { letter: "l", values: { biblical: 30, standard: 30, genesis: 12, reversal: 9 } },
+            { letter: "m", values: { biblical: 40, standard: 40, genesis: 13, reversal: 8 } },
+            { letter: "n", values: { biblical: 50, standard: 50, genesis: 14, reversal: 7 } },
+            { letter: "o", values: { biblical: 70, standard: 70, genesis: 16, reversal: 5 } },
+            { letter: "p", values: { biblical: 80, standard: 80, genesis: 17, reversal: 4 } },
+            { letter: "q", values: { biblical: 100, standard: 100, genesis: 19, reversal: 1 } },
+            { letter: "r", values: { biblical: 200, standard: 200, genesis: 20, reversal: 2 } },
+            { letter: "s", values: { biblical: 60, standard: 60, genesis: 15, reversal: 6 } },
+            { letter: "t", values: { biblical: 9, standard: 9, genesis: 9, reversal: 30 } },
+            { letter: "u", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
+            { letter: "v", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
+            { letter: "w", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
+            { letter: "x", values: { biblical: 60, standard: 60, genesis: 15, reversal: 6 } },
+            { letter: "y", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
+            { letter: "z", values: { biblical: 7, standard: 7, genesis: 7, reversal: 50 } }
+        ];
 
         const state = {
             currentBook: BOOK_INDEX[0],
@@ -516,13 +543,14 @@
             scriptMode: "auto",
             bibleData: {},
             cipherData: {},
-            englishMaps: buildEnglishMaps(FALLBACK_ENGLISH_ENTRIES),
+            englishMaps: {},
             previousScriptMode: "auto",
             loadError: null,
             highlightFrame: null
         };
 
         document.addEventListener("DOMContentLoaded", async () => {
+            state.englishMaps = buildEnglishMaps(FALLBACK_ENGLISH_ENTRIES);
             await loadBookIndex();
             initBookList();
             initCipherSelector();
@@ -555,7 +583,7 @@
                 };
                 item.addEventListener("click", activateBook);
                 item.addEventListener("keydown", (event) => {
-                    if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+                    if (event.key === "Enter" || event.key === " ") {
                         event.preventDefault();
                         activateBook();
                     }
@@ -629,7 +657,7 @@
                     return;
                 }
                 BOOK_INDEX.length = 0;
-                Array.prototype.push.apply(BOOK_INDEX, normalised);
+                BOOK_INDEX.push(...normalised);
                 state.currentBook = BOOK_INDEX[0];
             } catch (error) {
                 console.warn("Unable to load book manifest", error);
