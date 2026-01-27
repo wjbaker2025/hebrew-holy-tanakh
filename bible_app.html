@@ -689,22 +689,58 @@
                     handleBookLoadError(book);
                     return;
                 }
+            let loadSucceeded = true;
+            if (!existing) {
+                // Attempt to fetch book data with a small number of retries.
+                loadSucceeded = await fetchBookData(book, 1);
             }
+
+            if (!loadSucceeded && !state.bibleData[book.name]) {
+                // If we still have no data for this book, provide clear user feedback
+                // and avoid rendering with undefined data.
+                showBookLoadError(book);
+                return;
+            }
+
             renderPage();
+        }
+
+        // Simple helper to wait for the specified number of milliseconds.
+        function wait(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        // Provide UI feedback when a book fails to load and prevent further interaction.
+        function showBookLoadError(book) {
+            console.error("Failed to load book data after retries:", book);
+            alert("Unable to load data for \"" + book.name + "\". Please check your connection or try again later.");
+
+            const items = document.querySelectorAll(".book-item");
+            items.forEach((item) => {
+                if (item.textContent === book.name) {
+                    item.classList.add("disabled");
+                    item.setAttribute("aria-disabled", "true");
+                }
+            });
         }
 
         async function fetchBookData(book, retries = 0) {
             try {
                 const response = await fetch(book.path);
                 if (!response.ok) {
-                    throw new Error(`Book fetch failed with status ${response.status}`);
+                    throw new Error("Book fetch failed with status " + response.status);
                 }
                 const data = await response.json();
                 state.bibleData[book.name] = data[book.name];
-                state.loadError = null;
                 return true;
             } catch (error) {
-                console.warn("Unable to load book data", error);
+                console.warn("Unable to load book data for", book.name, error);
+                if (retries > 0) {
+                    // Basic retry logic with a short delay before the next attempt.
+                    await wait(500);
+                    return fetchBookData(book, retries - 1);
+                }
+                return false;
                 if (retries > 0) {
                     await wait(500);
                     return fetchBookData(book, retries - 1);
