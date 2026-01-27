@@ -108,6 +108,17 @@
             box-shadow: inset 0 0 0 1px rgba(110, 231, 255, 0.3);
         }
 
+        .book-item:focus-visible {
+            outline: 2px solid rgba(110, 231, 255, 0.7);
+            outline-offset: 2px;
+        }
+
+        .book-item.is-disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         main {
             display: grid;
             grid-template-rows: auto 1fr auto;
@@ -174,6 +185,13 @@
             box-shadow: 0 12px 24px rgba(79, 70, 229, 0.2);
         }
 
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
         .gematria-display {
             background: rgba(15, 23, 42, 0.7);
             border-radius: var(--radius-md);
@@ -192,6 +210,12 @@
             font-size: 1.4rem;
             color: var(--highlight);
             font-weight: 700;
+        }
+
+        .gematria-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
 
         .reader {
@@ -327,6 +351,15 @@
             box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
         }
 
+        .status-text {
+            font-size: 0.75rem;
+        }
+
+        .loading-message {
+            padding: 24px;
+            color: var(--text-muted);
+        }
+
         @media (max-width: 960px) {
             .app-shell {
                 grid-template-columns: 1fr;
@@ -341,9 +374,9 @@
             <div class="brand">
                 <h1>Tanakh Gematria</h1>
                 <p>Interactive reader powered by the repository cipher definitions.</p>
-                <div class="status-pill">
-                    <span class="status-dot"></span>
-                    Data synced from JSON
+                <div class="status-pill" role="status" aria-live="polite">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span class="status-text">Status: Data synced from JSON</span>
                 </div>
             </div>
             <ul class="book-list" id="book-list"></ul>
@@ -369,12 +402,13 @@
                             <option value="greek">Greek</option>
                         </select>
                     </div>
-                    <button onclick="imprintGematria()">Imprint</button>
+                    <button onclick="imprintGematria()" aria-label="Calculate and highlight gematria matches">Imprint</button>
                 </div>
                 <div class="gematria-display" id="gematria-result">
                     <h3>Gematria Value</h3>
                     <div class="gematria-value">0</div>
                     <div class="status-pill" id="cipher-label">Biblical</div>
+                    <div class="gematria-note" id="script-note">Script: Auto Detect</div>
                 </div>
             </div>
 
@@ -385,9 +419,9 @@
             </section>
 
             <div class="nav-controls">
-                <button onclick="prevChapter()">← Previous Chapter</button>
+                <button onclick="prevChapter()" id="prev-button" aria-label="Go to previous chapter">← Previous Chapter</button>
                 <span id="current-location">Genesis 1</span>
-                <button onclick="nextChapter()">Next Chapter →</button>
+                <button onclick="nextChapter()" id="next-button" aria-label="Go to next chapter">Next Chapter →</button>
             </div>
         </main>
     </div>
@@ -437,47 +471,39 @@
 
         const FALLBACK_CIPHER_MAPS = {
             biblical: { "א": 1, "ב": 2, "ג": 3, "ש": 3, "ד": 4, "ת": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ך": 20, "ל": 30, "מ": 40, "ם": 40, "נ": 50, "ן": 50, "ס": 60, "ע": 70, "פ": 80, "ף": 80, "צ": 90, "ץ": 90, "ק": 100, "ר": 200 },
-            reversal: { "ת": 80, "ש": 90, "ר": 2, "ק": 1, "צ": 3, "פ": 4, "ע": 5, "ס": 6, "נ": 7, "מ": 8, "ל": 9, "כ": 10, "י": 20, "ט": 30, "ח": 40, "ז": 50, "ו": 60, "ה": 70, "ד": 80, "ג": 90, "ב": 200, "א": 100 },
-            genesis_order: { "ב": 1, "א": 2, "ג": 3, "ש": 3, "ד": 4, "ת": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 11, "ל": 12, "מ": 13, "נ": 14, "ס": 15, "ע": 16, "פ": 17, "צ": 18, "ק": 19, "ר": 20 },
-            standard: { "א": 1, "ב": 2, "ג": 3, "ד": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ל": 30, "מ": 40, "נ": 50, "ס": 60, "ע": 70, "פ": 80, "צ": 90, "ק": 100, "ר": 200, "ש": 300, "ת": 400 }
+            reversal: { "ת": 80, "ש": 90, "ר": 2, "ק": 1, "צ": 3, "ץ": 3, "פ": 4, "ף": 4, "ע": 5, "ס": 6, "נ": 7, "ן": 7, "מ": 8, "ם": 8, "ל": 9, "כ": 10, "ך": 10, "י": 20, "ט": 30, "ח": 40, "ז": 50, "ו": 60, "ה": 70, "ד": 80, "ג": 90, "ב": 200, "א": 100 },
+            genesis_order: { "ב": 1, "א": 2, "ג": 3, "ש": 3, "ד": 4, "ת": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 11, "ך": 11, "ל": 12, "מ": 13, "ם": 13, "נ": 14, "ן": 14, "ס": 15, "ע": 16, "פ": 17, "ף": 17, "צ": 18, "ץ": 18, "ק": 19, "ר": 20 },
+            standard: { "א": 1, "ב": 2, "ג": 3, "ד": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ך": 20, "ל": 30, "מ": 40, "ם": 40, "נ": 50, "ן": 50, "ס": 60, "ע": 70, "פ": 80, "ף": 80, "צ": 90, "ץ": 90, "ק": 100, "ר": 200, "ש": 300, "ת": 400 }
         };
 
-        const FALLBACK_ENGLISH_MAPS = {
-            biblical: { "A": 1, "B": 2, "C": 8, "D": 4, "E": 5, "F": 80, "G": 3, "H": 5, "I": 10, "J": 10, "K": 20, "L": 30, "M": 40, "N": 50, "O": 70, "P": 80, "Q": 100, "R": 200, "S": 60, "T": 9, "U": 6, "V": 6, "W": 6, "X": 60, "Y": 10, "Z": 7 },
-            reversal: { "A": 100, "B": 200, "C": 40, "D": 80, "E": 70, "F": 4, "G": 90, "H": 70, "I": 20, "J": 20, "K": 10, "L": 9, "M": 8, "N": 7, "O": 5, "P": 4, "Q": 1, "R": 2, "S": 6, "T": 30, "U": 60, "V": 60, "W": 60, "X": 6, "Y": 20, "Z": 50 },
-            genesis_order: { "A": 2, "B": 1, "C": 8, "D": 4, "E": 5, "F": 17, "G": 3, "H": 5, "I": 10, "J": 10, "K": 11, "L": 12, "M": 13, "N": 14, "O": 16, "P": 17, "Q": 19, "R": 20, "S": 15, "T": 9, "U": 6, "V": 6, "W": 6, "X": 15, "Y": 10, "Z": 7 },
-            standard: { "A": 1, "B": 2, "C": 8, "D": 4, "E": 5, "F": 80, "G": 3, "H": 5, "I": 10, "J": 10, "K": 20, "L": 30, "M": 40, "N": 50, "O": 70, "P": 80, "Q": 100, "R": 200, "S": 60, "T": 9, "U": 6, "V": 6, "W": 6, "X": 60, "Y": 10, "Z": 7 }
-        };
-
-        const FALLBACK_GREEK_MAP = {
-            "α": 1,
-            "β": 2,
-            "γ": 3,
-            "τ": 3,
-            "δ": 4,
-            "υ": 4,
-            "ε": 5,
-            "Ϝ": 6,
-            "ζ": 7,
-            "η": 8,
-            "θ": 9,
-            "ι": 10,
-            "κ": 20,
-            "φ": 20,
-            "λ": 30,
-            "μ": 40,
-            "χ": 40,
-            "ν": 50,
-            "ψ": 50,
-            "ξ": 60,
-            "ο": 70,
-            "π": 80,
-            "ω": 80,
-            "ϙ": 90,
-            "ϡ": 90,
-            "ρ": 100,
-            "ς": 200
-        };
+        const FALLBACK_ENGLISH_ENTRIES = [
+            { letter: "a", values: { biblical: 1, standard: 1, genesis: 2, reversal: 100 } },
+            { letter: "b", values: { biblical: 2, standard: 2, genesis: 1, reversal: 200 } },
+            { letter: "c", values: { biblical: 8, standard: 8, genesis: 8, reversal: 40 } },
+            { letter: "d", values: { biblical: 4, standard: 4, genesis: 4, reversal: 80 } },
+            { letter: "e", values: { biblical: 5, standard: 5, genesis: 5, reversal: 70 } },
+            { letter: "f", values: { biblical: 80, standard: 80, genesis: 17, reversal: 4 } },
+            { letter: "g", values: { biblical: 3, standard: 3, genesis: 3, reversal: 90 } },
+            { letter: "h", values: { biblical: 5, standard: 5, genesis: 5, reversal: 70 } },
+            { letter: "i", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
+            { letter: "j", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
+            { letter: "k", values: { biblical: 20, standard: 20, genesis: 11, reversal: 10 } },
+            { letter: "l", values: { biblical: 30, standard: 30, genesis: 12, reversal: 9 } },
+            { letter: "m", values: { biblical: 40, standard: 40, genesis: 13, reversal: 8 } },
+            { letter: "n", values: { biblical: 50, standard: 50, genesis: 14, reversal: 7 } },
+            { letter: "o", values: { biblical: 70, standard: 70, genesis: 16, reversal: 5 } },
+            { letter: "p", values: { biblical: 80, standard: 80, genesis: 17, reversal: 4 } },
+            { letter: "q", values: { biblical: 100, standard: 100, genesis: 19, reversal: 1 } },
+            { letter: "r", values: { biblical: 200, standard: 200, genesis: 20, reversal: 2 } },
+            { letter: "s", values: { biblical: 60, standard: 60, genesis: 15, reversal: 6 } },
+            { letter: "t", values: { biblical: 9, standard: 9, genesis: 9, reversal: 30 } },
+            { letter: "u", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
+            { letter: "v", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
+            { letter: "w", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
+            { letter: "x", values: { biblical: 60, standard: 60, genesis: 15, reversal: 6 } },
+            { letter: "y", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
+            { letter: "z", values: { biblical: 7, standard: 7, genesis: 7, reversal: 50 } }
+        ];
 
         const state = {
             currentBook: BOOK_INDEX[0],
@@ -486,14 +512,16 @@
             activeCipher: "biblical",
             scriptMode: "auto",
             bibleData: {},
-            cipherData: {}
+            cipherData: {},
+            englishMaps: buildEnglishMaps(FALLBACK_ENGLISH_ENTRIES),
+            loadError: null
         };
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
             initBookList();
             initCipherSelector();
-            fetchCipherData();
-            loadBook(state.currentBook);
+            await fetchCipherData();
+            await loadBook(state.currentBook);
         });
 
         function initBookList() {
@@ -511,10 +539,18 @@
                 const item = document.createElement("li");
                 item.textContent = book.name;
                 item.className = "book-item";
-                item.addEventListener("click", () => loadBook(book));
+                item.setAttribute("role", "button");
+                item.tabIndex = 0;
+                const activateBook = () => loadBook(book);
+                item.addEventListener("click", activateBook);
+                item.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+                        event.preventDefault();
+                        activateBook();
+                    }
+                });
                 list.appendChild(item);
             });
-            setActiveBook();
         }
 
         function initCipherSelector() {
@@ -553,6 +589,7 @@
                 if (response.ok) {
                     const data = await response.json();
                     state.cipherData = data.ciphers || {};
+                    state.englishMaps = buildEnglishMaps(data.languages?.english || []);
                 }
             } catch (error) {
                 console.warn("Falling back to embedded cipher maps.", error);
@@ -565,22 +602,37 @@
             setActiveBook();
             const existing = state.bibleData[book.name];
             if (!existing) {
-                await fetchBookData(book);
+                const loaded = await fetchBookData(book, 1);
+                if (!loaded) {
+                    handleBookLoadError(book);
+                    return;
+                }
             }
             renderPage();
         }
 
-        async function fetchBookData(book) {
+        async function fetchBookData(book, retries = 0) {
             try {
                 const response = await fetch(book.path);
                 if (!response.ok) {
-                    throw new Error("Book fetch failed");
+                    throw new Error(`Book fetch failed with status ${response.status}`);
                 }
                 const data = await response.json();
                 state.bibleData[book.name] = data[book.name];
+                state.loadError = null;
+                return true;
             } catch (error) {
                 console.warn("Unable to load book data", error);
+                if (retries > 0) {
+                    await wait(500);
+                    return fetchBookData(book, retries - 1);
+                }
+                return false;
             }
+        }
+
+        function wait(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
         }
 
         function setActiveBook() {
@@ -592,10 +644,15 @@
 
         function getCipherMap() {
             if (state.activeCipher === "greek_transposition") {
-                return state.cipherData.greek_transposition?.mapping || FALLBACK_GREEK_MAP;
+                return (
+                    state.cipherData.greek_transposition?.mapping ||
+                    state.cipherData.greek_transposition?.values ||
+                    {}
+                );
             }
             return (
                 state.cipherData[state.activeCipher]?.mapping ||
+                state.cipherData[state.activeCipher]?.values ||
                 FALLBACK_CIPHER_MAPS[state.activeCipher]
             );
         }
@@ -607,7 +664,7 @@
             if (state.scriptMode !== "auto") {
                 return state.scriptMode;
             }
-            if (/[\u0590-\u05FF]/.test(text)) {
+            if (/[\u05D0-\u05EA]/.test(text)) {
                 return "hebrew";
             }
             if (/[\u0370-\u03FF]/.test(text)) {
@@ -621,8 +678,11 @@
                 return 0;
             }
             const script = detectScript(text);
+            if (state.activeCipher === "greek_transposition" && script !== "greek") {
+                return 0;
+            }
             if (script === "english") {
-                const map = FALLBACK_ENGLISH_MAPS[state.activeCipher] || {};
+                const map = state.englishMaps[state.activeCipher] || {};
                 return [...text.toUpperCase()].reduce((sum, char) => sum + (map[char] || 0), 0);
             }
             const map = getCipherMap();
@@ -634,7 +694,8 @@
             const chapters = state.bibleData[state.currentBook.name]?.chapters;
 
             if (!chapters || !chapters[state.currentChapter]) {
-                container.innerHTML = `<div style="padding:20px;">Chapter ${state.currentChapter} is not available for ${state.currentBook.name}.</div>`;
+                container.innerHTML = `<div class="loading-message">${state.loadError || `Chapter ${state.currentChapter} is not available for ${state.currentBook.name}.`}</div>`;
+                updateNavigationState(chapters);
                 return;
             }
 
@@ -650,7 +711,7 @@
                     const isMatch = checkMatch(word);
                     const highlightClass = isMatch ? "imprinted" : "";
                     html += `
-                        <div class="word-card ${highlightClass}">
+                        <div class="word-card ${highlightClass}" data-hebrew="${word.hebrew || ""}" data-english="${word.english || ""}">
                             <div class="word-hebrew">${word.hebrew || ""}</div>
                             <div class="word-english">${word.english || "-"}</div>
                             <div class="word-meta">${word.morphology || ""}</div>
@@ -663,10 +724,11 @@
 
             container.innerHTML = html;
             document.getElementById("current-location").innerText = `${state.currentBook.name} ${state.currentChapter}`;
+            updateNavigationState(chapters);
         }
 
         function normalizeHebrew(text) {
-            return text.replace(/[^\u0590-\u05FF\s]/g, "");
+            return text.replace(/[^\u05D0-\u05EA\s]/g, "");
         }
 
         function checkMatch(wordObj) {
@@ -683,15 +745,17 @@
         function updateGematriaDisplay(value) {
             const display = document.getElementById("gematria-result");
             const label = document.getElementById("cipher-label");
+            const scriptNote = document.getElementById("script-note");
             display.querySelector(".gematria-value").textContent = value > 0 ? value : "N/A";
-            label.textContent = state.activeCipher.replace("_", " ");
+            label.textContent = state.activeCipher.replace(/_/g, " ");
+            scriptNote.textContent = `Script: ${state.scriptMode === "auto" ? "Auto Detect" : state.scriptMode}`;
         }
 
         function imprintGematria() {
             const input = document.getElementById("gematria-search");
             state.activeSearchTerm = input.value;
             updateGematriaDisplay(calculateGematria(state.activeSearchTerm));
-            renderPage();
+            updateHighlighting();
         }
 
         function handleEnter(event) {
@@ -701,9 +765,17 @@
         }
 
         function nextChapter() {
-            state.currentChapter += 1;
-            renderPage();
-            document.getElementById("reader-container").scrollTop = 0;
+            const chapters = state.bibleData[state.currentBook.name]?.chapters;
+            if (!chapters) {
+                return;
+            }
+            const keys = Object.keys(chapters).map((key) => parseInt(key, 10));
+            const maxChapter = Math.max(...keys);
+            if (state.currentChapter < maxChapter) {
+                state.currentChapter += 1;
+                renderPage();
+                document.getElementById("reader-container").scrollTop = 0;
+            }
         }
 
         function prevChapter() {
@@ -712,6 +784,62 @@
                 renderPage();
                 document.getElementById("reader-container").scrollTop = 0;
             }
+        }
+
+        function updateHighlighting() {
+            const cards = document.querySelectorAll(".word-card");
+            cards.forEach((card) => {
+                const heb = card.dataset.hebrew || "";
+                const eng = card.dataset.english || "";
+                const matches = checkMatch({ hebrew: heb, english: eng });
+                card.classList.toggle("imprinted", matches);
+            });
+        }
+
+        function updateNavigationState(chapters) {
+            const prevButton = document.getElementById("prev-button");
+            const nextButton = document.getElementById("next-button");
+            if (!chapters) {
+                prevButton.disabled = true;
+                nextButton.disabled = true;
+                return;
+            }
+            const keys = Object.keys(chapters).map((key) => parseInt(key, 10));
+            const maxChapter = Math.max(...keys);
+            prevButton.disabled = state.currentChapter <= 1;
+            nextButton.disabled = state.currentChapter >= maxChapter;
+        }
+
+        function handleBookLoadError(book) {
+            state.loadError = `Unable to load ${book.name}. Please check your connection or try again.`;
+            const items = document.querySelectorAll(".book-item");
+            items.forEach((item) => {
+                if (item.textContent === book.name) {
+                    item.classList.add("is-disabled");
+                    item.setAttribute("aria-disabled", "true");
+                }
+            });
+            renderPage();
+        }
+
+        function buildEnglishMaps(entries) {
+            const maps = {
+                biblical: {},
+                reversal: {},
+                genesis_order: {},
+                standard: {}
+            };
+            entries.forEach((entry) => {
+                const letter = (entry.letter || "").toUpperCase();
+                if (!letter) {
+                    return;
+                }
+                maps.biblical[letter] = entry.values?.biblical ?? 0;
+                maps.reversal[letter] = entry.values?.reversal ?? 0;
+                maps.genesis_order[letter] = entry.values?.genesis ?? 0;
+                maps.standard[letter] = entry.values?.standard ?? 0;
+            });
+            return maps;
         }
     </script>
 </body>
