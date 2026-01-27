@@ -833,7 +833,7 @@
             const label = document.getElementById("cipher-label");
             const scriptNote = document.getElementById("script-note");
             display.querySelector(".gematria-value").textContent = value > 0 ? value : "N/A";
-            label.textContent = state.activeCipher.replace("_", " ");
+            label.textContent = state.activeCipher.replace(/_/g, " ");
             scriptNote.textContent = `Script: ${state.scriptMode === "auto" ? "Auto Detect" : state.scriptMode}`;
         }
 
