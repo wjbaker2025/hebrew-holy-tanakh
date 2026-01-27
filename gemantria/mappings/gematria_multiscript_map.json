@@ -1,7 +1,7 @@
 {
   "gematria_multiscript_map": {
     "meta": {
-      "description": "Absolute mapping between Hebrew, Greek, and English gematria equivalents.",
+      "description": "Absolute mapping between Hebrew, Greek, and English gematria equivalents."
     },
     "language_chars": {
       "hebrew": {

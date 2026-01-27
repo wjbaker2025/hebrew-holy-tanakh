@@ -3,420 +3,716 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanakh Gematria Reader</title>
+    <title>Tanakh Gemantria Reader</title>
     <style>
         :root {
-            --bg-color: #1e1e1e;
-            --text-color: #e0e0e0;
-            --sidebar-width: 250px;
-            --accent-color: #0078d4; /* Windows 11 Blue */
-            --highlight-color: #ffd700;
-            --highlight-text: #000;
+            color-scheme: dark;
+            --bg: #0b0f1a;
+            --panel: rgba(19, 26, 44, 0.92);
+            --panel-strong: rgba(27, 36, 60, 0.98);
+            --accent: #6ee7ff;
+            --accent-strong: #8b5cf6;
+            --highlight: #fbbf24;
+            --highlight-text: #0f172a;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+            --border: rgba(148, 163, 184, 0.2);
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+            background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.2), transparent 40%),
+                radial-gradient(circle at top right, rgba(14, 165, 233, 0.18), transparent 45%),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .app-shell {
+            display: grid;
+            grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+            min-height: 100vh;
+            gap: 24px;
+            padding: 28px;
+        }
+
+        aside {
+            background: var(--panel);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
             display: flex;
-            height: 100vh;
+            flex-direction: column;
             overflow: hidden;
         }
 
-        /* Sidebar - Books */
-        #sidebar {
-            width: var(--sidebar-width);
-            background-color: #252526;
-            border-right: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
+        .brand {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(110, 231, 255, 0.18), transparent);
         }
 
-        .tab-header {
-            padding: 15px;
-            font-weight: bold;
-            background-color: #2d2d2d;
-            border-bottom: 1px solid #333;
+        .brand h1 {
+            margin: 0 0 6px;
+            font-size: 1.35rem;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            letter-spacing: 1px;
+        }
+
+        .brand p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
 
         .book-list {
             list-style: none;
-            padding: 0;
+            padding: 16px;
             margin: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .book-section {
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
         }
 
         .book-item {
-            padding: 10px 15px;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            border-bottom: 1px solid #2d2d2d;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            color: var(--text);
         }
 
-        .book-item:hover, .book-item.active {
-            background-color: #37373d;
-            border-left: 4px solid var(--accent-color);
+        .book-item:hover,
+        .book-item.active {
+            border-color: rgba(110, 231, 255, 0.45);
+            background: linear-gradient(120deg, rgba(110, 231, 255, 0.15), rgba(139, 92, 246, 0.16));
+            box-shadow: inset 0 0 0 1px rgba(110, 231, 255, 0.3);
         }
 
-        /* Main Content */
-        #main-content {
-            flex: 1;
+        main {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 16px;
+        }
+
+        .top-bar {
+            background: var(--panel);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 18px 22px;
             display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* Top Bar - Gematria Tools */
-        #top-bar {
-            height: 70px;
-            background-color: #2d2d2d;
-            border-bottom: 1px solid #333;
-            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
             align-items: center;
-            padding: 0 20px;
-            gap: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            justify-content: space-between;
         }
 
         .search-group {
             display: flex;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 12px;
             flex: 1;
-            max-width: 600px;
+            min-width: 280px;
         }
 
-        input[type="text"] {
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 180px;
             flex: 1;
-            padding: 8px 12px;
-            border-radius: 4px;
-            border: 1px solid #444;
-            background-color: #1e1e1e;
-            color: white;
-            font-size: 14px;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        input[type="text"],
+        select {
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--text);
+            font-size: 0.95rem;
         }
 
         button {
-            padding: 8px 16px;
-            background-color: var(--accent-color);
-            color: white;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #020617;
             border: none;
-            border-radius: 4px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         button:hover {
-            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(79, 70, 229, 0.2);
         }
 
         .gematria-display {
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            color: #aaa;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            min-width: 230px;
+        }
+
+        .gematria-display h3 {
+            margin: 0 0 4px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
         .gematria-value {
-            color: var(--highlight-color);
-            font-weight: bold;
+            font-size: 1.4rem;
+            color: var(--highlight);
+            font-weight: 700;
         }
 
-        /* Reader Area */
-        #reader-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 40px;
-            scroll-behavior: smooth;
-        }
-
-        /* Navigation Controls */
-        #nav-controls {
+        .reader {
+            background: var(--panel-strong);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            overflow: hidden;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 40px;
-            background-color: #252526;
-            border-top: 1px solid #333;
+            flex-direction: column;
         }
 
-        /* Bible Text Layout */
+        #reader-container {
+            overflow-y: auto;
+            padding-right: 12px;
+        }
+
         .chapter-title {
-            font-size: 2em;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #444;
-            padding-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .chapter-title span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
         }
 
         .verse-container {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             display: flex;
             flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 15px;
-            line-height: 1.6;
+            gap: 12px;
+            line-height: 1.8;
         }
 
         .verse-number {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-right: 5px;
-            font-size: 0.9em;
-            user-select: none;
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
         }
 
-        /* Word Cards */
         .word-card {
+            background: rgba(15, 23, 42, 0.55);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
             display: flex;
             flex-direction: column;
+            gap: 4px;
+            min-width: 70px;
             align-items: center;
-            padding: 4px;
-            border-radius: 4px;
-            transition: background 0.2s;
+            transition: transform 0.15s ease, border 0.15s ease;
+        }
+
+        .word-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(110, 231, 255, 0.35);
         }
 
         .word-hebrew {
-            font-family: 'Ezra SIL', 'Times New Roman', serif;
-            font-size: 1.4em;
+            font-family: "Ezra SIL", "Times New Roman", serif;
+            font-size: 1.35rem;
             direction: rtl;
-            margin-bottom: 2px;
         }
 
         .word-english {
-            font-size: 0.85em;
-            color: #aaa;
+            font-size: 0.78rem;
+            color: var(--text-muted);
             text-align: center;
         }
 
-        /* Highlighting Logic */
-        .word-card.imprinted {
-            background-color: var(--highlight-color);
-        }
-        
-        .word-card.imprinted .word-english {
-            color: var(--highlight-text);
-            font-weight: bold;
-        }
-        
-        .word-card.imprinted .word-hebrew {
-            color: var(--highlight-text);
+        .word-meta {
+            font-size: 0.68rem;
+            color: rgba(148, 163, 184, 0.8);
+            text-align: center;
         }
 
+        .word-card.imprinted {
+            background: var(--highlight);
+        }
+
+        .word-card.imprinted .word-hebrew,
+        .word-card.imprinted .word-english,
+        .word-card.imprinted .word-meta {
+            color: var(--highlight-text);
+            font-weight: 600;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 22px;
+            background: var(--panel);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-controls span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+        }
+
+        @media (max-width: 960px) {
+            .app-shell {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div id="sidebar">
-        <div class="tab-header">Tanakh Books</div>
-        <ul class="book-list" id="book-list">
-            <li class="book-item active" onclick="loadBook('Genesis')">Genesis</li>
-            <li class="book-item" onclick="alert('Connect full data source to load Exodus')">Exodus</li>
-            <li class="book-item" onclick="alert('Connect full data source to load Leviticus')">Leviticus</li>
-        </ul>
-    </div>
-
-    <div id="main-content">
-        <div id="top-bar">
-            <div class="search-group">
-                <input type="text" id="gematria-search" placeholder="Search word (e.g., Elohim, God) to imprint..." onkeypress="handleEnter(event)">
-                <button onclick="imprintGematria()">Imprint</button>
-            </div>
-            <div class="gematria-display" id="gematria-result">
-                Value: <span class="gematria-value">0</span> (Biblical)
-            </div>
-        </div>
-
-        <div id="reader-container">
-            <div id="bible-text">
+    <div class="app-shell">
+        <aside>
+            <div class="brand">
+                <h1>Tanakh Gemantria</h1>
+                <p>Interactive reader powered by the repository cipher definitions.</p>
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    Data synced from JSON
                 </div>
-        </div>
+            </div>
+            <ul class="book-list" id="book-list"></ul>
+        </aside>
 
-        <div id="nav-controls">
-            <button onclick="prevChapter()">← Previous Page</button>
-            <span id="current-location">Genesis 1</span>
-            <button onclick="nextChapter()">Next Page →</button>
-        </div>
+        <main>
+            <div class="top-bar">
+                <div class="search-group">
+                    <div class="field">
+                        <label for="gematria-search">Search & Imprint</label>
+                        <input type="text" id="gematria-search" placeholder="Search word or Hebrew text" onkeypress="handleEnter(event)">
+                    </div>
+                    <div class="field">
+                        <label for="cipher-select">Cipher</label>
+                        <select id="cipher-select"></select>
+                    </div>
+                    <div class="field">
+                        <label for="script-select">Script</label>
+                        <select id="script-select">
+                            <option value="auto">Auto Detect</option>
+                            <option value="hebrew">Hebrew</option>
+                            <option value="english">English</option>
+                            <option value="greek">Greek</option>
+                        </select>
+                    </div>
+                    <button onclick="imprintGematria()">Imprint</button>
+                </div>
+                <div class="gematria-display" id="gematria-result">
+                    <h3>Gematria Value</h3>
+                    <div class="gematria-value">0</div>
+                    <div class="status-pill" id="cipher-label">Biblical</div>
+                </div>
+            </div>
+
+            <section class="reader">
+                <div id="reader-container">
+                    <div id="bible-text"></div>
+                </div>
+            </section>
+
+            <div class="nav-controls">
+                <button onclick="prevChapter()">← Previous Chapter</button>
+                <span id="current-location">Genesis 1</span>
+                <button onclick="nextChapter()">Next Chapter →</button>
+            </div>
+        </main>
     </div>
 
     <script>
-        // --- 1. CONFIGURATION & DATA ---
-        let currentBook = "Genesis";
-        let currentChapter = 1;
-        let activeSearchTerm = "";
-        
-        // Embedded DEMO Data (Genesis Ch 1 truncated for brevity, acts as fallback)
-        // In a real scenario, this fetches from your JSON files.
-        const bibleData = {
-            "Genesis": {
-                "chapters": {
-                    "1": {
-                        "1": [
-                            {"hebrew": "בְּרֵאשִׁ֖ית", "english": "In the beginning"},
-                            {"hebrew": "בָּרָ֣א", "english": "created"},
-                            {"hebrew": "אֱלֹהִ֑ים", "english": "God"},
-                            {"hebrew": "אֵ֥ת", "english": "-"},
-                            {"hebrew": "הַשָּׁמַ֖יִם", "english": "the heavens"},
-                            {"hebrew": "וְאֵ֥ת", "english": "and"},
-                            {"hebrew": "הָאָֽרֶץ׃", "english": "the earth"}
-                        ],
-                        "2": [
-                            {"hebrew": "וְהָאָ֗רֶץ", "english": "And the earth"},
-                            {"hebrew": "הָיְתָ֥ה", "english": "was"},
-                            {"hebrew": "תֹ֙הוּ֙", "english": "formless"},
-                            {"hebrew": "וָבֹ֔הוּ", "english": "and void"},
-                            {"hebrew": "וְחֹ֖שֶׁךְ", "english": "and darkness"},
-                            {"hebrew": "עַל־", "english": "over"},
-                            {"hebrew": "פְּנֵ֣י", "english": "the face"},
-                            {"hebrew": "תְה֑וֹם", "english": "of the deep"}
-                        ]
-                    },
-                    "2": {
-                        "1": [
-                            {"hebrew": "וַיְכֻלּ֛וּ", "english": "Thus were finished"},
-                            {"hebrew": "הַשָּׁמַ֥יִם", "english": "the heavens"},
-                            {"hebrew": "וְהָאָ֖רֶץ", "english": "and the earth"}
-                        ]
-                    }
-                }
-            }
+        const BOOK_INDEX = [
+            { section: "Torah", name: "Genesis", path: "Tanakh/1. Torah - Instructions/01_genesis.json" },
+            { section: "Torah", name: "Exodus", path: "Tanakh/1. Torah - Instructions/02_exodus.json" },
+            { section: "Torah", name: "Leviticus", path: "Tanakh/1. Torah - Instructions/03_leviticus.json" },
+            { section: "Torah", name: "Numbers", path: "Tanakh/1. Torah - Instructions/04_numbers.json" },
+            { section: "Torah", name: "Deuteronomy", path: "Tanakh/1. Torah - Instructions/05_deuteronomy.json" },
+            { section: "Former Prophets", name: "Joshua", path: "Tanakh/2. Nevi'im - Prophets/1. Former Prophets/06_joshua.json" },
+            { section: "Former Prophets", name: "Judges", path: "Tanakh/2. Nevi'im - Prophets/1. Former Prophets/07_judges.json" },
+            { section: "Former Prophets", name: "1 Samuel", path: "Tanakh/2. Nevi'im - Prophets/1. Former Prophets/08_1_samuel.json" },
+            { section: "Former Prophets", name: "2 Samuel", path: "Tanakh/2. Nevi'im - Prophets/1. Former Prophets/09_2_samuel.json" },
+            { section: "Former Prophets", name: "1 Kings", path: "Tanakh/2. Nevi'im - Prophets/1. Former Prophets/10_1_kings.json" },
+            { section: "Former Prophets", name: "2 Kings", path: "Tanakh/2. Nevi'im - Prophets/1. Former Prophets/11_2_kings.json" },
+            { section: "Latter Prophets", name: "Isaiah", path: "Tanakh/2. Nevi'im - Prophets/2. Latter Prophets/12_isaiah.json" },
+            { section: "Latter Prophets", name: "Jeremiah", path: "Tanakh/2. Nevi'im - Prophets/2. Latter Prophets/13_jeremiah.json" },
+            { section: "Latter Prophets", name: "Ezekiel", path: "Tanakh/2. Nevi'im - Prophets/2. Latter Prophets/14_ezekiel.json" },
+            { section: "Minor Prophets", name: "Hosea", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/15_hosea.json" },
+            { section: "Minor Prophets", name: "Joel", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/16_joel.json" },
+            { section: "Minor Prophets", name: "Amos", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/17_amos.json" },
+            { section: "Minor Prophets", name: "Obadiah", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/18_obadiah.json" },
+            { section: "Minor Prophets", name: "Jonah", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/19_jonah.json" },
+            { section: "Minor Prophets", name: "Micah", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/20_micah.json" },
+            { section: "Minor Prophets", name: "Nahum", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/21_nahum.json" },
+            { section: "Minor Prophets", name: "Habakkuk", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/22_habakkuk.json" },
+            { section: "Minor Prophets", name: "Zephaniah", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/23_zephaniah.json" },
+            { section: "Minor Prophets", name: "Haggai", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/24_haggai.json" },
+            { section: "Minor Prophets", name: "Zechariah", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/25_zechariah.json" },
+            { section: "Minor Prophets", name: "Malachi", path: "Tanakh/2. Nevi'im - Prophets/3. Minor Prophets/26_malachi.json" },
+            { section: "Writings", name: "Psalms", path: "Tanakh/3. Ketuvim - Writings/27_psalms.json" },
+            { section: "Writings", name: "Proverbs", path: "Tanakh/3. Ketuvim - Writings/28_proverbs.json" },
+            { section: "Writings", name: "Job", path: "Tanakh/3. Ketuvim - Writings/29_job.json" },
+            { section: "Writings", name: "Song of Solomon", path: "Tanakh/3. Ketuvim - Writings/30_song_of_solomon.json" },
+            { section: "Writings", name: "Ruth", path: "Tanakh/3. Ketuvim - Writings/31_ruth.json" },
+            { section: "Writings", name: "Lamentations", path: "Tanakh/3. Ketuvim - Writings/32_lamentations.json" },
+            { section: "Writings", name: "Ecclesiastes", path: "Tanakh/3. Ketuvim - Writings/33_ecclesiastes.json" },
+            { section: "Writings", name: "Esther", path: "Tanakh/3. Ketuvim - Writings/34_esther.json" },
+            { section: "Writings", name: "Daniel", path: "Tanakh/3. Ketuvim - Writings/35_daniel.json" },
+            { section: "Writings", name: "Ezra", path: "Tanakh/3. Ketuvim - Writings/36_ezra.json" },
+            { section: "Writings", name: "Nehemiah", path: "Tanakh/3. Ketuvim - Writings/37_nehemiah.json" },
+            { section: "Writings", name: "1 Chronicles", path: "Tanakh/3. Ketuvim - Writings/38_1_chronicles.json" },
+            { section: "Writings", name: "2 Chronicles", path: "Tanakh/3. Ketuvim - Writings/39_2_chronicles.json" }
+        ];
+
+        const FALLBACK_CIPHER_MAPS = {
+            biblical: { "א": 1, "ב": 2, "ג": 3, "ש": 3, "ד": 4, "ת": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ך": 20, "ל": 30, "מ": 40, "ם": 40, "נ": 50, "ן": 50, "ס": 60, "ע": 70, "פ": 80, "ף": 80, "צ": 90, "ץ": 90, "ק": 100, "ר": 200 },
+            reversal: { "ת": 80, "ש": 90, "ר": 2, "ק": 1, "צ": 3, "פ": 4, "ע": 5, "ס": 6, "נ": 7, "מ": 8, "ל": 9, "כ": 10, "י": 20, "ט": 30, "ח": 40, "ז": 50, "ו": 60, "ה": 70, "ד": 80, "ג": 90, "ב": 200, "א": 100 },
+            genesis_order: { "ב": 1, "א": 2, "ג": 3, "ש": 3, "ד": 4, "ת": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 11, "ל": 12, "מ": 13, "נ": 14, "ס": 15, "ע": 16, "פ": 17, "צ": 18, "ק": 19, "ר": 20 },
+            standard: { "א": 1, "ב": 2, "ג": 3, "ד": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ל": 30, "מ": 40, "נ": 50, "ס": 60, "ע": 70, "פ": 80, "צ": 90, "ק": 100, "ר": 200, "ש": 300, "ת": 400 }
         };
 
-        // --- 2. GEMATRIA ENGINE ---
-        // Simple mapping based on your definition file (Biblical Cipher)
-        const gematriaMap = {
-            'א':1, 'ב':2, 'ג':3, 'ש':3, 'ד':4, 'ת':4, 'ה':5, 
-            'ו':6, 'ז':7, 'ח':8, 'ט':9, 'י':10, 'כ':20, 'ך':20,
-            'ל':30, 'מ':40, 'ם':40, 'נ':50, 'ן':50, 'ס':60, 
-            'ע':70, 'פ':80, 'ף':80, 'צ':90, 'ץ':90, 'ק':100, 'ר':200
+        const FALLBACK_ENGLISH_MAPS = {
+            biblical: { "A": 1, "B": 2, "C": 8, "D": 4, "E": 5, "F": 80, "G": 3, "H": 5, "I": 10, "J": 10, "K": 20, "L": 30, "M": 40, "N": 50, "O": 70, "P": 80, "Q": 100, "R": 200, "S": 60, "T": 9, "U": 6, "V": 6, "W": 6, "X": 60, "Y": 10, "Z": 7 },
+            reversal: { "A": 100, "B": 200, "C": 40, "D": 80, "E": 70, "F": 4, "G": 90, "H": 70, "I": 20, "J": 20, "K": 10, "L": 9, "M": 8, "N": 7, "O": 5, "P": 4, "Q": 1, "R": 2, "S": 6, "T": 30, "U": 60, "V": 60, "W": 60, "X": 6, "Y": 20, "Z": 50 },
+            genesis_order: { "A": 2, "B": 1, "C": 8, "D": 4, "E": 5, "F": 17, "G": 3, "H": 5, "I": 10, "J": 10, "K": 11, "L": 12, "M": 13, "N": 14, "O": 16, "P": 17, "Q": 19, "R": 20, "S": 15, "T": 9, "U": 6, "V": 6, "W": 6, "X": 15, "Y": 10, "Z": 7 },
+            standard: { "A": 1, "B": 2, "C": 8, "D": 4, "E": 5, "F": 80, "G": 3, "H": 5, "I": 10, "J": 10, "K": 20, "L": 30, "M": 40, "N": 50, "O": 70, "P": 80, "Q": 100, "R": 200, "S": 60, "T": 9, "U": 6, "V": 6, "W": 6, "X": 60, "Y": 10, "Z": 7 }
         };
 
-        function calculateGematria(text) {
-            if (!text) return 0;
-            // Clean non-hebrew chars usually, but here we just sum known chars
-            let sum = 0;
-            for (let char of text) {
-                if (gematriaMap[char]) {
-                    sum += gematriaMap[char];
-                }
-            }
-            return sum;
-        }
+        const FALLBACK_GREEK_MAP = {
+            "α": 1,
+            "β": 2,
+            "γ": 3,
+            "τ": 3,
+            "δ": 4,
+            "υ": 4,
+            "ε": 5,
+            "Ϝ": 6,
+            "ζ": 7,
+            "η": 8,
+            "θ": 9,
+            "ι": 10,
+            "κ": 20,
+            "φ": 20,
+            "λ": 30,
+            "μ": 40,
+            "χ": 40,
+            "ν": 50,
+            "ψ": 50,
+            "ξ": 60,
+            "ο": 70,
+            "π": 80,
+            "ω": 80,
+            "ϙ": 90,
+            "ϡ": 90,
+            "ρ": 100,
+            "ς": 200
+        };
 
-        // --- 3. APP LOGIC ---
+        const state = {
+            currentBook: BOOK_INDEX[0],
+            currentChapter: 1,
+            activeSearchTerm: "",
+            activeCipher: "biblical",
+            scriptMode: "auto",
+            bibleData: {},
+            cipherData: {}
+        };
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if we can fetch real files (Local Server Mode)
-            // If not, use embedded demo data
-            fetchData();
+        document.addEventListener("DOMContentLoaded", () => {
+            initBookList();
+            initCipherSelector();
+            fetchCipherData();
+            loadBook(state.currentBook);
         });
 
-        async function fetchData() {
+        function initBookList() {
+            const list = document.getElementById("book-list");
+            list.innerHTML = "";
+            let currentSection = "";
+            BOOK_INDEX.forEach((book) => {
+                if (book.section !== currentSection) {
+                    currentSection = book.section;
+                    const section = document.createElement("li");
+                    section.textContent = currentSection;
+                    section.className = "book-section";
+                    list.appendChild(section);
+                }
+                const item = document.createElement("li");
+                item.textContent = book.name;
+                item.className = "book-item";
+                item.addEventListener("click", () => loadBook(book));
+                list.appendChild(item);
+            });
+            setActiveBook();
+        }
+
+        function initCipherSelector() {
+            const cipherSelect = document.getElementById("cipher-select");
+            cipherSelect.innerHTML = "";
+            const cipherOptions = [
+                { value: "biblical", label: "Biblical (Shin=3, Tav=4)" },
+                { value: "reversal", label: "Reversal Cipher" },
+                { value: "genesis_order", label: "Genesis Order" },
+                { value: "standard", label: "Standard (Mispar Hechrechi)" },
+                { value: "greek_transposition", label: "Greek Transposition" }
+            ];
+            cipherOptions.forEach((cipher) => {
+                const option = document.createElement("option");
+                option.value = cipher.value;
+                option.textContent = cipher.label;
+                cipherSelect.appendChild(option);
+            });
+            cipherSelect.value = state.activeCipher;
+            cipherSelect.addEventListener("change", (event) => {
+                state.activeCipher = event.target.value;
+                updateGematriaDisplay(calculateGematria(state.activeSearchTerm));
+            });
+
+            const scriptSelect = document.getElementById("script-select");
+            scriptSelect.value = state.scriptMode;
+            scriptSelect.addEventListener("change", (event) => {
+                state.scriptMode = event.target.value;
+                updateGematriaDisplay(calculateGematria(state.activeSearchTerm));
+            });
+        }
+
+        async function fetchCipherData() {
             try {
-                // Attempt to fetch the user's actual file structure
-                const response = await fetch('Tanakh/1. Torah - Instructions/01_genesis.json');
+                const response = await fetch("gemantria/definitions/gemantria_ciphers.json");
                 if (response.ok) {
                     const data = await response.json();
-                    bibleData["Genesis"] = data["Genesis"]; // Overlay real data
+                    state.cipherData = data.ciphers || {};
                 }
-            } catch (e) {
-                console.log("Using demo data (Use the PowerShell script to load local files)");
+            } catch (error) {
+                console.warn("Falling back to embedded cipher maps.", error);
+            }
+        }
+
+        async function loadBook(book) {
+            state.currentBook = book;
+            state.currentChapter = 1;
+            setActiveBook();
+            const existing = state.bibleData[book.name];
+            if (!existing) {
+                await fetchBookData(book);
             }
             renderPage();
         }
 
+        async function fetchBookData(book) {
+            try {
+                const response = await fetch(book.path);
+                if (!response.ok) {
+                    throw new Error("Book fetch failed");
+                }
+                const data = await response.json();
+                state.bibleData[book.name] = data[book.name];
+            } catch (error) {
+                console.warn("Unable to load book data", error);
+            }
+        }
+
+        function setActiveBook() {
+            const items = document.querySelectorAll(".book-item");
+            items.forEach((item) => {
+                item.classList.toggle("active", item.textContent === state.currentBook.name);
+            });
+        }
+
+        function getCipherMap() {
+            if (state.activeCipher === "greek_transposition") {
+                return state.cipherData.greek_transposition?.mapping || FALLBACK_GREEK_MAP;
+            }
+            return (
+                state.cipherData[state.activeCipher]?.mapping ||
+                FALLBACK_CIPHER_MAPS[state.activeCipher]
+            );
+        }
+
+        function detectScript(text) {
+            if (!text) {
+                return "hebrew";
+            }
+            if (state.scriptMode !== "auto") {
+                return state.scriptMode;
+            }
+            if (/[\\u0590-\\u05FF]/.test(text)) {
+                return "hebrew";
+            }
+            if (/[\\u0370-\\u03FF]/.test(text)) {
+                return "greek";
+            }
+            return "english";
+        }
+
+        function calculateGematria(text) {
+            if (!text) {
+                return 0;
+            }
+            const script = detectScript(text);
+            if (script === "english") {
+                const map = FALLBACK_ENGLISH_MAPS[state.activeCipher] || {};
+                return [...text.toUpperCase()].reduce((sum, char) => sum + (map[char] || 0), 0);
+            }
+            const map = getCipherMap();
+            return [...text].reduce((sum, char) => sum + (map[char] || 0), 0);
+        }
+
         function renderPage() {
-            const container = document.getElementById('bible-text');
-            const chapters = bibleData[currentBook]?.chapters;
-            
-            if (!chapters || !chapters[currentChapter]) {
-                container.innerHTML = `<div style="padding:20px;">End of available text or Chapter ${currentChapter} not found.</div>`;
+            const container = document.getElementById("bible-text");
+            const chapters = state.bibleData[state.currentBook.name]?.chapters;
+
+            if (!chapters || !chapters[state.currentChapter]) {
+                container.innerHTML = `<div style="padding:20px;">Chapter ${state.currentChapter} is not available for ${state.currentBook.name}.</div>`;
                 return;
             }
 
-            const versesObj = chapters[currentChapter];
-            let html = `<div class="chapter-title">${currentBook} Chapter ${currentChapter}</div>`;
+            const versesObj = chapters[state.currentChapter];
+            let html = `<div class="chapter-title">${state.currentBook.name} <span>${state.currentBook.section}</span></div>`;
+            const verseKeys = Object.keys(versesObj).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
-            // Sort verses just in case keys are unordered
-            const verseKeys = Object.keys(versesObj).sort((a,b) => parseInt(a) - parseInt(b));
-
-            verseKeys.forEach(vNum => {
+            verseKeys.forEach((vNum) => {
                 const words = versesObj[vNum];
                 html += `<div class="verse-container"><span class="verse-number">${vNum}</span>`;
-                
-                words.forEach(word => {
+
+                words.forEach((word) => {
                     const isMatch = checkMatch(word);
-                    const highlightClass = isMatch ? 'imprinted' : '';
-                    
+                    const highlightClass = isMatch ? "imprinted" : "";
                     html += `
                         <div class="word-card ${highlightClass}">
                             <div class="word-hebrew">${word.hebrew || ""}</div>
                             <div class="word-english">${word.english || "-"}</div>
+                            <div class="word-meta">${word.morphology || ""}</div>
                         </div>
                     `;
                 });
-                
+
                 html += `</div>`;
             });
 
             container.innerHTML = html;
-            document.getElementById('current-location').innerText = `${currentBook} ${currentChapter}`;
+            document.getElementById("current-location").innerText = `${state.currentBook.name} ${state.currentChapter}`;
+        }
+
+        function normalizeHebrew(text) {
+            return text.replace(/[^\\u0590-\\u05FF\\s]/g, "");
         }
 
         function checkMatch(wordObj) {
-            if (!activeSearchTerm) return false;
-            const term = activeSearchTerm.trim().toLowerCase();
+            if (!state.activeSearchTerm) {
+                return false;
+            }
+            const term = state.activeSearchTerm.trim().toLowerCase();
             const eng = (wordObj.english || "").toLowerCase();
-            const heb = (wordObj.hebrew || "");
-            
-            // Simple string matching
-            // Remove cantillation marks from hebrew for better matching if needed
-            // For now, strict match
-            return eng.includes(term) || heb.includes(term);
+            const heb = normalizeHebrew(wordObj.hebrew || "");
+            const termHeb = normalizeHebrew(term);
+            return eng.includes(term) || heb.includes(termHeb);
+        }
+
+        function updateGematriaDisplay(value) {
+            const display = document.getElementById("gematria-result");
+            const label = document.getElementById("cipher-label");
+            display.querySelector(".gematria-value").textContent = value > 0 ? value : "N/A";
+            label.textContent = state.activeCipher.replace("_", " ");
         }
 
         function imprintGematria() {
-            const input = document.getElementById('gematria-search');
-            activeSearchTerm = input.value;
-            
-            // Calculate Value (If hebrew is entered)
-            const val = calculateGematria(activeSearchTerm);
-            document.getElementById('gematria-result').innerHTML = 
-                `Value: <span class="gematria-value">${val > 0 ? val : 'N/A'}</span> (Biblical)`;
-
-            // Re-render to apply highlights
+            const input = document.getElementById("gematria-search");
+            state.activeSearchTerm = input.value;
+            updateGematriaDisplay(calculateGematria(state.activeSearchTerm));
             renderPage();
         }
 
-        function handleEnter(e) {
-            if (e.key === 'Enter') imprintGematria();
-        }
-
-        // Navigation
-        function nextChapter() {
-            currentChapter++;
-            renderPage();
-            document.getElementById('reader-container').scrollTop = 0;
-        }
-
-        function prevChapter() {
-            if (currentChapter > 1) {
-                currentChapter--;
-                renderPage();
-                document.getElementById('reader-container').scrollTop = 0;
+        function handleEnter(event) {
+            if (event.key === "Enter") {
+                imprintGematria();
             }
         }
 
-        function loadBook(bookName) {
-            currentBook = bookName;
-            currentChapter = 1;
-            // Update active sidebar tab
-            document.querySelectorAll('.book-item').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
+        function nextChapter() {
+            state.currentChapter += 1;
             renderPage();
+            document.getElementById("reader-container").scrollTop = 0;
         }
 
+        function prevChapter() {
+            if (state.currentChapter > 1) {
+                state.currentChapter -= 1;
+                renderPage();
+                document.getElementById("reader-container").scrollTop = 0;
+            }
+        }
     </script>
 </body>
 </html>
