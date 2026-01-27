@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanakh Gemantria Reader</title>
+    <title>Tanakh Gematria Reader</title>
     <style>
         :root {
             color-scheme: dark;
@@ -339,7 +339,7 @@
     <div class="app-shell">
         <aside>
             <div class="brand">
-                <h1>Tanakh Gemantria</h1>
+                <h1>Tanakh Gematria</h1>
                 <p>Interactive reader powered by the repository cipher definitions.</p>
                 <div class="status-pill">
                     <span class="status-dot"></span>
@@ -607,10 +607,10 @@
             if (state.scriptMode !== "auto") {
                 return state.scriptMode;
             }
-            if (/[\\u0590-\\u05FF]/.test(text)) {
+            if (/[\u0590-\u05FF]/.test(text)) {
                 return "hebrew";
             }
-            if (/[\\u0370-\\u03FF]/.test(text)) {
+            if (/[\u0370-\u03FF]/.test(text)) {
                 return "greek";
             }
             return "english";
@@ -666,7 +666,7 @@
         }
 
         function normalizeHebrew(text) {
-            return text.replace(/[^\\u0590-\\u05FF\\s]/g, "");
+            return text.replace(/[^\u0590-\u05FF\s]/g, "");
         }
 
         function checkMatch(wordObj) {
