@@ -469,6 +469,53 @@
             { section: "Writings", name: "2 Chronicles", path: "Tanakh/3. Ketuvim - Writings/39_2_chronicles.json" }
         ];
 
+        // Prefer loading the book index from an external manifest so that
+        // the list of books and their paths stays in sync with the Tanakh
+        // directory structure. Fall back to the static BOOK_INDEX above if
+        // the manifest is unavailable or invalid.
+        (function initialiseDynamicBookIndex() {
+            const manifestPath = "Tanakh/book_manifest.json";
+
+            if (typeof fetch !== "function") {
+                // Older environments: keep using the static BOOK_INDEX.
+                return;
+            }
+
+            fetch(manifestPath, { cache: "no-cache" })
+                .then(response => {
+                    if (!response.ok) {
+                        return null;
+                    }
+                    return response.json();
+                })
+                .then(manifest => {
+                    if (!Array.isArray(manifest) || manifest.length === 0) {
+                        return;
+                    }
+
+                    // Normalise entries to the shape expected by the rest of
+                    // the application: { section, name, path }.
+                    const normalised = manifest
+                        .filter(entry => entry && entry.name && entry.path)
+                        .map(entry => ({
+                            section: entry.section || "Unknown",
+                            name: entry.name,
+                            path: entry.path
+                        }));
+
+                    if (normalised.length === 0) {
+                        return;
+                    }
+
+                    // Mutate BOOK_INDEX in place so any existing references
+                    // continue to see the updated data.
+                    BOOK_INDEX.length = 0;
+                    Array.prototype.push.apply(BOOK_INDEX, normalised);
+                })
+                .catch(() => {
+                    // On any error, silently keep using the static BOOK_INDEX.
+                });
+        })();
         const FALLBACK_CIPHER_MAPS = {
             biblical: { "א": 1, "ב": 2, "ג": 3, "ש": 3, "ד": 4, "ת": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ך": 20, "ל": 30, "מ": 40, "ם": 40, "נ": 50, "ן": 50, "ס": 60, "ע": 70, "פ": 80, "ף": 80, "צ": 90, "ץ": 90, "ק": 100, "ר": 200 },
             reversal: { "ת": 80, "ש": 90, "ר": 2, "ק": 1, "צ": 3, "ץ": 3, "פ": 4, "ף": 4, "ע": 5, "ס": 6, "נ": 7, "ן": 7, "מ": 8, "ם": 8, "ל": 9, "כ": 10, "ך": 10, "י": 20, "ט": 30, "ח": 40, "ז": 50, "ו": 60, "ה": 70, "ד": 80, "ג": 90, "ב": 200, "א": 100 },
