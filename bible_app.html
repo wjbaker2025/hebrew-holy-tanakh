@@ -374,7 +374,7 @@
             <div class="brand">
                 <h1>Tanakh Gematria</h1>
                 <p>Interactive reader powered by the repository cipher definitions.</p>
-                <div class="status-pill" role="status" aria-live="polite">
+                <div class="status-pill" role="status">
                     <span class="status-dot" aria-hidden="true"></span>
                     <span class="status-text">Status: Data synced from JSON</span>
                 </div>
@@ -476,34 +476,37 @@
             standard: { "א": 1, "ב": 2, "ג": 3, "ד": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ך": 20, "ל": 30, "מ": 40, "ם": 40, "נ": 50, "ן": 50, "ס": 60, "ע": 70, "פ": 80, "ף": 80, "צ": 90, "ץ": 90, "ק": 100, "ר": 200, "ש": 300, "ת": 400 }
         };
 
-        const FALLBACK_ENGLISH_ENTRIES = [
-            { letter: "a", values: { biblical: 1, standard: 1, genesis: 2, reversal: 100 } },
-            { letter: "b", values: { biblical: 2, standard: 2, genesis: 1, reversal: 200 } },
-            { letter: "c", values: { biblical: 8, standard: 8, genesis: 8, reversal: 40 } },
-            { letter: "d", values: { biblical: 4, standard: 4, genesis: 4, reversal: 80 } },
-            { letter: "e", values: { biblical: 5, standard: 5, genesis: 5, reversal: 70 } },
-            { letter: "f", values: { biblical: 80, standard: 80, genesis: 17, reversal: 4 } },
-            { letter: "g", values: { biblical: 3, standard: 3, genesis: 3, reversal: 90 } },
-            { letter: "h", values: { biblical: 5, standard: 5, genesis: 5, reversal: 70 } },
-            { letter: "i", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
-            { letter: "j", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
-            { letter: "k", values: { biblical: 20, standard: 20, genesis: 11, reversal: 10 } },
-            { letter: "l", values: { biblical: 30, standard: 30, genesis: 12, reversal: 9 } },
-            { letter: "m", values: { biblical: 40, standard: 40, genesis: 13, reversal: 8 } },
-            { letter: "n", values: { biblical: 50, standard: 50, genesis: 14, reversal: 7 } },
-            { letter: "o", values: { biblical: 70, standard: 70, genesis: 16, reversal: 5 } },
-            { letter: "p", values: { biblical: 80, standard: 80, genesis: 17, reversal: 4 } },
-            { letter: "q", values: { biblical: 100, standard: 100, genesis: 19, reversal: 1 } },
-            { letter: "r", values: { biblical: 200, standard: 200, genesis: 20, reversal: 2 } },
-            { letter: "s", values: { biblical: 60, standard: 60, genesis: 15, reversal: 6 } },
-            { letter: "t", values: { biblical: 9, standard: 9, genesis: 9, reversal: 30 } },
-            { letter: "u", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
-            { letter: "v", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
-            { letter: "w", values: { biblical: 6, standard: 6, genesis: 6, reversal: 60 } },
-            { letter: "x", values: { biblical: 60, standard: 60, genesis: 15, reversal: 6 } },
-            { letter: "y", values: { biblical: 10, standard: 10, genesis: 10, reversal: 20 } },
-            { letter: "z", values: { biblical: 7, standard: 7, genesis: 7, reversal: 50 } }
-        ];
+        const FALLBACK_GREEK_MAP = {
+            "α": 1,
+            "β": 2,
+            "γ": 3,
+            "τ": 3,
+            "δ": 4,
+            "υ": 4,
+            "ε": 5,
+            "Ϝ": 6,
+            "ζ": 7,
+            "η": 8,
+            "θ": 9,
+            "ι": 10,
+            "κ": 20,
+            "φ": 20,
+            "λ": 30,
+            "μ": 40,
+            "χ": 40,
+            "ν": 50,
+            "ψ": 50,
+            "ξ": 60,
+            "ο": 70,
+            "π": 80,
+            "ω": 80,
+            "ϙ": 90,
+            "ϡ": 90,
+            "ρ": 100,
+            "ς": 200
+        };
+
+        const FALLBACK_ENGLISH_ENTRIES = [];
 
         const state = {
             currentBook: BOOK_INDEX[0],
@@ -514,10 +517,13 @@
             bibleData: {},
             cipherData: {},
             englishMaps: buildEnglishMaps(FALLBACK_ENGLISH_ENTRIES),
-            loadError: null
+            previousScriptMode: "auto",
+            loadError: null,
+            highlightFrame: null
         };
 
         document.addEventListener("DOMContentLoaded", async () => {
+            await loadBookIndex();
             initBookList();
             initCipherSelector();
             await fetchCipherData();
@@ -541,7 +547,12 @@
                 item.className = "book-item";
                 item.setAttribute("role", "button");
                 item.tabIndex = 0;
-                const activateBook = () => loadBook(book);
+                const activateBook = () => {
+                    if (item.classList.contains("is-disabled")) {
+                        return;
+                    }
+                    loadBook(book);
+                };
                 item.addEventListener("click", activateBook);
                 item.addEventListener("keydown", (event) => {
                     if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
@@ -573,6 +584,18 @@
             cipherSelect.value = state.activeCipher;
             cipherSelect.addEventListener("change", (event) => {
                 state.activeCipher = event.target.value;
+                if (state.activeCipher === "greek_transposition") {
+                    state.previousScriptMode = state.scriptMode;
+                    state.scriptMode = "greek";
+                    scriptSelect.value = "greek";
+                    scriptSelect.disabled = true;
+                } else {
+                    scriptSelect.disabled = false;
+                    if (state.scriptMode === "greek" && state.previousScriptMode) {
+                        state.scriptMode = state.previousScriptMode;
+                        scriptSelect.value = state.scriptMode;
+                    }
+                }
                 updateGematriaDisplay(calculateGematria(state.activeSearchTerm));
             });
 
@@ -580,8 +603,37 @@
             scriptSelect.value = state.scriptMode;
             scriptSelect.addEventListener("change", (event) => {
                 state.scriptMode = event.target.value;
+                state.previousScriptMode = state.scriptMode;
                 updateGematriaDisplay(calculateGematria(state.activeSearchTerm));
             });
+        }
+
+        async function loadBookIndex() {
+            try {
+                const response = await fetch("Tanakh/book_manifest.json", { cache: "no-cache" });
+                if (!response.ok) {
+                    return;
+                }
+                const manifest = await response.json();
+                if (!Array.isArray(manifest) || manifest.length === 0) {
+                    return;
+                }
+                const normalised = manifest
+                    .filter((entry) => entry && entry.name && entry.path)
+                    .map((entry) => ({
+                        section: entry.section || "Unknown",
+                        name: entry.name,
+                        path: entry.path
+                    }));
+                if (normalised.length === 0) {
+                    return;
+                }
+                BOOK_INDEX.length = 0;
+                Array.prototype.push.apply(BOOK_INDEX, normalised);
+                state.currentBook = BOOK_INDEX[0];
+            } catch (error) {
+                console.warn("Unable to load book manifest", error);
+            }
         }
 
         async function fetchCipherData() {
@@ -591,6 +643,7 @@
                     const data = await response.json();
                     state.cipherData = data.ciphers || {};
                     state.englishMaps = buildEnglishMaps(data.languages?.english || []);
+                    state.englishEntries = data.languages?.english || [];
                 }
             } catch (error) {
                 console.warn("Falling back to embedded cipher maps.", error);
@@ -648,7 +701,7 @@
                 return (
                     state.cipherData.greek_transposition?.mapping ||
                     state.cipherData.greek_transposition?.values ||
-                    {}
+                    FALLBACK_GREEK_MAP
                 );
             }
             return (
@@ -665,7 +718,7 @@
             if (state.scriptMode !== "auto") {
                 return state.scriptMode;
             }
-            if (/[\u05D0-\u05EA]/.test(text)) {
+            if (/[\u0590-\u05FF]/.test(text)) {
                 return "hebrew";
             }
             if (/[\u0370-\u03FF]/.test(text)) {
@@ -679,9 +732,6 @@
                 return 0;
             }
             const script = detectScript(text);
-            if (state.activeCipher === "greek_transposition" && script !== "greek") {
-                return 0;
-            }
             if (script === "english") {
                 const map = state.englishMaps[state.activeCipher] || {};
                 return [...text.toUpperCase()].reduce((sum, char) => sum + (map[char] || 0), 0);
@@ -729,7 +779,7 @@
         }
 
         function normalizeHebrew(text) {
-            return text.replace(/[^\u05D0-\u05EA\s]/g, "");
+            return text.replace(/[^\u0590-\u05FF\s]/g, "");
         }
 
         function checkMatch(wordObj) {
@@ -756,7 +806,7 @@
             const input = document.getElementById("gematria-search");
             state.activeSearchTerm = input.value;
             updateGematriaDisplay(calculateGematria(state.activeSearchTerm));
-            updateHighlighting();
+            queueHighlightUpdate();
         }
 
         function handleEnter(event) {
@@ -793,7 +843,21 @@
                 const heb = card.dataset.hebrew || "";
                 const eng = card.dataset.english || "";
                 const matches = checkMatch({ hebrew: heb, english: eng });
-                card.classList.toggle("imprinted", matches);
+                if (matches) {
+                    card.classList.add("imprinted");
+                } else {
+                    card.classList.remove("imprinted");
+                }
+            });
+        }
+
+        function queueHighlightUpdate() {
+            if (state.highlightFrame) {
+                cancelAnimationFrame(state.highlightFrame);
+            }
+            state.highlightFrame = requestAnimationFrame(() => {
+                updateHighlighting();
+                state.highlightFrame = null;
             });
         }
 
