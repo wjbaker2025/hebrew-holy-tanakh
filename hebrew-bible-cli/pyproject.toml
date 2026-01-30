@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hebrew-bible-cli"
+version = "0.1.0"
+description = "CLI tools for Hebrew Tanakh JSON: trope stats, helix visualization, and equation mapping experiments."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+authors = [
+  { name = "W. Justin Fournell-Baker" }
+]
+dependencies = [
+  "typer>=0.12.3",
+  "rich>=13.7.1",
+  "numpy>=1.26.4",
+  "matplotlib>=3.8.4",
+  "regex>=2024.5.15"
+]
+
+[project.scripts]
+hb = "hebrew_bible_cli.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
