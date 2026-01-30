@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,47 +8,79 @@ version = "0.1.0"
 description = "The Hebrew Holy Tanakh in JSON format with gematria analysis tools, cipher systems, and multiscript mappings."
 readme = "README.md"
 requires-python = ">=3.12.4"
-license = "MIT"
+license = { text = "MIT" }
 license-files = ["LICENSE.md"]
 authors = [
   { name = "W. Justin Fournell-Baker", email = "w.justin.fournell-baker@emnous.com" }
 ]
 
 classifiers = [
-    "Programming Language :: Python :: 3.12",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Education",
-    "Intended Audience :: Science/Research",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Text Processing :: Linguistic",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Text Processing :: Linguistic",
 ]
 
-dependencies = []
+dependencies = [
+  # CLI + pretty output (remove if you truly don’t want a CLI)
+  "typer>=0.12.3",
+  "rich>=13.7.1",
+
+  # Numerics / plotting for helix + analysis (optional but useful)
+  "numpy>=1.26.4",
+  "matplotlib>=3.8.4",
+
+  # Better Unicode / Hebrew regex handling
+  "regex>=2024.5.15",
+]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "ruff>=0.1.0",
-    "black>=23.0.0",
-    "mypy>=1.0.0"
+  "pytest>=8.0.0",
+  "ruff>=0.1.0",
+  "black>=23.0.0",
+  "mypy>=1.0.0"
+]
+
+# Command-prompt entrypoint: `tanakh ...`
+# Change the module/function if your CLI lives elsewhere.
+[project.scripts]
+tanakh = "hebrew_holy_tanakh.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Include JSON (and other data files) inside the installed package/wheel.
+# Put your Tanakh JSON under: src/hebrew_holy_tanakh/data/...
+[tool.setuptools.package-data]
+hebrew_holy_tanakh = [
+  "**/*.json",
+  "**/*.txt",
+  "**/*.csv",
+  "**/*.md"
 ]
 
 [tool.ruff]
 line-length = 88
 target-version = "py312"
 exclude = [
-    ".git",
-    ".mypy_cache",
-    ".ruff_cache",
-    ".venv",
-    "__pypackages__",
-    "build",
-    "dist",
-    "*.md",
-    "node_modules",
+  ".git",
+  ".mypy_cache",
+  ".ruff_cache",
+  ".venv",
+  "__pypackages__",
+  "build",
+  "dist",
+  "*.md",
+  "node_modules",
 ]
 
 [tool.ruff.lint]
