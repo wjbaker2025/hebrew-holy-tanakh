@@ -1,0 +1,148 @@
+{
+  "greek_physics_math_map": [
+    {
+      "name": "Alpha",
+      "symbols": { "lower": "α", "upper": "Α" },
+      "math_uses": ["Angles", "Angular acceleration", "Alpha levels (statistics)", "Root of an equation"],
+      "physics_uses": ["Alpha particles", "Fine-structure constant", "Thermal expansion coefficient", "Angular acceleration"]
+    },
+    {
+      "name": "Beta",
+      "symbols": { "lower": "β", "upper": "Β" },
+      "math_uses": ["Beta function", "Regression coefficients (statistics)", "Second angle in a triangle"],
+      "physics_uses": ["Beta particles", "Relativistic velocity ratio (v/c)", "Plasma beta", "Sound intensity"]
+    },
+    {
+      "name": "Gamma",
+      "symbols": { "lower": "γ", "upper": "Γ" },
+      "math_uses": ["Gamma function", "Euler-Mascheroni constant (lower)", "Gamma distribution"],
+      "physics_uses": ["Gamma rays", "Lorentz factor", "Heat capacity ratio (Adiabatic index)", "Surface tension"]
+    },
+    {
+      "name": "Delta",
+      "symbols": { "lower": "δ", "upper": "Δ" },
+      "math_uses": ["Difference/Change (upper)", "Discriminant (upper)", "Kronecker delta (lower)", "Dirac delta function (lower)"],
+      "physics_uses": ["Variation", "Displacement", "Change in a quantity (upper)"]
+    },
+    {
+      "name": "Epsilon",
+      "symbols": { "lower": "ε", "upper": "Ε" },
+      "math_uses": ["Small quantity/Error (limit definitions)", "Levi-Civita symbol (lower)", "Eccentricity"],
+      "physics_uses": ["Permittivity of a medium", "Strain", "Electromotive force (EMF)"]
+    },
+    {
+      "name": "Zeta",
+      "symbols": { "lower": "ζ", "upper": "Ζ" },
+      "math_uses": ["Riemann zeta function"],
+      "physics_uses": ["Damping ratio", "Zeta potential"]
+    },
+    {
+      "name": "Eta",
+      "symbols": { "lower": "η", "upper": "Η" },
+      "math_uses": ["Metric tensor (Minkowski space)"],
+      "physics_uses": ["Efficiency (thermodynamics)", "Viscosity", "Baryon density", "Eta meson"]
+    },
+    {
+      "name": "Theta",
+      "symbols": { "lower": "θ", "upper": "Θ" },
+      "math_uses": ["Angle", "Coordinate in polar/spherical systems", "Prime-counting function (lower)"],
+      "physics_uses": ["Temperature (sometimes)", "Angular displacement", "Heaviside step function (upper)"]
+    },
+    {
+      "name": "Iota",
+      "symbols": { "lower": "ι", "upper": "Ι" },
+      "math_uses": ["Index (summation/iteration)", "Identity matrix"],
+      "physics_uses": ["Inertia (design choice)", "Unit vector"]
+    },
+    {
+      "name": "Kappa",
+      "symbols": { "lower": "κ", "upper": "Κ" },
+      "math_uses": ["Curvature"],
+      "physics_uses": ["Thermal conductivity", "Dielectric constant", "Torsional constant", "Kappa distribution"]
+    },
+    {
+      "name": "Lambda",
+      "symbols": { "lower": "λ", "upper": "Λ" },
+      "math_uses": ["Eigenvalues", "Lambda calculus", "Poisson distribution parameter"],
+      "physics_uses": ["Wavelength", "Cosmological constant (upper)", "Decay constant (radioactivity)", "Linear charge density"]
+    },
+    {
+      "name": "Mu",
+      "symbols": { "lower": "μ", "upper": "Μ" },
+      "math_uses": ["Mean (statistics)", "Mobius function"],
+      "physics_uses": ["Coefficient of friction", "Magnetic permeability", "Reduced mass", "Micro- prefix", "Muon"]
+    },
+    {
+      "name": "Nu",
+      "symbols": { "lower": "ν", "upper": "Ν" },
+      "math_uses": ["Degrees of freedom (statistics)"],
+      "physics_uses": ["Frequency (waves)", "Kinematic viscosity", "Neutrino", "Poisson's ratio"]
+    },
+    {
+      "name": "Xi",
+      "symbols": { "lower": "ξ", "upper": "Ξ" },
+      "math_uses": ["Random variable", "Universal set (upper)"],
+      "physics_uses": ["Partition function (sometimes)", "Damping ratio", "Correlation length"]
+    },
+    {
+      "name": "Omicron",
+      "symbols": { "lower": "ο", "upper": "Ο" },
+      "math_uses": ["Big O notation"],
+      "physics_uses": ["Rarely used due to similarity with O/0"]
+    },
+    {
+      "name": "Pi",
+      "symbols": { "lower": "π", "upper": "Π" },
+      "math_uses": ["Archimedes' constant (3.14159...)", "Product operator (upper)", "Prime counting function (lower)"],
+      "physics_uses": ["Pion", "Osmotic pressure", "Surface pressure"]
+    },
+    {
+      "name": "Rho",
+      "symbols": { "lower": "ρ", "upper": "Ρ" },
+      "math_uses": ["Correlation coefficient", "Radius in spherical coordinates"],
+      "physics_uses": ["Density", "Resistivity", "Charge density (volume)"]
+    },
+    {
+      "name": "Sigma",
+      "symbols": { "lower": "σ", "upper": "Σ" },
+      "math_uses": ["Summation operator (upper)", "Standard deviation (lower)", "Divisor function"],
+      "physics_uses": ["Stress", "Surface charge density", "Stefan-Boltzmann constant", "Cross section"]
+    },
+    {
+      "name": "Tau",
+      "symbols": { "lower": "τ", "upper": "Τ" },
+      "math_uses": ["Golden ratio (sometimes)", "2*Pi (tau constant)"],
+      "physics_uses": ["Torque", "Time constant", "Shear stress", "Tau lepton", "Proper time"]
+    },
+    {
+      "name": "Upsilon",
+      "symbols": { "lower": "υ", "upper": "Υ" },
+      "math_uses": ["Rare math uses"],
+      "physics_uses": ["Mass-to-light ratio", "Upsilon meson"]
+    },
+    {
+      "name": "Phi",
+      "symbols": { "lower": "φ", "upper": "Φ" },
+      "math_uses": ["Golden ratio (lower)", "Euler's totient function"],
+      "physics_uses": ["Phase", "Magnetic flux (upper)", "Electric potential (lower)", "Work function"]
+    },
+    {
+      "name": "Chi",
+      "symbols": { "lower": "χ", "upper": "Χ" },
+      "math_uses": ["Chi-squared distribution", "Euler characteristic", "Chromatic number"],
+      "physics_uses": ["Magnetic susceptibility", "Electric susceptibility"]
+    },
+    {
+      "name": "Psi",
+      "symbols": { "lower": "ψ", "upper": "Ψ" },
+      "math_uses": ["Digamma function", "Golden ratio (conjugate)"],
+      "physics_uses": ["Wave function (Schrodinger equation)", "Stream function", "Electric flux (upper)"]
+    },
+    {
+      "name": "Omega",
+      "symbols": { "lower": "ω", "upper": "Ω" },
+      "math_uses": ["Complex cube root of unity", "Set of all natural numbers (ordinal)", "Sample space (upper)"],
+      "physics_uses": ["Angular frequency (lower)", "Electrical resistance (Ohms - upper)", "Solid angle (upper)", "Angular velocity (lower)"]
+    }
+  ]
+}

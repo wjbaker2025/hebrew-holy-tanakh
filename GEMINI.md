@@ -10,7 +10,7 @@ In addition to the biblical text, the repository includes a significant componen
 
 ## Directory Structure
 
-### `books/`
+### `Tanakh/`
 Contains the core text of the Tanakh in JSON format. Each file represents a single book.
 
 *   **Format:** JSON
@@ -35,7 +35,7 @@ Contains the core text of the Tanakh in JSON format. Each file represents a sing
       }
     }
     ```
-*   **Key Files:** `genesis.json`, `exodus.json`, `psalms.json`, etc.
+*   **Key Files:** `01_genesis.json`, `02_exodus.json`, `27_psalms.json`, etc.
 
 ### `gemantria/`
 Contains specifications, documentation, and logic definitions for Gematria ciphers.
@@ -55,7 +55,7 @@ Contains specifications, documentation, and logic definitions for Gematria ciphe
 
 This repository is primarily a **data source**.
 
-1.  **Text Analysis:** Parse the files in `books/` to extract Hebrew text, English translations, or morphological data for linguistic analysis or display.
+1.  **Text Analysis:** Parse the files in `Tanakh/` to extract Hebrew text, English translations, or morphological data for linguistic analysis or display.
 2.  **Gematria Calculation:** Use `gemantria/gemantria_ciphers.json` or the logic in the `.js` files to implement Gematria calculators or validation tools.
 3.  **Study:** The `CIPHERS.md` file serves as a reference for understanding different Gematria systems.
 

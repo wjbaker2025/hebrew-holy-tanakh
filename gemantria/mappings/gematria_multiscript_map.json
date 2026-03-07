@@ -568,6 +568,60 @@
             "reversal_cipher": 50
           }
         ]
+      },
+      {
+        "english_letter": "th",
+        "biblical_gematria": 4,
+        "reversal_cipher_value": 80,
+        "reversal_cipher_letter": "f",
+        "genesis_order": 4,
+        "standard_hebrew": 400,
+        "hebrew_letter": "ת",
+        "greek_letters": [
+          {
+            "letter": "υ",
+            "name": "Upsilon",
+            "biblical_gematria": 4,
+            "standard_greek_gematria": 400,
+            "reversal_cipher": 80
+          }
+        ]
+      },
+      {
+        "english_letter": "ts",
+        "biblical_gematria": 90,
+        "reversal_cipher_value": 3,
+        "reversal_cipher_letter": "g",
+        "genesis_order": 18,
+        "standard_hebrew": 90,
+        "hebrew_letter": "צ",
+        "greek_letters": [
+          {
+            "letter": "ϡ",
+            "name": "Sampi",
+            "biblical_gematria": 90,
+            "standard_greek_gematria": 900,
+            "reversal_cipher": 3
+          }
+        ]
+      },
+      {
+        "english_letter": "sh",
+        "biblical_gematria": 3,
+        "reversal_cipher_value": 90,
+        "reversal_cipher_letter": "ts",
+        "genesis_order": 3,
+        "standard_hebrew": 300,
+        "hebrew_letter": "ש",
+        "greek_letters": [
+          {
+            "letter": "τ",
+            "name": "Tau",
+            "biblical_gematria": 3,
+            "standard_greek_gematria": 300,
+            "reversal_cipher": 90
+          }
+        ]
       }
     ],
     "simple_values": {
@@ -598,88 +652,88 @@
       },
       "6": {
         "hebrew": "ו",
-        "greek": "ζ",
+        "greek": "Ϝ",
         "english": "v"
       },
       "7": {
         "hebrew": "ז",
-        "greek": "η",
+        "greek": "ζ",
         "english": "z"
       },
       "8": {
         "hebrew": "ח",
-        "greek": "θ",
+        "greek": "η",
         "english": "ch"
       },
       "9": {
         "hebrew": "ט",
-        "greek": "ι",
+        "greek": "θ",
         "english": "t"
       },
       "10": {
         "hebrew": "י",
-        "greek": "κ",
-        "english": "y"
+        "greek": "ι",
+        "english": "i"
       },
       "20": {
         "hebrew": "כ",
-        "greek": "λ",
+        "greek": "κ",
         "english": "k"
       },
       "30": {
         "hebrew": "ל",
-        "greek": "μ",
+        "greek": "λ",
         "english": "l"
       },
       "40": {
         "hebrew": "מ",
-        "greek": "ν",
+        "greek": "μ",
         "english": "m"
       },
       "50": {
         "hebrew": "נ",
-        "greek": "ξ",
+        "greek": "ν",
         "english": "n"
       },
       "60": {
         "hebrew": "ס",
-        "greek": "ο",
+        "greek": "ξ",
         "english": "s"
       },
       "70": {
         "hebrew": "ע",
-        "greek": "π",
+        "greek": "ο",
         "english": "o"
       },
       "80": {
         "hebrew": "פ",
-        "greek": "ρ",
+        "greek": "π",
         "english": "p"
       },
       "90": {
         "hebrew": "צ",
-        "greek": "σ",
+        "greek": "ϙ",
         "english": "ts"
       },
       "100": {
         "hebrew": "ק",
-        "greek": "τ",
+        "greek": "ρ",
         "english": "q"
       },
       "200": {
         "hebrew": "ר",
-        "greek": "υ",
+        "greek": "σ",
         "english": "r"
       },
       "300": {
         "hebrew": "ש",
-        "greek": "φ",
+        "greek": "τ",
         "english": "sh"
       },
       "400": {
         "hebrew": "ת",
-        "greek": "χ",
-        "english": "t"
+        "greek": "υ",
+        "english": "th"
       }
     }
   }

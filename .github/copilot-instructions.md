@@ -6,7 +6,7 @@ This repository contains the digitized Hebrew Bible (Tanakh) structured as parse
 
 ## Architecture & Data Structure
 
-- **Core Data (`books/`)**:
+- **Core Data (`Tanakh/`)**:
   - Format: `{"BookName": {"chapters": {"1": {"1": [WordObjects...]}}}}`
   - Word Object: `{"strongs": "1234", "hebrew": "...", "english": "...", "morphology": "..."}`
   - invariant: Maintain strict JSON structure and preservation of morphological tags.
@@ -41,4 +41,4 @@ This repository contains the digitized Hebrew Bible (Tanakh) structured as parse
 
 - `bootstraps.ps1`: Environment init.
 - `gemantria/gemantria_ciphers.json`: Primary Logic Definition.
-- `books/genesis.json`: Canon structure reference.
+- `Tanakh/1. Torah - Instructions/01_genesis.json`: Canon structure reference.
