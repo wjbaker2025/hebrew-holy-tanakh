@@ -27,7 +27,7 @@ _DECORATED_RE = re.compile(r"\\(hat|tilde|bar|vec|dot|ddot|check|acute|grave|bre
 
 # Named commands mapped to either a unicode symbol or a plain token.
 _LATEX_NAMED: Dict[str, str] = {
-    r"\hbar": "hbar",
+    r"\hbar": "ℏ",
     r"\partial": "∂",
     r"\nabla": "nabla",
     r"\infty": "infty",
