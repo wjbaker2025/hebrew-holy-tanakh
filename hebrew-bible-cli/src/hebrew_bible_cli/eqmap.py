@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import heapq
 import re
 from typing import Any, Dict, List, Optional
 
@@ -255,7 +256,10 @@ def map_equation_to_passages(
         books = [restrict_book]
     else:
         books = list_books(doc)
-    results = []
+
+    # Use a fixed-size min-heap so memory stays O(top_k) instead of
+    # accumulating all windows and sorting the entire list.
+    heap: List[tuple[float, Dict[str, Any]]] = []
 
     for book in books:
         # try chapters sequentially; if book structure differs, skip safely
@@ -288,12 +292,16 @@ def map_equation_to_passages(
                 score = cosine(eqp, pv_norm)
                 preview = " ".join([c["english"] for c in chunk[:12] if c.get("english")])[:140]
 
-                results.append({
+                entry = {
                     "book": book,
                     "start_ref": chunk[0]["ref"],
                     "score": score,
                     "preview": preview if preview else chunk[0]["ref"],
-                })
+                }
 
-    results.sort(key=lambda r: r["score"], reverse=True)
-    return results[:top_k]
+                if len(heap) < top_k:
+                    heapq.heappush(heap, (score, entry))
+                elif score > heap[0][0]:
+                    heapq.heapreplace(heap, (score, entry))
+
+    return [item for _, item in sorted(heap, key=lambda x: x[0], reverse=True)]
