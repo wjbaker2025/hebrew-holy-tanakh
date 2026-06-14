@@ -166,7 +166,7 @@ hb map-eq ../Tanakh/3.\ Ketuvim\ -\ Writings/27_psalms.json \
 The tool calculates "trope intensity" as a composite score:
 - Each cantillation mark: +1.0
 - Meteg mark: +0.5
-- Punctuation (sof pasuq, paseq): +0.5
+- Punctuation markers (e.g., sof pasuq, paseq, and other punctuation prefixes present in the dataset): +0.5
 - Maqaf (connector): +0.2
 
 This provides a quantitative measure of the musical/prosodic complexity of each token.
