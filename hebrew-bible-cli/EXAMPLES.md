@@ -65,9 +65,8 @@ hb helix ../Tanakh/3.\ Ketuvim\ -\ Writings/27_psalms.json \
 ```
 
 This creates a double-helix PNG where:
-- **Strand A**: Semantic anchor (Strong's numbers + morphology)
+- **Strand A**: Semantic anchor (Strong's concordance magnitude)
 - **Strand B**: Musical/prosodic layer (trope intensity)
-
 Parameters:
 - `--pitch`: Controls vertical spacing (smaller = tighter helix)
 - `--radius`: Base radius of the helix
