@@ -14,7 +14,7 @@ console = Console()
 
 
 @app.command("books")
-def cmd_books(path: str = typer.Argument(..., help="Path to a Tanakh JSON file.")):
+def cmd_books(path: str = typer.Argument(..., help="Path to a Tanakh JSON file.")) -> None:
     """List book names in the JSON file."""
     try:
         doc = load_json(path)
@@ -32,7 +32,7 @@ def cmd_inspect(
     book: str = typer.Option(..., "--book", "-b", help="Book name (e.g., Psalms)."),
     chapter: str = typer.Option("1", "--chapter", "-c", help="Chapter number as string, e.g. '1'."),
     limit: int = typer.Option(40, "--limit", "-n", help="Number of tokens to print."),
-):
+) -> None:
     """Print first N tokens of a book chapter with refs."""
     try:
         doc = load_json(path)
@@ -59,7 +59,7 @@ def cmd_trope_stats(
     path: str = typer.Argument(..., help="Path to a Tanakh JSON file."),
     book: str = typer.Option(..., "--book", "-b", help="Book name (e.g., Psalms)."),
     chapter: str = typer.Option("1", "--chapter", "-c", help="Chapter number."),
-):
+) -> None:
     """Compute basic cantillation/stress statistics for a chapter."""
     try:
         doc = load_json(path)
@@ -86,7 +86,7 @@ def cmd_helix(
     pitch: float = typer.Option(0.09, "--pitch", help="Vertical spacing factor."),
     base_r: float = typer.Option(1.0, "--radius", help="Base radius."),
     link_every: int = typer.Option(1, "--link-every", help="Draw base-pair line every N tokens."),
-):
+) -> None:
     """Render a double-helix visualization (semantic strand vs musical/prosody strand)."""
     try:
         doc = load_json(path)
@@ -105,7 +105,7 @@ def cmd_map_eq(
     book: str = typer.Option(None, "--book", "-b", help="Restrict to a specific book."),
     top_k: int = typer.Option(10, "--top", help="How many matches to show."),
     window: int = typer.Option(40, "--window", help="Tokens per passage window."),
-):
+) -> None:
     """
     Experimental: maps an equation into a feature vector and searches for matching passages.
     This is NOT 'proof of encoded physics'—it's a structured similarity search.
