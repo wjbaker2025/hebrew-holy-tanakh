@@ -3,10 +3,11 @@ from __future__ import annotations
 import math
 from typing import List
 
-import numpy as np
 import matplotlib
+import numpy as np
+
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # noqa: E402  # isort: skip
 
 from .features import trope_intensity
 
