@@ -391,7 +391,7 @@
       {
         "greek_letter": "ω",
         "name": "Omega",
-        "biblical_gematria": 800,
+        "biblical_gematria": 80,
         "reversal_cipher": 4,
         "standard_greek_gematria": 800,
         "hebrew_equivalent": "ף",
@@ -1244,6 +1244,42 @@
         },
         "reversal_pair": "n",
         "hebrew_map": "ז"
+      },
+      {
+        "letter": "Th",
+        "transliteration": "Th",
+        "values": {
+          "biblical": 4,
+          "standard": 400,
+          "genesis": 4,
+          "reversal": 80
+        },
+        "reversal_pair": "f",
+        "hebrew_map": "ת"
+      },
+      {
+        "letter": "Ts",
+        "transliteration": "Ts",
+        "values": {
+          "biblical": 90,
+          "standard": 90,
+          "genesis": 18,
+          "reversal": 3
+        },
+        "reversal_pair": "g",
+        "hebrew_map": "צ"
+      },
+      {
+        "letter": "Sh",
+        "transliteration": "Sh",
+        "values": {
+          "biblical": 3,
+          "standard": 300,
+          "genesis": 3,
+          "reversal": 90
+        },
+        "reversal_pair": "Ts",
+        "hebrew_map": "ש"
       }
     ]
   }

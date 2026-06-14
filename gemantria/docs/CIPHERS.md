@@ -15,7 +15,7 @@ This is the main cipher used in the Tanakh, and also the Gospels. The main diffe
     <li>ג Gimel = 3</li>
     <li>ש Shin = 3</li>
     <li>ד Daleth = 4</li>
-    <li>ד Tav = 4</li>
+    <li>ת Tav = 4</li>
     <li>ה Heh = 5</li>
     <li>ו Waw = 6</li>
     <li>ז Zayin = 7</li>
@@ -81,7 +81,7 @@ $$
     <li>ג Gimel = 3</li>
     <li>ש Shin = 3</li>
     <li>ד Daleth = 4</li>
-    <li>ד Tav = 4</li>
+    <li>ת Tav = 4</li>
     <li>ה Heh = 5</li>
     <li>ו Waw = 6</li>
     <li>ז Zayin = 7</li>
@@ -1022,5 +1022,41 @@ This is the most well-known Hebrew cipher, also known as Mispar Hechrechi. It is
     <li>Genesis Order: 7</li>
     <li>Standard Hebrew: 7</li>
     <li>Transliteration: ז</li>
+  </ul>
+</div>
+
+#### th
+
+<div dir="ltr">
+  <ul>
+    <li>Biblical Gematria: 4</li>
+    <li>Reversal Cipher: f 80</li>
+    <li>Genesis Order: 4</li>
+    <li>Standard Hebrew: 400</li>
+    <li>Transliteration: ת</li>
+  </ul>
+</div>
+
+#### ts
+
+<div dir="ltr">
+  <ul>
+    <li>Biblical Gematria: 90</li>
+    <li>Reversal Cipher: g 3</li>
+    <li>Genesis Order: 18</li>
+    <li>Standard Hebrew: 90</li>
+    <li>Transliteration: צ</li>
+  </ul>
+</div>
+
+#### sh
+
+<div dir="ltr">
+  <ul>
+    <li>Biblical Gematria: 3</li>
+    <li>Reversal Cipher: ts 90</li>
+    <li>Genesis Order: 3</li>
+    <li>Standard Hebrew: 300</li>
+    <li>Transliteration: ש</li>
   </ul>
 </div>
