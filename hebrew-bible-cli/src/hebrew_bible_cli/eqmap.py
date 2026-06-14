@@ -247,7 +247,12 @@ def map_equation_to_passages(
         eqv[_EQ_IDX_NVARS],                                                      # unique vars
     ], dtype=float)
 
-    books = [restrict_book] if restrict_book else list_books(doc)
+    if restrict_book:
+        if restrict_book not in doc:
+            raise KeyError(f"Book '{restrict_book}' not found. Available: {list_books(doc)}")
+        books = [restrict_book]
+    else:
+        books = list_books(doc)
     results = []
 
     for book in books:
