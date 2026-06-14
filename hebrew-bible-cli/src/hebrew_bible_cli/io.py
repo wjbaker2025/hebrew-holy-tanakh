@@ -13,7 +13,7 @@ def list_books(doc: Dict[str, Any]) -> List[str]:
     return list(doc.keys())
 
 
-def _sorted_key(x: str):
+def _sorted_key(x: str) -> tuple[int, int | str]:
     try:
         return (0, int(x))
     except Exception:
