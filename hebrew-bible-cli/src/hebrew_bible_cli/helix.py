@@ -4,6 +4,8 @@ import math
 from typing import List
 
 import numpy as np
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from .features import trope_intensity

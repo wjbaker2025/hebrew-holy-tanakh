@@ -73,19 +73,19 @@ This is a complete, production-ready CLI tool for analyzing Hebrew Tanakh JSON d
 - Book → Chapters → Verses → Tokens
 - Each token: hebrew, english, strongs, morphology
 
-## Testing Results
+## Testing Notes
 
-All commands tested successfully on:
+Manual smoke-testing was performed during development on representative inputs:
 - ✅ Genesis (Torah)
 - ✅ Psalms (Ketuvim)
 - ✅ Multiple chapter lengths
-- ✅ All parameter variations
+- ✅ Core command flows
 
-### Output Validation
-- ✅ Hebrew Unicode rendering
-- ✅ PNG generation (379KB-473KB per chapter)
-- ✅ Similarity scores in expected range (0.49-0.51)
-- ✅ Statistical accuracy verified
+### Validation Notes
+- ✅ Hebrew Unicode rendering was manually checked in terminal output
+- ✅ PNG generation was manually verified for `hb helix`
+- ✅ Equation mapping output shape and score ordering were manually spot-checked
+- ℹ️ No automated test/benchmark suite is included in this PR
 
 ### Security
 - (Optional) Run CodeQL/code scanning to verify there are no security alerts.
