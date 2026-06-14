@@ -72,7 +72,7 @@ def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 
     return A, B
 
 
-def render_helix_png(tokens: List[dict], out_path: str, pitch: float = 0.09, base_r: float = 1.0, link_every: int = 1):
+def render_helix_png(tokens: List[dict], out_path: str, pitch: float = 0.09, base_r: float = 1.0, link_every: int = 1) -> None:
     A, B = build_double_helix(tokens, pitch=pitch, base_r=base_r)
 
     fig = plt.figure()
