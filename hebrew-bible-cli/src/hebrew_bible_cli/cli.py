@@ -80,8 +80,12 @@ def cmd_helix(
     link_every: int = typer.Option(1, "--link-every", help="Draw base-pair line every N tokens."),
 ):
     """Render a double-helix visualization (semantic strand vs musical/prosody strand)."""
-    doc = load_json(path)
-    tokens = flatten_tokens(doc, book=book, chapter=chapter)
+    try:
+        doc = load_json(path)
+        tokens = flatten_tokens(doc, book=book, chapter=chapter)
+    except (OSError, ValueError, KeyError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(code=1) from e
     render_helix_png(tokens, out_path=out, pitch=pitch, base_r=base_r, link_every=link_every)
     console.print(f"[green]Wrote[/green] {out}")
 
