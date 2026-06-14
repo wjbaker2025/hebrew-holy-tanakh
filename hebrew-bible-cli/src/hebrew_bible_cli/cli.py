@@ -57,8 +57,12 @@ def cmd_trope_stats(
     chapter: str = typer.Option("1", "--chapter", "-c", help="Chapter number."),
 ):
     """Compute basic cantillation/stress statistics for a chapter."""
-    doc = load_json(path)
-    tokens = flatten_tokens(doc, book=book, chapter=chapter)
+    try:
+        doc = load_json(path)
+        tokens = flatten_tokens(doc, book=book, chapter=chapter)
+    except (OSError, ValueError, KeyError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(code=1) from e
     stats = trope_stats_for_tokens(tokens)
 
     table = Table(title=f"Trope Stats — {book} {chapter}")
