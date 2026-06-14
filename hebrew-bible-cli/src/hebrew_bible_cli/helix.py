@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import math
-from typing import List
 
 import matplotlib
 import numpy as np
@@ -19,7 +18,7 @@ def _safe_int(x) -> int:
         return 0
 
 
-def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 1.0) -> tuple[dict[str, list[float]], dict[str, list[float]]]:
+def build_double_helix(tokens: list[dict], pitch: float = 0.09, base_r: float = 1.0) -> tuple[dict[str, list[float]], dict[str, list[float]]]:
     """
     Strand A: semantic anchor (Strong's magnitude)
     Strand B: musical/prosodic (trope intensity)
@@ -73,7 +72,7 @@ def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 
     return A, B
 
 
-def render_helix_png(tokens: List[dict], out_path: str, pitch: float = 0.09, base_r: float = 1.0, link_every: int = 1) -> None:
+def render_helix_png(tokens: list[dict], out_path: str, pitch: float = 0.09, base_r: float = 1.0, link_every: int = 1) -> None:
     A, B = build_double_helix(tokens, pitch=pitch, base_r=base_r)
 
     fig = plt.figure()

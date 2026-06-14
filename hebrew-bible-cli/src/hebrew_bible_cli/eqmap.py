@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import heapq
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 
@@ -28,7 +28,7 @@ EQ_TOKEN_RE = re.compile(
 _DECORATED_RE = re.compile(r"\\(hat|tilde|bar|vec|dot|ddot|check|acute|grave|breve)\{([^}]+)\}")
 
 # Named commands mapped to either a unicode symbol or a plain token.
-_LATEX_NAMED: Dict[str, str] = {
+_LATEX_NAMED: dict[str, str] = {
     r"\hbar": "ℏ",
     r"\partial": "∂",
     r"\nabla": "nabla",
@@ -185,7 +185,7 @@ _EQ_IDX_DIGITS  = 23  # decimal-number token count
 _EQ_IDX_NVARS   = 25  # unique variable names
 
 
-def passage_vector(tokens: List[dict]) -> np.ndarray:
+def passage_vector(tokens: list[dict]) -> np.ndarray:
     """
     Passage embedding:
     - Strong's range/variance proxies (semantic diversity)
@@ -221,12 +221,12 @@ def cosine(a: np.ndarray, b: np.ndarray) -> float:
 
 
 def map_equation_to_passages(
-    doc: Dict[str, Any],
+    doc: dict[str, Any],
     equation: str,
-    restrict_book: Optional[str] = None,
+    restrict_book: str | None = None,
     window: int = 40,
     top_k: int = 10
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Search over sliding windows of tokens, scoring similarity between:
     - equation vector (symbolic structure)
@@ -259,7 +259,7 @@ def map_equation_to_passages(
 
     # Use a fixed-size min-heap so memory stays O(top_k) instead of
     # accumulating all windows and sorting the entire list.
-    heap: List[tuple[float, Dict[str, Any]]] = []
+    heap: list[tuple[float, dict[str, Any]]] = []
 
     for book in books:
         # try chapters sequentially; if book structure differs, skip safely

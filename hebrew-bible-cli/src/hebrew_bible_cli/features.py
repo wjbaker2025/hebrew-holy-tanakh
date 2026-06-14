@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import regex as re
-from typing import List, Dict
 
 # Hebrew cantillation marks (te'amim) generally U+0591..U+05AF
 CANT_RE = re.compile(r"[\u0591-\u05AF]")
@@ -20,7 +19,7 @@ def trope_intensity(hebrew: str) -> float:
     return cant + 0.5 * meteg + 0.5 * punc + 0.2 * maqaf
 
 
-def trope_stats_for_tokens(tokens: List[dict]) -> Dict[str, float]:
+def trope_stats_for_tokens(tokens: list[dict]) -> dict[str, float]:
     intensities = [trope_intensity(t["hebrew"]) for t in tokens]
     cant_count = sum(len(CANT_RE.findall(t["hebrew"])) for t in tokens)
     meteg_count = sum(1 for t in tokens if METEG_RE.search(t["hebrew"]))
