@@ -100,10 +100,11 @@ def normalize_latex(eq: str) -> str:
     """
     # 1. Decorated-argument forms: \hat{H} -> Hhat
     eq = _DECORATED_RE.sub(lambda m: m.group(2) + m.group(1), eq)
-    # 2. Named commands (longest match first)
+    # 2. Structured forms: \frac{a}{b} -> a/b
+    eq = re.sub(r"\\frac\{([^}]+)\}\{([^}]+)\}", r"\1/\2", eq)
+    # 3. Named commands (longest match first)
     for latex, plain in _LATEX_NAMED_SORTED:
         eq = eq.replace(latex, plain)
-    # 3. Drop leftover backslashes and stray braces
     eq = eq.replace("\\", "").replace("{", "").replace("}", "")
     return eq
 
