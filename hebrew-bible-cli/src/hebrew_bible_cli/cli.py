@@ -16,7 +16,11 @@ console = Console()
 @app.command("books")
 def cmd_books(path: str = typer.Argument(..., help="Path to a Tanakh JSON file.")):
     """List book names in the JSON file."""
-    doc = load_json(path)
+    try:
+        doc = load_json(path)
+    except (OSError, ValueError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(code=1) from e
     books = list_books(doc)
     for b in books:
         console.print(b)
