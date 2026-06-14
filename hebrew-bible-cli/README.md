@@ -44,6 +44,7 @@ Compute basic cantillation/stress statistics for a chapter, including:
 - Meteg, Sof Pasuq, Paseq, Maqaf counts
 - Average and max trope intensity
 
+### helix
 Render a double-helix visualization with:
 - Strand A: semantic anchor (Strong's concordance magnitude)
 - Strand B: musical/prosodic (trope intensity)
@@ -52,7 +53,6 @@ Options:
 - `--pitch`: Vertical spacing factor (default: 0.09)
 - `--radius`: Base radius (default: 1.0)
 - `--link-every`: Draw base-pair line every N tokens (default: 1)
-
 ### map-eq
 Experimental equation-to-passage mapping. Maps an equation into a feature vector and searches for matching passages based on structural similarity.
 
