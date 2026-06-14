@@ -21,8 +21,8 @@ def _sorted_key(x: str):
 
 
 def flatten_tokens(doc: Dict[str, Any], book: str, chapter: str) -> List[dict]:
-    """
-    Returns tokens in the order stored in the JSON (which in your sample is already reading order).
+    """Return tokens in a stable reading order (verses sorted numerically when possible).
+
     Each token includes ref / hebrew / strongs / morphology / english.
     """
     if book not in doc:
