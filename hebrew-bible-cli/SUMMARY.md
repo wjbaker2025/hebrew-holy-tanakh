@@ -170,4 +170,4 @@ hb map-eq <json-file> --eq "<equation>" --top <N>
 
 This CLI tool represents a sophisticated, scientifically grounded approach to analyzing Hebrew biblical text. It combines traditional textual analysis with modern computational methods while maintaining academic credibility.
 
-The implementation is complete, tested, documented, and ready for use.
+The implementation is feature-complete, documented, and was manually smoke-tested on representative inputs; automated tests/benchmarks are not yet included.
