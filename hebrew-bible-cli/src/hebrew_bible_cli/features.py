@@ -14,7 +14,7 @@ PASEQ = "׀"
 def trope_intensity(hebrew: str) -> float:
     cant = len(CANT_RE.findall(hebrew))
     meteg = 1 if METEG_RE.search(hebrew) else 0
-    punc = 1 if (SOF_PASUQ in hebrew or PASEQ in hebrew or "!" in hebrew) else 0
+    punc = 1 if any(ch in hebrew for ch in (SOF_PASUQ, PASEQ, "!", "､", ".")) else 0
     maqaf = 1 if (MAQAF in hebrew) else 0
     # Tunable weights
     return cant + 0.5 * meteg + 0.5 * punc + 0.2 * maqaf
