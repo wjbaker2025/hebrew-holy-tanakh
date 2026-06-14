@@ -32,6 +32,7 @@ def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 
     if trope_vals.size == 0:
         trope_vals = np.array([0.0])
     t_min, t_max = float(trope_vals.min()), float(trope_vals.max())
+    t_span = max(1e-12, t_max - t_min)
 
     A: dict = {"x": [], "y": [], "z": []}
     B: dict = {"x": [], "y": [], "z": []}
@@ -42,7 +43,6 @@ def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 
     for s_val, ti in zip(strong_vals, trope_vals):
         s_norm = (s_val - s_min) / s_span
         ti_norm = (ti - t_min) / t_span
-
         # radii (tunable)
         rA = base_r * (0.85 + 0.30 * s_norm)
         rB = base_r * (0.85 + 0.30 * ti_norm)
