@@ -15,7 +15,8 @@ EQ_TOKEN_RE = re.compile(
     r"[A-Za-z][A-Za-z0-9_]*"
     r"|\d+(?:\.\d+)?"
     r"|[+\-*/^=()]"
-    r"|[λτπφρσμΣΛΔΨνχℏ∂]"
+    r"|[ℏ∂∫]"
+    r"|[\u0370-\u03FF]"  # Greek and Coptic block
 )
 
 # -------------------------------------------------------------------
@@ -86,14 +87,14 @@ def normalize_latex(eq: str) -> str:
     Decorated-argument commands are rewritten so that the argument comes first
     and the decoration name is appended (e.g. ``\\hat{H}`` → ``Hhat``).
     Named commands are replaced by their Unicode equivalents or ASCII aliases
-    (e.g. ``\\hbar`` → ``hbar``, ``\\partial`` → ``∂``).
+    (e.g. ``\\hbar`` → ``ℏ``, ``\\partial`` → ``∂``).
 
     Examples
     --------
     >>> normalize_latex(r"\\hat{H}")
     'Hhat'
     >>> normalize_latex(r"\\hbar")
-    'hbar'
+    'ℏ'
     >>> normalize_latex(r"\\partial")
     '∂'
     """
@@ -114,8 +115,7 @@ def _safe_int(x) -> int:
         return 0
 
 
-# All single-character symbols recognised as Greek/special math.
-_GREEK_RE = re.compile(r"^[λτπφρσμΣΛΔΨνχℏ∂]$")
+_GREEK_RE = re.compile(r"^(?:[\u0370-\u03FF]|[ℏ∂∫])$")
 
 
 class CounterLike(dict):
