@@ -64,9 +64,9 @@ This is a complete CLI tool for analyzing Hebrew Tanakh JSON data. It provides t
 - regex 2024.5.15+ (Unicode)
 
 ### Performance
-- Genesis chapter 1 (427 tokens): <1 second for stats
-- Helix rendering: ~2-3 seconds per chapter
-- Equation mapping: ~10-20 seconds for full book search
+- Genesis chapter 1 (~427 tokens): often sub-second for stats on a typical dev machine (varies by hardware)
+- Helix rendering: typically a few seconds per chapter depending on matplotlib/backends
+- Equation mapping: can take tens of seconds on large books; consider using `--book` to restrict scope
 
 ### Data Format Support
 - Westminster Leningrad Codex JSON structure
