@@ -88,7 +88,7 @@ All commands tested successfully on:
 - ✅ Statistical accuracy verified
 
 ### Security
-- ✅ CodeQL scan: 0 alerts
+- (Optional) Run CodeQL/code scanning to verify there are no security alerts.
 - ✅ No external API calls
 - ✅ Safe file I/O
 - ✅ Input validation
