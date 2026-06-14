@@ -176,12 +176,12 @@ This provides a quantitative measure of the musical/prosodic complexity of each 
 The double-helix visualization represents two complementary information strands in the Hebrew text:
 
 1. **Semantic Strand** (Strand A):
-   - Thickness varies with Strong's number magnitude
+   - Radius varies with Strong's number magnitude
    - Represents lexical/semantic content
    - Color typically blue in default matplotlib
 
 2. **Prosodic Strand** (Strand B):
-   - Thickness varies with trope intensity
+   - Radius varies with trope intensity
    - Represents musical/cantillation layer
    - Color typically orange in default matplotlib
 
