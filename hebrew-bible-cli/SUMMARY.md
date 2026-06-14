@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a complete, production-ready CLI tool for analyzing Hebrew Tanakh JSON data. It provides sophisticated text analysis, visualization, and experimental equation-mapping capabilities.
+This is a complete CLI tool for analyzing Hebrew Tanakh JSON data. It provides text analysis, visualization, and experimental equation-mapping capabilities.
 
 ## What Was Built
 
