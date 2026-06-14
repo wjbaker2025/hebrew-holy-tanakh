@@ -1,4 +1,244 @@
 {
+  // Telemetry and Security
+  "telemetry.telemetryLevel": "off",
+  "security.workspace.trust.untrustedFiles": "open",
+  // Editor Basics
+  "editor.renderControlCharacters": false,
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "editor.fontFamily": "Ubuntu Mono, Red Hat Mono, Fira Code, JetBrains Mono, IBM Plex Mono",
+  "editor.fontLigatures": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.hover.hidingDelay": 600,
+  "editor.hover.delay": 600,
   "editor.tabSize": 2,
-  "editor.insertSpaces": true
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "never",
+    "source.fixAll.eslint": "explicit",
+    "source.sortImports": "explicit"
+  },
+  "editor.rulers": [
+    80
+  ],
+  "editor.largeFileOptimizations": true,
+  // Workbench and UI
+  "workbench.browser.enableChatTools": true,
+  "workbench.editor.enablePreview": true,
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.dat": "default",
+    "*.mp4": "default",
+    "*.DMP": "default",
+    "*.html": "default"
+  },
+  // Explorer and Files
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "python.createEnvironment.trigger": "off",
+  "files.autoSaveWorkspaceFilesOnly": true,
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": false,
+    "**/.DS_Store": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/out": true,
+    "**/coverage": true,
+    "**/.vscode": true,
+    "**/.idea": true,
+    "**/.vs": true,
+    "**/.history": true,
+    "**/.cache": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true,
+    "**/.nvm": true,
+    "**/.pyenv": true,
+    "**/.venv": true,
+    "**/.env": true,
+    "**/.virtualenvs": true,
+    "**/.vscode-test": true,
+  },
+  "search.exclude": {
+    "**/*-lock.json": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.venv": true,
+    "**/venv": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true,
+    "**/*.pyc": true,
+    "**/*.sqlite": true,
+    "**/*.db": true,
+    "**/*.log": true
+  },
+  // Git
+  "git.autoRepositoryDetection": true,
+  "git.openRepositoryInParentFolders": "always",
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.formatting.provider": "charliermarsh.ruff",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.typeCheckingMode": "standard",
+  // Language Formatters
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features",
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "editor.formatOnPaste": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "never"
+    }
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  // Terminal
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.cursorBlinking": true,
+  // Markdown
+  "markdown.validate.enabled": true,
+  "markdownlint.config": {
+    "MD004": false,
+    "MD013": false,
+    "MD024": {
+      "allow_different_nesting": true
+    },
+    "MD029": {
+      "style": "ordered"
+    },
+    "MD033": false,
+    "MD040": false
+  },
+  // JSON
+  "json.schemaDownload.enable": true,
+  "files.associations": {
+    "**/settings.json": "jsonc",
+    "**/usersettings.json": "jsonc"
+  },
+  // Diff and Rewrap
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.maxComputationTime": 0,
+  "rewrap.wrappingColumn": 80,
+  // Extensions and Tools
+  "solidity.telemetry": false,
+  "idf.hasWalkthroughBeenShown": true,
+  "js.updateImportsOnFileMove.enabled": "always",
+  "remoteHub.commitDirectlyWarning": "off",
+  "github.copilot.selectedCompletionModel": "",
+  // Chat and AI
+  "inlineChat.accessibleDiffView": "on",
+  "inlineChat.enableV2": true,
+  "inlineChat.hideOnRequest": true,
+  "inlineChat.lineEmptyHint": true,
+  "chat.agent.enabled": true,
+  "chat.agent.maxRequests": 200,
+  "chat.agentSessionsViewLocation": "view",
+  "chat.mcp.discovery.enabled": {
+    "claude-desktop": true
+  },
+  "chat.mcp.gallery.enabled": true,
+  "chat.mcp.assisted.nuget.enabled": true,
+  "chat.editor.wordWrap": "on",
+  "chat.renderRelatedFiles": true,
+  "chat.todoListTool.writeOnly": true,
+  "chat.tools.terminal.autoReplyToPrompts": true,
+  "chat.useNestedAgentsMdFiles": true,
+  "chat.viewSessions.orientation": "stacked",
+  "chat.tools.terminal.autoApprove": {},
+  "chat.tools.urls.autoApprove": {
+    "https://code.visualstudio.com": true,
+    "https://github.com/microsoft/vscode/wiki/*": true,
+    "http://localhost:3000": {
+      "approveRequest": false,
+      "approveResponse": true
+    },
+    "https://www.gematrix.org/gematria-database/download/gematria.csv": true,
+    "https://www.gematrix.org/gematria-database/download": true,
+    "https://www.gematrix.org/gematria-database": true,
+    "https://www.gematrix.org": true,
+    "https://*.gematrix.org": true,
+    "https://www.gematrix.org/files/gematria.csv": true,
+    "https://www.gematrix.org/files": true,
+    "https://www.gematrix.org/gematria.csv": true,
+    "https://www.gematrix.org/gematria-database/gematria.csv": true
+  },
+  "powershell.promptToUpdatePowerShell": false,
+  "IDX.agenticWorkspace": true,
+  "css.hover.documentation": false,
+  "css.hover.references": false,
+  "less.hover.references": false,
+  "html.hover.references": false,
+  "editor.multiCursorLimit": 50000,
+  "terminal.integrated.defaultProfile.linux": "",
+  "vscode-edge-devtools.webhint": false,
+  "livePreview.notifyOnOpenLooseFile": false,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js, ${capture}.js.map, ${capture}.d.ts, ${capture}.spec.ts, ${capture}.test.ts",
+    "*.tsx": "${capture}.js, ${capture}.js.map, ${capture}.d.ts, ${capture}.spec.tsx, ${capture}.test.tsx",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.spec.js, ${capture}.test.js",
+    "*.jsx": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts, ${capture}.spec.jsx, ${capture}.test.jsx",
+    "*.css": "${capture}.css.map",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock, npm-shrinkwrap.json",
+    "*.cs": "${capture}.designer.cs, ${capture}.g.cs, ${capture}.generated.cs, ${capture}.run.json, ${capture}.settings.json, ${capture}.settings.*.json",
+    "*.csproj": "${capture}.csproj.user",
+    "*.vbproj": "${capture}.vbproj.user",
+    "*.fsproj": "${capture}.fsproj.user",
+    "*.resx": "${capture}.Designer.cs",
+    "*.xaml": "${capture}.xaml.cs",
+    "*.cshtml": "${capture}.cshtml.cs, ${capture}.cshtml.css",
+    "*.razor": "${capture}.razor.cs, ${capture}.razor.css",
+    "*.json": "${capture}.Development.json, ${capture}.Production.json, ${capture}.Staging.json",
+    "*.sqlite": "${capture}.${extname}-*, ${capture}.db-journal, ${capture}.db-wal, ${capture}.db-shm",
+    "*.sqlite3": "${capture}.${extname}-*, ${capture}.db-journal, ${capture}.db-wal, ${capture}.db-shm",
+    "*.db": "${capture}.${extname}-*, ${capture}.db-journal, ${capture}.db-wal, ${capture}.db-shm",
+    "*.db3": "${capture}.${extname}-*, ${capture}.db-journal, ${capture}.db-wal, ${capture}.db-shm",
+    "*.sdb": "${capture}.${extname}-*",
+    "*.s3db": "${capture}.${extname}-*",
+    "*.component.ts": "${capture}.component.html, ${capture}.component.css, ${capture}.component.scss, ${capture}.component.sass, ${capture}.component.less, ${capture}.component.spec.ts",
+    "*.service.ts": "${capture}.service.spec.ts",
+    "*.module.ts": "${capture}.module.spec.ts",
+    "*.py": "${capture}.pyi, ${capture}.pyc",
+    "Cargo.toml": "Cargo.lock",
+    "*.tf": "${capture}.tfvars, ${capture}.auto.tfvars, ${capture}.tfstate, ${capture}.tfstate.backup",
+    "docker-compose.yml": "docker-compose.override.yml, docker-compose.debug.yml, docker-compose.dev.yml, docker-compose.local.yml",
+    "compose.yml": "compose.override.yml, compose.debug.yml, compose.dev.yml, compose.local.yml"
+  },
 }

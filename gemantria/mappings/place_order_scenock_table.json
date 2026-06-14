@@ -1,0 +1,155 @@
+{
+  "description": "Data from the Journal of Biblical Literature 137, no. 4 (2018) by John Screnock. This table shows the place order of numbers in the Bible. Pre-exilic numbers normally run in increasing order (units-tens-hundreds), whereas exilic and post-exilic numerals run in decreasing order (hundreds-tens-units).",
+  "data": [
+    {
+      "text": "Siloam Tunnel",
+      "increasing_order": 1,
+      "decreasing_order": 0,
+      "percent_decreasing": 0
+    },
+    {
+      "text": "Esth",
+      "increasing_order": 6,
+      "decreasing_order": 0,
+      "percent_decreasing": 0
+    },
+    {
+      "text": "1QM",
+      "increasing_order": 9,
+      "decreasing_order": 1,
+      "percent_decreasing": 10
+    },
+    {
+      "text": "Toledoth^45",
+      "increasing_order": 31,
+      "decreasing_order": 4,
+      "percent_decreasing": 11
+    },
+    {
+      "text": "Ezek",
+      "increasing_order": 34,
+      "decreasing_order": 9,
+      "percent_decreasing": 21
+    },
+    {
+      "text": "Gen",
+      "increasing_order": 40,
+      "decreasing_order": 17,
+      "percent_decreasing": 30
+    },
+    {
+      "text": "Exod",
+      "increasing_order": 14,
+      "decreasing_order": 6,
+      "percent_decreasing": 30
+    },
+    {
+      "text": "P Gen",
+      "increasing_order": 7,
+      "decreasing_order": 8,
+      "percent_decreasing": 53
+    },
+    {
+      "text": "Num",
+      "increasing_order": 65,
+      "decreasing_order": 72,
+      "percent_decreasing": 53
+    },
+    {
+      "text": "Jer 52",
+      "increasing_order": 1,
+      "decreasing_order": 5,
+      "percent_decreasing": 83
+    },
+    {
+      "text": "1 Kgs",
+      "increasing_order": 5,
+      "decreasing_order": 30,
+      "percent_decreasing": 86
+    },
+    {
+      "text": "Josh",
+      "increasing_order": 1,
+      "decreasing_order": 7,
+      "percent_decreasing": 87
+    },
+    {
+      "text": "1 Chr",
+      "increasing_order": 8,
+      "decreasing_order": 52,
+      "percent_decreasing": 87
+    },
+    {
+      "text": "Chr",
+      "increasing_order": 9,
+      "decreasing_order": 77,
+      "percent_decreasing": 90
+    },
+    {
+      "text": "Josh–2 Kgs (DeutH)",
+      "increasing_order": 8,
+      "decreasing_order": 89,
+      "percent_decreasing": 92
+    },
+    {
+      "text": "Judg",
+      "increasing_order": 1,
+      "decreasing_order": 15,
+      "percent_decreasing": 94
+    },
+    {
+      "text": "Neh",
+      "increasing_order": 1,
+      "decreasing_order": 18,
+      "percent_decreasing": 95
+    },
+    {
+      "text": "Ezra-Neh",
+      "increasing_order": 3,
+      "decreasing_order": 78,
+      "percent_decreasing": 96
+    },
+    {
+      "text": "2 Chr",
+      "increasing_order": 1,
+      "decreasing_order": 25,
+      "percent_decreasing": 96
+    },
+    {
+      "text": "Ezra",
+      "increasing_order": 2,
+      "decreasing_order": 60,
+      "percent_decreasing": 98
+    },
+    {
+      "text": "2 Sam",
+      "increasing_order": 0,
+      "decreasing_order": 6,
+      "percent_decreasing": 100
+    },
+    {
+      "text": "2 Kgs",
+      "increasing_order": 0,
+      "decreasing_order": 29,
+      "percent_decreasing": 100
+    },
+    {
+      "text": "Hag",
+      "increasing_order": 0,
+      "decreasing_order": 5,
+      "percent_decreasing": 100
+    },
+    {
+      "text": "Dan",
+      "increasing_order": 0,
+      "decreasing_order": 7,
+      "percent_decreasing": 100
+    },
+    {
+      "text": "3Q15",
+      "increasing_order": 0,
+      "decreasing_order": 5,
+      "percent_decreasing": 100
+    }
+  ]
+}

@@ -66,3 +66,6 @@ This repository is primarily a **data source**.
 *   **Conventions:**
     *   **Text:** Follows the WLC transcription.
     *   **Ciphers:** Defined with specific mappings for Hebrew, Greek, and English.
+
+# Security Alert: Axios Supply Chain Compromise
+DO NOT use compromised Axios versions (1.14.1 or 0.30.4). Before upgrading beyond safe versions (1.14.0 or 0.30.3), verify that the supply chain compromise has been officially resolved.
