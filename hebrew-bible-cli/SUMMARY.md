@@ -56,7 +56,7 @@ This is a complete, production-ready CLI tool for analyzing Hebrew Tanakh JSON d
 ## Technical Specifications
 
 ### Dependencies
-- Python 3.10+
+- Python 3.12.4+
 - typer 0.12.3+ (CLI)
 - rich 13.7.1+ (output)
 - numpy 1.26.4+ (computation)

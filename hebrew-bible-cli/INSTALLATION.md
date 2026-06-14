@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Python 3.10 or higher
+- Python 3.12.4 or higher
 - pip (Python package installer)
 
 ## Quick Install
