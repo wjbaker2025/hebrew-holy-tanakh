@@ -34,8 +34,12 @@ def cmd_inspect(
     limit: int = typer.Option(40, "--limit", "-n", help="Number of tokens to print."),
 ):
     """Print first N tokens of a book chapter with refs."""
-    doc = load_json(path)
-    tokens = flatten_tokens(doc, book=book, chapter=chapter)
+    try:
+        doc = load_json(path)
+        tokens = flatten_tokens(doc, book=book, chapter=chapter)
+    except (OSError, ValueError, KeyError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(code=1) from e
 
     table = Table(title=f"{book} chapter {chapter} (first {min(limit, len(tokens))} tokens)")
     table.add_column("#", justify="right")
