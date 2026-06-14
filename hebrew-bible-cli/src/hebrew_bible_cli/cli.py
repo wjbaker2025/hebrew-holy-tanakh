@@ -117,14 +117,16 @@ def cmd_map_eq(
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(code=1) from e
 
-    table = Table(title=f"Equation map: {equation}")
+    safe_equation = equation.replace("[", "[[").replace("]", "]]" )
+    table = Table(title=f"Equation map: {safe_equation}")
     table.add_column("Rank", justify="right")
     table.add_column("Book")
     table.add_column("Start Ref")
     table.add_column("Score", justify="right")
     table.add_column("Preview")
     for i, r in enumerate(results, start=1):
-        table.add_row(str(i), r["book"], r["start_ref"], f"{r['score']:.4f}", r["preview"])
+        safe_preview = str(r["preview"]).replace("[", "[[").replace("]", "]]" )
+        table.add_row(str(i), r["book"], r["start_ref"], f"{r['score']:.4f}", safe_preview)
     console.print(table)
 
 
