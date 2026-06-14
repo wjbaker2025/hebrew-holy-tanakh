@@ -102,8 +102,12 @@ def cmd_map_eq(
     Experimental: maps an equation into a feature vector and searches for matching passages.
     This is NOT 'proof of encoded physics'—it's a structured similarity search.
     """
-    doc = load_json(path)
-    results = map_equation_to_passages(doc, equation=equation, restrict_book=book, window=window, top_k=top_k)
+    try:
+        doc = load_json(path)
+        results = map_equation_to_passages(doc, equation=equation, restrict_book=book, window=window, top_k=top_k)
+    except (OSError, ValueError, KeyError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(code=1) from e
 
     table = Table(title=f"Equation map: {equation}")
     table.add_column("Rank", justify="right")
