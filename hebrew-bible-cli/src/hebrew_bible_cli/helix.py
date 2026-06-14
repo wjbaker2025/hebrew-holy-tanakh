@@ -18,7 +18,7 @@ def _safe_int(x) -> int:
         return 0
 
 
-def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 1.0):
+def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 1.0) -> tuple[dict[str, list[float]], dict[str, list[float]]]:
     """
     Strand A: semantic anchor (Strong's magnitude)
     Strand B: musical/prosodic (trope intensity)
