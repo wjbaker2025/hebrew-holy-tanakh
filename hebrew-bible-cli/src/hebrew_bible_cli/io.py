@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, List
+from typing import Any
 
 
-def load_json(path: str) -> Dict[str, Any]:
+def load_json(path: str) -> dict[str, Any]:
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def list_books(doc: Dict[str, Any]) -> List[str]:
+def list_books(doc: dict[str, Any]) -> list[str]:
     return list(doc.keys())
 
 
@@ -20,7 +20,7 @@ def _sorted_key(x: str) -> tuple[int, int | str]:
         return (1, x)
 
 
-def flatten_tokens(doc: Dict[str, Any], book: str, chapter: str) -> List[dict]:
+def flatten_tokens(doc: dict[str, Any], book: str, chapter: str) -> list[dict]:
     """Return tokens in a stable reading order (verses sorted numerically when possible).
 
     Each token includes ref / hebrew / strongs / morphology / english.
@@ -33,7 +33,7 @@ def flatten_tokens(doc: Dict[str, Any], book: str, chapter: str) -> List[dict]:
         raise KeyError(f"Chapter '{chapter}' not found in {book}. Available: {list(chapters.keys())[:20]}...")
 
     ch = chapters[chapter]
-    out: List[dict] = []
+    out: list[dict] = []
 
     for verse_num in sorted(ch.keys(), key=_sorted_key):
         verse = ch[verse_num]
