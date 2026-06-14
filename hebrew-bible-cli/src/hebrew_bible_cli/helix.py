@@ -18,7 +18,7 @@ def _safe_int(x) -> int:
 
 def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 1.0):
     """
-    Strand A: semantic anchor (Strong's + morphology hash)
+    Strand A: semantic anchor (Strong's magnitude)
     Strand B: musical/prosodic (trope intensity)
     """
     strong_vals = np.array([_safe_int(t["strongs"]) for t in tokens], dtype=float)
