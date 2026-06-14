@@ -102,7 +102,9 @@ def normalize_latex(eq: str) -> str:
     eq = _DECORATED_RE.sub(lambda m: m.group(2) + m.group(1), eq)
     # 2. Structured forms: \frac{a}{b} -> a/b
     eq = re.sub(r"\\frac\{([^}]+)\}\{([^}]+)\}", r"\1/\2", eq)
-    # 3. Named commands (longest match first)
+    # 3. Structured forms: \sqrt{x} -> sqrt(x)
+    eq = re.sub(r"\\sqrt\{([^}]+)\}", r"sqrt(\1)", eq)
+    # 4. Named commands (longest match first)
     for latex, plain in _LATEX_NAMED_SORTED:
         eq = eq.replace(latex, plain)
     eq = eq.replace("\\", "").replace("{", "").replace("}", "")
