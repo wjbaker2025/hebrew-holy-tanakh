@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from typing import List, Tuple
+from typing import List
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,18 +29,19 @@ def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 
     s_span = max(1.0, s_max - s_min)
 
     trope_vals = np.array([trope_intensity(t["hebrew"]) for t in tokens], dtype=float)
+    if trope_vals.size == 0:
+        trope_vals = np.array([0.0])
     t_min, t_max = float(trope_vals.min()), float(trope_vals.max())
     t_span = max(1e-9, t_max - t_min)
 
-    A = {"x": [], "y": [], "z": []}
-    B = {"x": [], "y": [], "z": []}
+    A: dict = {"x": [], "y": [], "z": []}
+    B: dict = {"x": [], "y": [], "z": []}
 
     t_param = 0.0
     dt_base = 0.6
 
-    for i, tok in enumerate(tokens):
-        s_norm = (_safe_int(tok["strongs"]) - s_min) / s_span
-        ti = trope_intensity(tok["hebrew"])
+    for s_val, ti in zip(strong_vals, trope_vals):
+        s_norm = (s_val - s_min) / s_span
         ti_norm = (ti - t_min) / t_span
 
         # radii (tunable)
@@ -58,8 +59,12 @@ def build_double_helix(tokens: List[dict], pitch: float = 0.09, base_r: float = 
         yB = rB * math.sin(t_param + math.pi)
         zB = z
 
-        A["x"].append(xA); A["y"].append(yA); A["z"].append(z)
-        B["x"].append(xB); B["y"].append(yB); B["z"].append(zB)
+        A["x"].append(xA)
+        A["y"].append(yA)
+        A["z"].append(z)
+        B["x"].append(xB)
+        B["y"].append(yB)
+        B["z"].append(zB)
 
         t_param += dt
 

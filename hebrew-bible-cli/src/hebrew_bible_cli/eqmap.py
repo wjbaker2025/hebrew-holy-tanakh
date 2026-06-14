@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import math
 import re
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 
@@ -10,7 +9,102 @@ from .io import list_books, flatten_tokens
 from .features import trope_intensity
 
 
-EQ_TOKEN_RE = re.compile(r"[A-Za-z]+|\d+|[\+\-\*/\^\=\(\)]|[λτπφρσμΣΛΔΨνχ]")
+# Matches identifiers (with underscores), decimal numbers, operators, and
+# individual Greek/special math symbols (including ℏ and ∂).
+EQ_TOKEN_RE = re.compile(
+    r"[A-Za-z][A-Za-z0-9_]*"
+    r"|\d+(?:\.\d+)?"
+    r"|[+\-*/^=()]"
+    r"|[λτπφρσμΣΛΔΨνχℏ∂]"
+)
+
+# -------------------------------------------------------------------
+# LaTeX normalization
+# -------------------------------------------------------------------
+
+# Decorated-argument forms: \hat{X} -> Xhat,  \tilde{X} -> Xtilde, etc.
+_DECORATED_RE = re.compile(r"\\(hat|tilde|bar|vec|dot|ddot|check|acute|grave|breve)\{([^}]+)\}")
+
+# Named commands mapped to either a unicode symbol or a plain token.
+_LATEX_NAMED: Dict[str, str] = {
+    r"\hbar": "hbar",
+    r"\partial": "∂",
+    r"\nabla": "nabla",
+    r"\infty": "infty",
+    r"\alpha": "α",
+    r"\beta": "β",
+    r"\gamma": "γ",
+    r"\delta": "δ",
+    r"\epsilon": "ε",
+    r"\varepsilon": "ε",
+    r"\zeta": "ζ",
+    r"\eta": "η",
+    r"\theta": "θ",
+    r"\iota": "ι",
+    r"\kappa": "κ",
+    r"\lambda": "λ",
+    r"\mu": "μ",
+    r"\nu": "ν",
+    r"\xi": "ξ",
+    r"\pi": "π",
+    r"\rho": "ρ",
+    r"\sigma": "σ",
+    r"\tau": "τ",
+    r"\upsilon": "υ",
+    r"\phi": "φ",
+    r"\varphi": "φ",
+    r"\chi": "χ",
+    r"\psi": "ψ",
+    r"\omega": "ω",
+    r"\Gamma": "Γ",
+    r"\Delta": "Δ",
+    r"\Theta": "Θ",
+    r"\Lambda": "Λ",
+    r"\Xi": "Ξ",
+    r"\Pi": "Π",
+    r"\Sigma": "Σ",
+    r"\Upsilon": "Υ",
+    r"\Phi": "Φ",
+    r"\Psi": "Ψ",
+    r"\Omega": "Ω",
+    r"\cdot": "*",
+    r"\times": "*",
+    r"\sum": "Σ",
+    r"\prod": "Π",
+    r"\frac": "/",
+    r"\sqrt": "sqrt",
+    r"\int": "∫",
+}
+
+# Sort longest key first so that e.g. \varepsilon is replaced before \var.
+_LATEX_NAMED_SORTED = sorted(_LATEX_NAMED.items(), key=lambda kv: -len(kv[0]))
+
+
+def normalize_latex(eq: str) -> str:
+    """Normalize LaTeX math notation to plain tokens that EQ_TOKEN_RE can parse.
+
+    Decorated-argument commands are rewritten so that the argument comes first
+    and the decoration name is appended (e.g. ``\\hat{H}`` → ``Hhat``).
+    Named commands are replaced by their Unicode equivalents or ASCII aliases
+    (e.g. ``\\hbar`` → ``hbar``, ``\\partial`` → ``∂``).
+
+    Examples
+    --------
+    >>> normalize_latex(r"\\hat{H}")
+    'Hhat'
+    >>> normalize_latex(r"\\hbar")
+    'hbar'
+    >>> normalize_latex(r"\\partial")
+    '∂'
+    """
+    # 1. Decorated-argument forms: \hat{H} -> Hhat
+    eq = _DECORATED_RE.sub(lambda m: m.group(2) + m.group(1), eq)
+    # 2. Named commands (longest match first)
+    for latex, plain in _LATEX_NAMED_SORTED:
+        eq = eq.replace(latex, plain)
+    # 3. Drop leftover backslashes and stray braces
+    eq = eq.replace("\\", "").replace("{", "").replace("}", "")
+    return eq
 
 
 def _safe_int(x) -> int:
@@ -20,37 +114,52 @@ def _safe_int(x) -> int:
         return 0
 
 
+# All single-character symbols recognised as Greek/special math.
+_GREEK_RE = re.compile(r"^[λτπφρσμΣΛΔΨνχℏ∂]$")
+
+
+class CounterLike(dict):
+    def __missing__(self, key) -> int:
+        return 0
+
+    def total_unique(self) -> int:
+        return len(self.keys())
+
+
 def equation_vector(eq: str) -> np.ndarray:
-    """
-    Very simple equation embedding:
+    """Very simple equation embedding.
+
     - operator counts
-    - greek symbol counts
-    - digit counts
-    - variable token counts
-    This is intentionally conservative; you can swap in sympy + learned embeddings later.
+    - Greek/special symbol counts (including ℏ and ∂)
+    - decimal-number token counts
+    - unique variable-name counts
+
+    The input is first passed through :func:`normalize_latex` so that both
+    plain-ASCII and LaTeX-style equations produce consistent feature vectors.
+    This is intentionally conservative; swap in sympy + learned embeddings later.
     """
-    tokens = EQ_TOKEN_RE.findall(eq)
+    tokens = EQ_TOKEN_RE.findall(normalize_latex(eq))
     ops = {"+": 0, "-": 0, "*": 0, "/": 0, "^": 0, "=": 0, "(": 0, ")": 0}
-    greek = CounterLike()
-    vars_ = CounterLike()
+    greek: CounterLike = CounterLike()
+    vars_: CounterLike = CounterLike()
     digits = 0
 
     for t in tokens:
         if t in ops:
             ops[t] += 1
-        elif t.isdigit():
+        elif re.match(r"^\d", t):
             digits += 1
-        elif re.fullmatch(r"[λτπφρσμΣΛΔΨνχ]", t):
+        elif _GREEK_RE.match(t):
             greek[t] += 1
         else:
-            # variable names like E, m, c, S_q, etc.
+            # variable names like E, m, c, S_q, Hhat, etc.
             vars_[t] += 1
 
     # Fixed feature order
-    feat = []
+    feat: list = []
     feat.extend([ops[k] for k in ["+", "-", "*", "/", "^", "=", "(", ")"]])
-    # Some greek symbols you care about
-    for k in ["π", "φ", "ρ", "σ", "μ", "Σ", "Λ", "Δ", "Ψ", "ν", "χ", "λ", "τ"]:
+    # Greek/special symbols of interest
+    for k in ["π", "φ", "ρ", "σ", "μ", "Σ", "Λ", "Δ", "Ψ", "ν", "χ", "λ", "τ", "ℏ", "∂"]:
         feat.append(greek[k])
     feat.append(digits)
     feat.append(len(tokens))
@@ -58,11 +167,18 @@ def equation_vector(eq: str) -> np.ndarray:
     return np.array(feat, dtype=float)
 
 
-class CounterLike(dict):
-    def __missing__(self, key):
-        return 0
-    def total_unique(self) -> int:
-        return len(self.keys())
+# Named indices into the equation feature vector produced by equation_vector().
+# Layout: [8 ops][15 Greek: π φ ρ σ μ Σ Λ Δ Ψ ν χ λ τ ℏ ∂][digits][ntokens][nvars]
+_EQ_IDX_PI    = 8   # π
+_EQ_IDX_PHI   = 9   # φ
+_EQ_IDX_RHO   = 10  # ρ
+_EQ_IDX_SIGMA = 11  # σ
+_EQ_IDX_MU    = 12  # μ
+_EQ_IDX_SIGMA_CAP = 13  # Σ
+_EQ_IDX_HBAR  = 21  # ℏ
+_EQ_IDX_PARTIAL = 22  # ∂
+_EQ_IDX_DIGITS  = 23  # decimal-number token count
+_EQ_IDX_NVARS   = 25  # unique variable names
 
 
 def passage_vector(tokens: List[dict]) -> np.ndarray:
@@ -119,14 +235,15 @@ def map_equation_to_passages(
     eqv = equation_vector(equation)
     # crude projection to 8 dims (stable, deterministic)
     eqp = np.array([
-        eqv[0] + eqv[1],       # +/- activity
-        eqv[2] + eqv[3],       # */ activity
-        eqv[4],                # exponent
-        eqv[5],                # equals
-        eqv[8] + eqv[9] + eqv[10],  # π/φ/ρ group
-        eqv[11] + eqv[12] + eqv[13],# σ/μ/Σ group
-        eqv[-3],               # digits
-        eqv[-1],               # unique vars
+        eqv[0] + eqv[1],                                                        # +/- activity
+        eqv[2] + eqv[3],                                                        # */ activity
+        eqv[4],                                                                  # exponent
+        eqv[5],                                                                  # equals
+        eqv[_EQ_IDX_PI] + eqv[_EQ_IDX_PHI] + eqv[_EQ_IDX_RHO],               # π/φ/ρ group
+        eqv[_EQ_IDX_SIGMA] + eqv[_EQ_IDX_MU] + eqv[_EQ_IDX_SIGMA_CAP]
+        + eqv[_EQ_IDX_HBAR] + eqv[_EQ_IDX_PARTIAL],                           # σ/μ/Σ/ℏ/∂ group
+        eqv[_EQ_IDX_DIGITS],                                                     # digits
+        eqv[_EQ_IDX_NVARS],                                                      # unique vars
     ], dtype=float)
 
     books = [restrict_book] if restrict_book else list_books(doc)
@@ -139,7 +256,7 @@ def map_equation_to_passages(
         except Exception:
             continue
 
-        for chapter in sorted(chapters.keys(), key=lambda x: int(x) if str(x).isdigit() else x):
+        for chapter in sorted(chapters.keys(), key=lambda x: (0, int(x)) if str(x).isdigit() else (1, x)):
             toks = flatten_tokens(doc, book=book, chapter=chapter)
             if len(toks) < window:
                 continue

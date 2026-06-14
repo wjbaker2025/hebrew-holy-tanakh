@@ -15,9 +15,9 @@ def list_books(doc: Dict[str, Any]) -> List[str]:
 
 def _sorted_key(x: str):
     try:
-        return int(x)
+        return (0, int(x))
     except Exception:
-        return x
+        return (1, x)
 
 
 def flatten_tokens(doc: Dict[str, Any], book: str, chapter: str) -> List[dict]:
