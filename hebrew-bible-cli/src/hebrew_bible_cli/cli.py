@@ -4,17 +4,19 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from .io import load_json, list_books, flatten_tokens
+from .eqmap import map_equation_to_passages
 from .features import trope_stats_for_tokens
 from .helix import render_helix_png
-from .eqmap import map_equation_to_passages
+from .io import flatten_tokens, list_books, load_json
 
 app = typer.Typer(add_completion=False)
 console = Console()
 
 
 @app.command("books")
-def cmd_books(path: str = typer.Argument(..., help="Path to a Tanakh JSON file.")) -> None:
+def cmd_books(
+    path: str = typer.Argument(..., help="Path to a Tanakh JSON file."),
+) -> None:
     """List book names in the JSON file."""
     try:
         doc = load_json(path)
@@ -30,7 +32,9 @@ def cmd_books(path: str = typer.Argument(..., help="Path to a Tanakh JSON file."
 def cmd_inspect(
     path: str = typer.Argument(..., help="Path to a Tanakh JSON file."),
     book: str = typer.Option(..., "--book", "-b", help="Book name (e.g., Psalms)."),
-    chapter: str = typer.Option("1", "--chapter", "-c", help="Chapter number as string, e.g. '1'."),
+    chapter: str = typer.Option(
+        "1", "--chapter", "-c", help="Chapter number as string, e.g. '1'."
+    ),
     limit: int = typer.Option(40, "--limit", "-n", help="Number of tokens to print."),
 ) -> None:
     """Print first N tokens of a book chapter with refs."""
@@ -41,7 +45,9 @@ def cmd_inspect(
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(code=1) from e
 
-    table = Table(title=f"{book} chapter {chapter} (first {min(limit, len(tokens))} tokens)")
+    table = Table(
+        title=f"{book} chapter {chapter} (first {min(limit, len(tokens))} tokens)"
+    )
     table.add_column("#", justify="right")
     table.add_column("Ref")
     table.add_column("Hebrew")
@@ -85,7 +91,9 @@ def cmd_helix(
     out: str = typer.Option("helix.png", "--out", "-o", help="Output PNG path."),
     pitch: float = typer.Option(0.09, "--pitch", help="Vertical spacing factor."),
     base_r: float = typer.Option(1.0, "--radius", help="Base radius."),
-    link_every: int = typer.Option(1, "--link-every", help="Draw base-pair line every N tokens."),
+    link_every: int = typer.Option(
+        1, "--link-every", help="Draw base-pair line every N tokens."
+    ),
 ) -> None:
     """Render a double-helix visualization (semantic strand vs musical/prosody strand)."""
     try:
@@ -94,14 +102,18 @@ def cmd_helix(
     except (OSError, ValueError, KeyError) as e:
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(code=1) from e
-    render_helix_png(tokens, out_path=out, pitch=pitch, base_r=base_r, link_every=link_every)
+    render_helix_png(
+        tokens, out_path=out, pitch=pitch, base_r=base_r, link_every=link_every
+    )
     console.print(f"[green]Wrote[/green] {out}")
 
 
 @app.command("map-eq")
 def cmd_map_eq(
     path: str = typer.Argument(..., help="Path to a Tanakh JSON file."),
-    equation: str = typer.Option(..., "--eq", help="Equation string, e.g. 'E=mc^2' or 'S_q=(1-sum p^q)/(q-1)'"),
+    equation: str = typer.Option(
+        ..., "--eq", help="Equation string, e.g. 'E=mc^2' or 'S_q=(1-sum p^q)/(q-1)'"
+    ),
     book: str = typer.Option(None, "--book", "-b", help="Restrict to a specific book."),
     top_k: int = typer.Option(10, "--top", help="How many matches to show."),
     window: int = typer.Option(40, "--window", help="Tokens per passage window."),
@@ -112,12 +124,14 @@ def cmd_map_eq(
     """
     try:
         doc = load_json(path)
-        results = map_equation_to_passages(doc, equation=equation, restrict_book=book, window=window, top_k=top_k)
+        results = map_equation_to_passages(
+            doc, equation=equation, restrict_book=book, window=window, top_k=top_k
+        )
     except (OSError, ValueError, KeyError) as e:
         console.print(f"[red]Error:[/red] {e}")
         raise typer.Exit(code=1) from e
 
-    safe_equation = equation.replace("[", "[[").replace("]", "]]" )
+    safe_equation = equation.replace("[", "[[").replace("]", "]]")
     table = Table(title=f"Equation map: {safe_equation}")
     table.add_column("Rank", justify="right")
     table.add_column("Book")
@@ -125,8 +139,10 @@ def cmd_map_eq(
     table.add_column("Score", justify="right")
     table.add_column("Preview")
     for i, r in enumerate(results, start=1):
-        safe_preview = str(r["preview"]).replace("[", "[[").replace("]", "]]" )
-        table.add_row(str(i), r["book"], r["start_ref"], f"{r['score']:.4f}", safe_preview)
+        safe_preview = str(r["preview"]).replace("[", "[[").replace("]", "]]")
+        table.add_row(
+            str(i), r["book"], r["start_ref"], f"{r['score']:.4f}", safe_preview
+        )
     console.print(table)
 
 
