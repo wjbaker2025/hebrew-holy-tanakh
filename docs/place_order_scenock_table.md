@@ -28,6 +28,8 @@
 | Dan                |                      0 |                      7 |                100 |
 | 3Q15               |                      0 |                      5 |                100 |
 
-This table shows the place order of numbers in the Bible. Pre-exilic numbers normally run in increasing order, i.e. units-tens-hundreds, whereas exilic and post exilic numerals run in decreasing order, i.e. hundreds-tens-units.
+This table shows the place order of numbers in the Bible. Pre-exilic numbers normally run in
+increasing order, i.e. units-tens-hundreds, whereas exilic and post exilic numerals run in
+decreasing order, i.e. hundreds-tens-units.
 
 Table from the _Journal of Biblical Literature_ 137, no. 4 (2018) by John Screnock.
