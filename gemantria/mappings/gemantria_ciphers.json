@@ -4,9 +4,9 @@
     "version": "5.0",
     "description": "Comprehensive gematria cipher definitions and multiscript mappings for Hebrew, Greek, and English alphabets. Includes five primary ciphers (Biblical, Reversal, Genesis Order, Standard, Greek Transposition) with detailed letter mappings, values, and transliterations. Serves as the Single Source of Truth (SSOT) for all gematria calculations in the Hebrew Holy Tanakh project.",
     "cipher_definitions": {
-      "The Biblical Gematria Cipher": "Standard Tanakh cipher (Shin=3, Tav=4).",
+      "The Biblical Gematria Cipher": "Project-specific experimental cipher (Shin=3, Tav=4); not standard Hebrew gematria.",
       "The Reversal Cipher": "Mirrored cipher values based on the Biblical sequence.",
-      "The Genesis Order Cipher": "Ordinal sequence (1-20) based on appearance in Genesis 1-2.",
+      "The Genesis Order Cipher": "Project-defined ordering with shared values (1-20); its sequence is not the actual first-appearance order in Genesis.",
       "The Standard Cipher": "Mispar Hechrechi (Shin=300, Tav=400)."
     },
     "ssot": true,
@@ -17,7 +17,7 @@
   },
   "ciphers": {
     "biblical": {
-      "description": "Main cipher of the Tanakh/Gospels. Shin=3, Tav=4.",
+      "description": "Project-specific experimental Hebrew cipher. Shin=3, Tav=4; not Mispar Hechrechi.",
       "mapping": {
         "א": 1,
         "ב": 2,
@@ -71,7 +71,7 @@
       }
     },
     "genesis_order": {
-      "description": "Sequence of letters as they appear in Genesis 1-2. Sum = 217.",
+      "description": "Project-defined sequence with shared values; not the literal first-appearance order in Genesis. Sum = 217.",
       "sequence": [
         "ב",
         "א",
@@ -149,7 +149,7 @@
       }
     },
     "greek_transposition": {
-      "description": "Biblical Gematria transposed to Greek for NT.",
+      "description": "Project-defined transposition of the custom Biblical cipher to Greek; not standard Greek isopsephy.",
       "mapping": {
         "α": 1,
         "β": 2,

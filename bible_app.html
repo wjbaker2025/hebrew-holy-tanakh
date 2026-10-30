@@ -524,6 +524,8 @@
         };
 
 
+        const FALLBACK_GREEK_MAP = {"α": 1, "β": 2, "γ": 3, "τ": 3, "δ": 4, "υ": 4, "ε": 5, "Ϝ": 6, "ζ": 7, "η": 8, "θ": 9, "ι": 10, "κ": 20, "φ": 20, "λ": 30, "μ": 40, "χ": 40, "ν": 50, "ψ": 50, "ξ": 60, "ο": 70, "π": 80, "ω": 80, "ϙ": 90, "ϡ": 90, "ρ": 100, "ς": 200};
+
         const FALLBACK_ENGLISH_ENTRIES = [
             { letter: "a", values: { biblical: 1, standard: 1, genesis: 2, reversal: 100 } },
             { letter: "b", values: { biblical: 2, standard: 2, genesis: 1, reversal: 200 } },
@@ -615,11 +617,11 @@
             const cipherSelect = document.getElementById("cipher-select");
             cipherSelect.innerHTML = "";
             const cipherOptions = [
-                { value: "biblical", label: "Biblical (Shin=3, Tav=4)" },
+                { value: "biblical", label: "Biblical (project-specific: Shin=3, Tav=4)" },
                 { value: "reversal", label: "Reversal Cipher" },
-                { value: "genesis_order", label: "Genesis Order" },
+                { value: "genesis_order", label: "Genesis Order (project-specific)" },
                 { value: "standard", label: "Standard (Mispar Hechrechi)" },
-                { value: "greek_transposition", label: "Greek Transposition" }
+                { value: "greek_transposition", label: "Greek Transposition (project-specific)" }
             ];
             cipherOptions.forEach((cipher) => {
                 const option = document.createElement("option");
@@ -684,7 +686,7 @@
 
         async function fetchCipherData() {
             try {
-                const response = await fetch("gemantria/definitions/gemantria_ciphers.json");
+                const response = await fetch("gemantria/mappings/gemantria_ciphers.json");
                 if (response.ok) {
                     const data = await response.json();
                     state.cipherData = data.ciphers || {};
@@ -701,12 +703,6 @@
             state.currentChapter = 1;
             setActiveBook();
             const existing = state.bibleData[book.name];
-            if (!existing) {
-                const loaded = await fetchBookData(book, 1);
-                if (!loaded) {
-                    handleBookLoadError(book);
-                    return;
-                }
             let loadSucceeded = true;
             if (!existing) {
                 // Attempt to fetch book data with a small number of retries.
@@ -819,7 +815,13 @@
                 return [...text.toUpperCase()].reduce((sum, char) => sum + (map[char] || 0), 0);
             }
             const map = getCipherMap();
-            return [...text].reduce((sum, char) => sum + (map[char] || 0), 0);
+            const finalForms = { "ך": "כ", "ם": "מ", "ן": "נ", "ף": "פ", "ץ": "צ" };
+            return [...text].reduce((sum, char) => {
+                // Respect explicit final-form values if present; otherwise use the
+                // corresponding ordinary letter for Hebrew cipher maps.
+                const value = map[char] ?? (script === "hebrew" ? map[finalForms[char]] : undefined) ?? 0;
+                return sum + value;
+            }, 0);
         }
 
         function renderPage() {
