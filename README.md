@@ -100,8 +100,11 @@ Parse verses by iterating through word arrays and applying gematria calculations
 
 ### Cipher Selection
 
-- Default to "biblical" cipher for Tanakh analysis.
-- Use "standard" for general Hebrew gematria.
+- The app currently defaults to `biblical`, a project-specific experimental cipher with ש = 3 and ת = 4. It is not traditional standard gematria.
+- Select `standard` (Mispar Hechrechi) for traditional additive Hebrew values, with ש = 300 and ת = 400.
+- `genesis_order` is a project-defined sequence, not the literal order in which letters first appear in Genesis. The project's Greek transposition is also a custom mapping, not standard Greek isopsephy.
+
+See [Cipher definitions and research notes](docs/CIPHERS.md) for examples and limitations.
 
 ### Data Integrity
 

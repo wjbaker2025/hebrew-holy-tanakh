@@ -1,12 +1,12 @@
 # Gemantria Ciphers
 
-A gematria cipher is a set manner of assigning numbers to letters of the alphabet so that words can represent values. Biblical Gemantria uses four main ciphers: The Biblical Gematria Cipher, The Reversal Cipher, The Genesis Order Cipher, and The Standard Cipher.
+A gematria cipher assigns numerical values to written letters. This project contains four principal Hebrew mappings: the custom `biblical`, `reversal`, and `genesis_order` ciphers, and the traditional `standard` cipher (Mispar Hechrechi). The names of the custom mappings are project labels, not evidence that they were used by biblical authors.
 
-## Biblical Gematria Gematria
+## Hebrew cipher definitions
 
 ### The Biblical Gematria Cipher
 
-This is the main cipher used in the Tanakh, and also the Gospels. The main difference to the Standard cipher is that it assigns $3$ to ש (Shin) and $4$ to ת (Tav) which it places close to the front of the alphabet.
+This project-specific experimental cipher is identified as `biblical` in the data and app. It assigns $3$ to ש (shin) and $4$ to ת (tav), instead of the standard values $300$ and $400$. Its name does not establish that this mapping was used in the Tanakh or Gospels.
 
 <div dir="ltr">
   <ul>
@@ -37,7 +37,7 @@ This is the main cipher used in the Tanakh, and also the Gospels. The main diffe
 
 ### The Reversal Cipher
 
-This is the main Biblical Gematria cipher assigned in reverse order. It provides a mirror image of the numerical values, often used to uncover hidden meanings or complementary concepts.
+This project-defined mapping reverses the values of the custom `biblical` cipher. Matches are candidates for interpretation and do not by themselves establish a historical relationship.
 
 <div dir="ltr">
   <ul>
@@ -68,7 +68,7 @@ This is the main Biblical Gematria cipher assigned in reverse order. It provides
 
 ### The Genesis Order Cipher
 
-A simple numerical sequence for the Hebrew letters between 1 and 20 based on their order of appearance in the chapters of Genesis 1-2. Note that each of the letters is described in reverse order relative to the standard alphabet sequence. The sum of all the letters in this cipher is 217, which is the gematria for אל ("God" - utilizing the Biblical cipher where Aleph=1, Lamed=30, totaling 31; $31 \times 7 = 217$):
+The project-defined `genesis_order` mapping assigns values from 1 to 20, with shared values for ג/ש and ד/ת. Despite its name, it is not the literal order of first appearance in Genesis: the first six distinct letters in בראשית are ב, ר, א, ש, י, ת. The values below sum to 217. The word אל has value 31 under both the `biblical` and `standard` mappings, and $31 \times 7 = 217$; its value is not 217:
 
 $$
 1+2+3+3+4+4+5+6+7+8+9+10+11+12+13+14+15+16+17+18+19+20=217
