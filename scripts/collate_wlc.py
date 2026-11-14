@@ -111,6 +111,7 @@ def collate(source_dir: Path | None = None, max_examples: int = 80) -> dict:
         raise ValueError("Expected all 39 numbered Tanakh books")
     summary = Counter()
     per_book: list[dict] = []
+    difference_categories = Counter()
     examples: list[dict] = []
     excluded: list[str] = []
     errors: list[str] = []
@@ -141,6 +142,19 @@ def collate(source_dir: Path | None = None, max_examples: int = 80) -> dict:
                 counts["match_ketiv_preferred"] += 1
             else:
                 counts["different_consonants"] += 1
+                operations = {
+                    opcode
+                    for opcode, _, _, _, _ in difflib.SequenceMatcher(
+                        a=present_local, b=present_upstream[0], autojunk=False
+                    ).get_opcodes()
+                    if opcode != "equal"
+                }
+                if operations == {"insert"}:
+                    difference_categories["local_omissions_only"] += 1
+                elif operations == {"delete"}:
+                    difference_categories["local_additions_only"] += 1
+                else:
+                    difference_categories["mixed_or_replacements"] += 1
                 if len(examples) < max_examples:
                     examples.append({
                         "ref": location,
@@ -159,6 +173,7 @@ def collate(source_dir: Path | None = None, max_examples: int = 80) -> dict:
         "status": "complete" if not errors else "incomplete",
         "books_collated": len(per_book),
         "summary": dict(summary),
+        "difference_categories": dict(difference_categories),
         "excluded_nonnumeric_local_refs": excluded,
         "errors": errors,
         "examples": examples,
@@ -176,7 +191,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-dir", type=Path, help="Local directory of pinned OSHB WLC XML")
     parser.add_argument("--output", type=Path, default=Path("wlc-collation.json"))
-    parser.add_argument("--examples", type=int, default=80)
+    parser.add_argument("--examples", type=int, default=80,
+                        help="Maximum example records; use 10000 to retain all verse-level differences")
     args = parser.parse_args()
     result = collate(args.source_dir, args.examples)
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -184,7 +200,8 @@ def main() -> None:
                            encoding="utf-8")
     print(json.dumps({
         "status": result["status"], "books": result["books_collated"],
-        "summary": result["summary"], "errors": result["errors"]
+        "summary": result["summary"], "difference_categories": result["difference_categories"],
+        "errors": result["errors"]
     }, ensure_ascii=False))
     if result["status"] != "complete":
         raise SystemExit(2)
