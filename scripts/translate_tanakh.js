@@ -10,7 +10,7 @@ const hebrewToGreek = {
   ג: "γ", // Gamma (3)
   ד: "δ", // Delta (4)
   ה: "ε", // Epsilon (5)
-  ו: "Ϝ", // Digamma (6) - SSOT match for 6
+  ו: "υ", // Legacy corpus convention; NOT equal to model Vav=6 (υ=4 in model)
   ז: "ζ", // Zeta (7)
   ח: "η", // Eta (8)
   ט: "θ", // Theta (9)
@@ -22,9 +22,9 @@ const hebrewToGreek = {
   ס: "ξ", // Xi (60)
   ע: "ο", // Omicron (70)
   פ: "π", // Pi (80)
-  צ: "ϙ", // Koppa (90) - SSOT match for 90
+  צ: "ϡ", // Legacy glyph convention; experimental ϡ=90 versus standard Greek ϡ=900
   ק: "ρ", // Rho (100)
-  ר: "ς", // Final Sigma (200) - SSOT match for 200
+  ר: "σ", // Ordinary Greek sigma used throughout corpus legacy fields
   ש: "τ", // Tau (3) - SSOT match for Shin (3) in Biblical
   ת: "υ", // Upsilon (4) - SSOT match for Tav (4) in Biblical
 
@@ -36,13 +36,14 @@ const hebrewToGreek = {
   ץ: "ϡ", // Final Tsade (90) -> Sampi
 };
 
-// This is a numerical-script rendering for an experimental model, NOT a
-// translation into the language of the Greek Septuagint.
+// This is a LEGACY GLYPH substitution that reproduces existing corpus fields,
+// NOT a Greek translation, Septuagint reading, or always value-preserving cipher.
+// Score original Hebrew letters with scripts/gematria_core.py instead.
 function stripNiqqud(text) {
-  return text.normalize("NFKD").replace(/[\u0591-\u05C7]/g, "");
+  return text.replace(/[\u0591-\u05C7]/g, "");
 }
 
-function renderNumericGreek(hebrewText) {
+function renderLegacyGreek(hebrewText) {
   return [...stripNiqqud(hebrewText)]
     .map((char) => hebrewToGreek[char] || char)
     .join("");
@@ -56,7 +57,7 @@ function checkOrUpdate(node, report, write) {
   if (!node || typeof node !== "object") return;
   if (typeof node.hebrew === "string") {
     report.tokens++;
-    const expected = renderNumericGreek(node.hebrew);
+    const expected = renderLegacyGreek(node.hebrew);
     if (node.hebrew_greek !== expected) {
       report.mismatches++;
       if (report.examples.length < 10) {
@@ -110,4 +111,4 @@ function main() {
   if (args.has("--check") && report.mismatches) process.exitCode = 1;
 }
 if (require.main === module) main();
-module.exports = { stripNiqqud, renderNumericGreek, checkOrUpdate };
+module.exports = { stripNiqqud, renderLegacyGreek, checkOrUpdate };
