@@ -400,6 +400,7 @@
                             <option value="hebrew">Hebrew</option>
                             <option value="english">English</option>
                             <option value="greek">Greek</option>
+                            <option value="syriac">Syriac Aramaic</option>
                         </select>
                     </div>
                     <button onclick="imprintGematria()" aria-label="Calculate and highlight gematria matches">Imprint</button>
@@ -615,11 +616,13 @@
             const cipherSelect = document.getElementById("cipher-select");
             cipherSelect.innerHTML = "";
             const cipherOptions = [
-                { value: "biblical", label: "Biblical (Shin=3, Tav=4)" },
+                { value: "biblical", label: "Biblical (proposed model, Shin=3, Tav=4)" },
                 { value: "reversal", label: "Reversal Cipher" },
                 { value: "genesis_order", label: "Genesis Order" },
                 { value: "standard", label: "Standard (Mispar Hechrechi)" },
-                { value: "greek_transposition", label: "Greek Transposition" }
+                { value: "greek_transposition", label: "Greek Transposition (experimental)" },
+                { value: "greek_isopsephy", label: "Greek Isopsephy (traditional)" },
+                { value: "syriac_standard", label: "Syriac Numerals (traditional)" }
             ];
             cipherOptions.forEach((cipher) => {
                 const option = document.createElement("option");
@@ -630,10 +633,10 @@
             cipherSelect.value = state.activeCipher;
             cipherSelect.addEventListener("change", (event) => {
                 state.activeCipher = event.target.value;
-                if (state.activeCipher === "greek_transposition") {
+                if (["greek_transposition", "greek_isopsephy", "syriac_standard"].includes(state.activeCipher)) {
                     state.previousScriptMode = state.scriptMode;
-                    state.scriptMode = "greek";
-                    scriptSelect.value = "greek";
+                    state.scriptMode = state.activeCipher === "syriac_standard" ? "syriac" : "greek";
+                    scriptSelect.value = state.scriptMode;
                     scriptSelect.disabled = true;
                 } else {
                     scriptSelect.disabled = false;
@@ -684,7 +687,7 @@
 
         async function fetchCipherData() {
             try {
-                const response = await fetch("gemantria/definitions/gemantria_ciphers.json");
+                const response = await fetch("gemantria/mappings/gemantria_ciphers.json", { cache: "no-cache" });
                 if (response.ok) {
                     const data = await response.json();
                     state.cipherData = data.ciphers || {};
@@ -700,46 +703,12 @@
             state.currentBook = book;
             state.currentChapter = 1;
             setActiveBook();
-            const existing = state.bibleData[book.name];
-            if (!existing) {
-                const loaded = await fetchBookData(book, 1);
-                if (!loaded) {
-                    handleBookLoadError(book);
-                    return;
-                }
-            let loadSucceeded = true;
-            if (!existing) {
-                // Attempt to fetch book data with a small number of retries.
-                loadSucceeded = await fetchBookData(book, 1);
-            }
-
-            if (!loadSucceeded && !state.bibleData[book.name]) {
-                // If we still have no data for this book, provide clear user feedback
-                // and avoid rendering with undefined data.
-                showBookLoadError(book);
+            if (!state.bibleData[book.name] && !(await fetchBookData(book, 1))) {
+                handleBookLoadError(book);
                 return;
             }
-
+            state.loadError = null;
             renderPage();
-        }
-
-        // Simple helper to wait for the specified number of milliseconds.
-        function wait(ms) {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-        }
-
-        // Provide UI feedback when a book fails to load and prevent further interaction.
-        function showBookLoadError(book) {
-            console.error("Failed to load book data after retries:", book);
-            alert("Unable to load data for \"" + book.name + "\". Please check your connection or try again later.");
-
-            const items = document.querySelectorAll(".book-item");
-            items.forEach((item) => {
-                if (item.textContent === book.name) {
-                    item.classList.add("disabled");
-                    item.setAttribute("aria-disabled", "true");
-                }
-            });
         }
 
         async function fetchBookData(book, retries = 0) {
@@ -759,11 +728,6 @@
                     return fetchBookData(book, retries - 1);
                 }
                 return false;
-                if (retries > 0) {
-                    await wait(500);
-                    return fetchBookData(book, retries - 1);
-                }
-                return false;
             }
         }
 
@@ -778,19 +742,25 @@
             });
         }
 
-        function getCipherMap() {
-            if (state.activeCipher === "greek_transposition") {
-                return (
-                    state.cipherData.greek_transposition?.mapping ||
-                    state.cipherData.greek_transposition?.values ||
-                    FALLBACK_GREEK_MAP
-                );
+        function getCipherMap(script) {
+            // The mapping must match the language being scored. Never score
+            // Greek text with a Hebrew-only cipher and silently return zero.
+            if (script === "greek") {
+                const key = state.activeCipher === "standard" ||
+                    state.activeCipher === "greek_isopsephy" ? "greek_isopsephy" :
+                    ["biblical", "greek_transposition"].includes(state.activeCipher)
+                        ? "greek_transposition" : null;
+                return key ? state.cipherData[key]?.mapping || null : null;
             }
-            return (
-                state.cipherData[state.activeCipher]?.mapping ||
+            if (script === "syriac") {
+                return state.cipherData.syriac_standard?.mapping || null;
+            }
+            if (["greek_transposition", "greek_isopsephy", "syriac_standard"].includes(state.activeCipher)) {
+                return null;
+            }
+            return state.cipherData[state.activeCipher]?.mapping ||
                 state.cipherData[state.activeCipher]?.values ||
-                FALLBACK_CIPHER_MAPS[state.activeCipher]
-            );
+                FALLBACK_CIPHER_MAPS[state.activeCipher] || null;
         }
 
         function detectScript(text) {
@@ -803,23 +773,39 @@
             if (/[\u0590-\u05FF]/.test(text)) {
                 return "hebrew";
             }
-            if (/[\u0370-\u03FF]/.test(text)) {
+            if (/[\u0370-\u03FF\u1F00-\u1FFF]/.test(text)) {
                 return "greek";
+            }
+            if (/[\u0700-\u074F]/.test(text)) {
+                return "syriac";
             }
             return "english";
         }
 
         function calculateGematria(text) {
-            if (!text) {
-                return 0;
-            }
+            if (!text) return 0;
             const script = detectScript(text);
             if (script === "english") {
-                const map = state.englishMaps[state.activeCipher] || {};
+                const map = state.englishMaps[state.activeCipher];
+                if (!map) return 0;
                 return [...text.toUpperCase()].reduce((sum, char) => sum + (map[char] || 0), 0);
             }
-            const map = getCipherMap();
-            return [...text].reduce((sum, char) => sum + (map[char] || 0), 0);
+            const map = getCipherMap(script);
+            if (!map) return 0;
+            const finalHebrew = { "ך": "כ", "ם": "מ", "ן": "נ", "ף": "פ", "ץ": "צ" };
+            const normalized = text.normalize("NFKD").replace(/[\u0300-\u036F\u0591-\u05C7]/g, "").toLowerCase();
+            let total = 0;
+            for (const rawChar of normalized) {
+                const char = script === "hebrew" ? (finalHebrew[rawChar] || rawChar) :
+                    script === "greek" ? (rawChar === "ς" || rawChar === "ϲ" ? "σ" : rawChar) : rawChar;
+                total += map[char] || 0;
+            }
+            return total;
+        }
+
+        function escapeHtml(value) {
+            return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/\x27/g, "&#39;");
         }
 
         function renderPage() {
@@ -844,10 +830,10 @@
                     const isMatch = checkMatch(word);
                     const highlightClass = isMatch ? "imprinted" : "";
                     html += `
-                        <div class="word-card ${highlightClass}" data-hebrew="${word.hebrew || ""}" data-english="${word.english || ""}">
-                            <div class="word-hebrew">${word.hebrew || ""}</div>
-                            <div class="word-english">${word.english || "-"}</div>
-                            <div class="word-meta">${word.morphology || ""}</div>
+                        <div class="word-card ${highlightClass}" data-hebrew="${escapeHtml(word.hebrew || "")}" data-english="${escapeHtml(word.english || "")}">
+                            <div class="word-hebrew">${escapeHtml(word.hebrew || "")}</div>
+                            <div class="word-english">${escapeHtml(word.english || "-")}</div>
+                            <div class="word-meta">${escapeHtml(word.morphology || "")}</div>
                         </div>
                     `;
                 });
@@ -861,7 +847,8 @@
         }
 
         function normalizeHebrew(text) {
-            return text.replace(/[^\u0590-\u05FF\s]/g, "");
+            return text.normalize("NFKD").replace(/[\u0591-\u05C7]/g, "")
+                .replace(/[^\u05D0-\u05EA\s]/g, "");
         }
 
         function checkMatch(wordObj) {
