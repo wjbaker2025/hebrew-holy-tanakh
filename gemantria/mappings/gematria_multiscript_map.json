@@ -1,7 +1,8 @@
 {
   "gematria_multiscript_map": {
     "meta": {
-      "description": "Absolute mapping between Hebrew, Greek, and English gematria equivalents."
+      "description": "Parallel script-specific value tables plus experimental numeric correspondences. Matching numeric value does not establish linguistic transliteration, common etymology, or a historically transmitted cipher.",
+      "model_notice": "Biblical, reversal, and Genesis-order fields are project-defined; conventional Hebrew/Greek/Arabic/Syriac values are separately represented under language_chars."
     },
     "language_chars": {
       "hebrew": {
@@ -115,6 +116,31 @@
         "Y": 25,
         "Z": 26,
         " ": 0
+      },
+      "syriac": {
+        "ܐ": 1,
+        "ܒ": 2,
+        "ܓ": 3,
+        "ܕ": 4,
+        "ܗ": 5,
+        "ܘ": 6,
+        "ܙ": 7,
+        "ܚ": 8,
+        "ܛ": 9,
+        "ܝ": 10,
+        "ܟ": 20,
+        "ܠ": 30,
+        "ܡ": 40,
+        "ܢ": 50,
+        "ܣ": 60,
+        "ܥ": 70,
+        "ܦ": 80,
+        "ܨ": 90,
+        "ܩ": 100,
+        "ܪ": 200,
+        "ܫ": 300,
+        "ܬ": 400,
+        " ": 0
       }
     },
     "mappings": [
@@ -150,7 +176,7 @@
             "name": "Beta",
             "biblical_gematria": 2,
             "standard_greek_gematria": 2,
-            "reversal_cipher": 100
+            "reversal_cipher": 200
           }
         ]
       },
