@@ -56,7 +56,9 @@ jobs:
           python -c "from pathlib import Path; t=Path('bible_app.html').read_text(encoding='utf-8'); Path('reader_check.js').write_text(t.split('<script>',1)[1].split('</script>',1)[0], encoding='utf-8')"
           node --check reader_check.js
       - name: Report numeric Greek rendering differences without mutation
-        run: node scripts/translate_tanakh.js > rendering-report.json
+        run: |
+          node scripts/translate_tanakh.js > rendering-report.json
+          python -c "import json; x=json.load(open('rendering-report.json',encoding='utf-8')); assert x['files']==39 and x['tokens']>0, x"
       - name: Upload rendering report
         if: always()
         uses: actions/upload-artifact@v4
