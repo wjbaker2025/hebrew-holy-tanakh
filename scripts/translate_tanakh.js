@@ -90,7 +90,7 @@ function main() {
       const full = path.join(folder, entry.name);
       if (entry.isDirectory()) {
         walk(full);
-      } else if (entry.isFile() && /^\\d{2}_.+\\.json$/.test(entry.name)) {
+      } else if (entry.isFile() && /^[0-9]{2}_.+[.]json$/.test(entry.name)) {
         report.files++;
         const doc = JSON.parse(fs.readFileSync(full, "utf8"));
         const before = report.mismatches;
@@ -103,6 +103,9 @@ function main() {
     }
   }
   walk(dir);
+  if (report.files !== 39) {
+    throw new Error(`Expected 39 numbered Tanakh JSON books, found ${report.files}`);
+  }
   console.log(JSON.stringify(report, null, 2));
   if (args.has("--check") && report.mismatches) process.exitCode = 1;
 }
