@@ -15,8 +15,8 @@ This repository contains the digitized Hebrew Bible (Tanakh) structured as parse
 - **Gematria Engine (`gemantria/`)**:
   - Note: the directory is intentionally spelled `gemantria/` to match the repository on disk.
   - **SSOT**: `gemantria_ciphers.json` (Version 5.0) is the SINGLE SOURCE OF TRUTH for all cipher logic.
-  - **Legacy**: `cipher_spec.json` is legacy. Do NOT write to or derive logic from `cipher_spec.json` under any circumstances.
-  - **UI Mirror**: `ciphers_*.js` (e.g., `ciphers_2026-01-13_12-36-32.js`) mirrors valid ciphers for UI apps. Always edit the single most recently timestamped `ciphers_*.js` file. Do not create a new timestamped file unless explicitly instructed to do so.
+  - **Legacy**: `cipher_spec.json` is not present in the tracked tree. Do not recreate it or derive cipher values from an imagined file.
+  - **Legacy JS**: `ciphers_*.js` is a historical standalone calculator snapshot. It uses an incompatible signature with the separate `cipher_builder.js` class and must not be presumed runtime-compatible. The maintained web reader uses the canonical JSON via fetch.
   - **Mappings**: `gematria_multiscript_map.json` handles cross-script (Hebrew/Greek/Arabic) logic.
 
 ## Workflows
@@ -27,7 +27,7 @@ This repository contains the digitized Hebrew Bible (Tanakh) structured as parse
   - If you detect scripts that hardcode the portable Python path and the path does not exist in the current environment, flag the path to the user and suggest substituting the system python3 binary. Do not silently rewrite hardcoded paths without user confirmation.
 
 - **Frontend/UI Logic**:
-  - When updating ciphers in `ciphers_*.js`, use the `new cipher(...)` constructor.
+  - Do not edit `ciphers_*.js` without validating its separate legacy runtime API.
   - **Convention**: Set HSL color values to `0, 0, 0` (Neutralized) for all new ciphers.
   - Example: `new cipher("Name", "Category", 0, 0, 0, [chars], [values], ...)`
 
@@ -44,5 +44,5 @@ This repository contains the digitized Hebrew Bible (Tanakh) structured as parse
 ## Key Files
 
 - `bootstraps.ps1`: Environment init.
-- `gemantria/gemantria_ciphers.json`: Primary Logic Definition.
+- `gemantria/mappings/gemantria_ciphers.json`: Primary Logic Definition.
 - `Tanakh/1. Torah - Instructions/01_genesis.json`: Canon structure reference.
