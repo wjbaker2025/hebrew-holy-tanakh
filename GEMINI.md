@@ -1,3 +1,7 @@
+## Audit note (2026-11-14)
+
+The project includes a Python CLI at `hebrew-bible-cli/src/hebrew_bible_cli/`, a read-only repository-wide audit, tests, and a `docs/REPOSITORY_AUDIT_2026-11-14.md` status record. The canonical cipher definition is `gemantria/mappings/gemantria_ciphers.json`. The `gemantria/client/`, `gemantria/definitions/`, and `gemantria/docs/` directories, as well as the referenced gematria ledgers, are not present in the audited tree. `hebrew_greek` fields are experimental numeric letter transpositions, **not** Septuagint translations. Experimental Biblical and reversal ciphers must not be treated as established ancient practice. Run `py -m scripts.audit_repository --deep` to verify local file integrity. Corpus-to-manuscript textual collation is still outstanding.
+
 # Gemini Context: Hebrew Holy Tanakh Repository
 
 ## Project Overview
@@ -61,7 +65,7 @@ This repository is primarily a **data source**.
 
 ## Development Notes
 
-*   **No Build System:** As a data repository, there are no standard build scripts (like `npm run build` or `make`) in the root.
+*   **Build and validation:** Root `pyproject.toml` packages the actual CLI, and the `.github/workflows/repository-audit.yml` workflow runs syntax, schema, and checksum checks.
 *   **Data Integrity:** When modifying JSON files, ensure strictly valid JSON syntax is maintained.
 *   **Conventions:**
     *   **Text:** Follows the WLC transcription.
