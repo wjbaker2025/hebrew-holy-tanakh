@@ -16,7 +16,7 @@ This repository provides a digitized, parseable version of the Hebrew Bible (Tan
 
 ## Provenance and interpretation
 
-The Hebrew JSON files are a derivative digital corpus attributed to the Westminster Leningrad Codex, not scans of an autograph or a guarantee of exact word-level agreement. External source collation is separate from structural validation. The field `hebrew_greek` is a model-specific numeric Greek-letter **rendering of Hebrew**, NOT the Greek Septuagint or a translation.
+The Hebrew JSON files are a derivative digital corpus attributed to the Westminster Leningrad Codex, not scans of an autograph or a guarantee of exact word-level agreement. External source collation is separate from structural validation. The field `hebrew_greek` is a legacy Greek-glyph **substitution of Hebrew**, not reliably value-preserving, NOT the Greek Septuagint or a translation.
 
 Standard Hebrew Mispar Hechrechi, traditional Greek isopsephy, and traditional Syriac numeral values are distinct from the proposed Biblical, reversal, Genesis-order, and Greek-transposition models. Never infer historical authorship or intended encryption from a numerical match alone.
 
