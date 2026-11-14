@@ -2,22 +2,34 @@
   "meta": {
     "system": "Gemantria Ciphers",
     "version": "5.0",
-    "description": "Comprehensive gematria cipher definitions and multiscript mappings for Hebrew, Greek, and English alphabets. Includes five primary ciphers (Biblical, Reversal, Genesis Order, Standard, Greek Transposition) with detailed letter mappings, values, and transliterations. Serves as the Single Source of Truth (SSOT) for all gematria calculations in the Hebrew Holy Tanakh project.",
+    "description": "Canonical machine-readable definitions for conventional Hebrew/Greek/Syriac numerical systems and separately labeled experimental Biblical, reversal, Genesis-order and transposition models. Numerical correspondence is not necessarily linguistic transliteration.",
     "cipher_definitions": {
-      "The Biblical Gematria Cipher": "Standard Tanakh cipher (Shin=3, Tav=4).",
-      "The Reversal Cipher": "Mirrored cipher values based on the Biblical sequence.",
-      "The Genesis Order Cipher": "Ordinal sequence (1-20) based on appearance in Genesis 1-2.",
-      "The Standard Cipher": "Mispar Hechrechi (Shin=300, Tav=400)."
+      "The Biblical Gematria Cipher": "Proposed reconstruction (Shin=3, Tav=4), not the academically established standard value system.",
+      "The Reversal Cipher": "Project-specific inverse value table; not standard Atbash and not necessarily an involutive letter permutation.",
+      "The Genesis Order Cipher": "Proposed Genesis-based 22-letter/20-value table; not the literal order of first appearance of Hebrew letters in Genesis.",
+      "The Standard Cipher": "Traditional Hebrew Mispar Hechrechi, Shin=300 and Tav=400.",
+      "Greek Isopsephy": "Conventional Greek numeral letters, including archaic numeral forms; sigma positional variants have the same value.",
+      "Syriac Numerals": "Traditional Syriac alphabetic numeral values, scored separately from the hypothetical Hebrew/Greek cipher."
     },
     "ssot": true,
     "sources": {
-      "documentation": "CIPHERS.md",
-      "legacy_cipher_spec": "cipher_spec.json"
-    }
+      "documentation": "CIPHERS.md"
+    },
+    "historical_status": {
+      "standard": "historically_attested",
+      "greek_isopsephy": "historically_attested",
+      "syriac_standard": "historically_attested",
+      "biblical": "proposed_reconstruction",
+      "reversal": "project_defined",
+      "genesis_order": "project_defined",
+      "greek_transposition": "project_defined"
+    },
+    "normalization": "For scoring, strip diacritics; map Hebrew final forms to base forms; Greek ς and ϲ to σ; case-fold Greek and Syriac; ignore whitespace/punctuation but reject unexpected letters. Do not reinterpret transliterations as translations.",
+    "cross_script_caution": "The hebrew_equivalent field in Greek entries records a proposed NUMERICAL match, not the phonetic transliteration, translation, or etymology of the Greek letter."
   },
   "ciphers": {
     "biblical": {
-      "description": "Main cipher of the Tanakh/Gospels. Shin=3, Tav=4.",
+      "description": "Proposed reconstructed Biblical model (Shin=3, Tav=4). Not an established standard for ancient Hebrew or all Gospel texts.",
       "mapping": {
         "א": 1,
         "ב": 2,
@@ -44,7 +56,7 @@
       }
     },
     "reversal": {
-      "description": "The Biblical Cipher in reverse order.",
+      "description": "Project-defined reversal of Biblical value classes. Not standard Hebrew Atbash.",
       "mapping": {
         "ת": 80,
         "ש": 90,
@@ -71,7 +83,7 @@
       }
     },
     "genesis_order": {
-      "description": "Sequence of letters as they appear in Genesis 1-2. Sum = 217.",
+      "description": "Proposed Genesis-associated order; not literal first appearance order of consonants in Genesis 1-2. Twenty distinct values assigned across 22 letters.",
       "sequence": [
         "ב",
         "א",
@@ -122,7 +134,7 @@
       }
     },
     "standard": {
-      "description": "Mispar Hechrechi. Post-exilic/Kabbalistic standard.",
+      "description": "Traditional Hebrew Mispar Hechrechi (twenty-two consonants, final forms normalized to base forms).",
       "mapping": {
         "א": 1,
         "ב": 2,
@@ -149,7 +161,7 @@
       }
     },
     "greek_transposition": {
-      "description": "Biblical Gematria transposed to Greek for NT.",
+      "description": "Experimental numerical transposition of reconstructed Biblical model to Greek; not conventional Greek isopsephy. Its sampi=90 is a MODEL assignment, not historical Greek sampi=900.",
       "mapping": {
         "α": 1,
         "β": 2,
@@ -177,7 +189,13 @@
         "ϙ": 90,
         "ϡ": 90,
         "ρ": 100,
-        "ς": 200
+        "ς": 200,
+        "σ": 200,
+        "ϲ": 200,
+        "ϝ": 6,
+        "ϛ": 6,
+        "Ϙ": 90,
+        "ϟ": 90
       }
     },
     "greek_letters": [
@@ -397,7 +415,73 @@
         "hebrew_equivalent": "ף",
         "transliteration": "P(Final)"
       }
-    ]
+    ],
+    "greek_isopsephy": {
+      "description": "Conventional Greek alphabetic numerical values, including letter-form variants and historical numeral letters.",
+      "mapping": {
+        "α": 1,
+        "β": 2,
+        "γ": 3,
+        "δ": 4,
+        "ε": 5,
+        "ϝ": 6,
+        "Ϝ": 6,
+        "ϛ": 6,
+        "ζ": 7,
+        "η": 8,
+        "θ": 9,
+        "ι": 10,
+        "κ": 20,
+        "λ": 30,
+        "μ": 40,
+        "ν": 50,
+        "ξ": 60,
+        "ο": 70,
+        "π": 80,
+        "ϙ": 90,
+        "Ϙ": 90,
+        "ϟ": 90,
+        "ρ": 100,
+        "σ": 200,
+        "ς": 200,
+        "ϲ": 200,
+        "τ": 300,
+        "υ": 400,
+        "φ": 500,
+        "χ": 600,
+        "ψ": 700,
+        "ω": 800,
+        "ϡ": 900,
+        "Ϡ": 900
+      }
+    },
+    "syriac_standard": {
+      "description": "Traditional Syriac alphabetic numeral values. No claim that the Peshitta was composed to encode these totals.",
+      "mapping": {
+        "ܐ": 1,
+        "ܒ": 2,
+        "ܓ": 3,
+        "ܕ": 4,
+        "ܗ": 5,
+        "ܘ": 6,
+        "ܙ": 7,
+        "ܚ": 8,
+        "ܛ": 9,
+        "ܝ": 10,
+        "ܟ": 20,
+        "ܠ": 30,
+        "ܡ": 40,
+        "ܢ": 50,
+        "ܣ": 60,
+        "ܥ": 70,
+        "ܦ": 80,
+        "ܨ": 90,
+        "ܩ": 100,
+        "ܪ": 200,
+        "ܫ": 300,
+        "ܬ": 400
+      }
+    }
   },
   "languages": {
     "hebrew": [
@@ -685,7 +769,7 @@
         "values": {
           "biblical": 2,
           "standard": 2,
-          "reversal": 100
+          "reversal": 200
         },
         "hebrew_map": "ב"
       },
