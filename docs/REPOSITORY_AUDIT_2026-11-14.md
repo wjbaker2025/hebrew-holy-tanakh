@@ -97,6 +97,22 @@ The pinned comparison completed against all **39** OSHB WLC books, using revisio
 
 **Interpretation:** Of verses sharing the same numeric reference, 6,630 have different consonantal sequences. The local versus source-only reference counts are not yet proven missing or extra scripture because chapter/verse numbering conventions can differ (particularly Psalm titles and Joel/Malachi numbering). Early examples include straightforward omission-only differences, e.g. `Gen 1:11` lacks source `בו` and `Gen 1:28` lacks source `להם`. These are substantive corpus-quality findings. The counts do not establish ancient textual variants, because both datasets are modern transcriptions/derivatives and the comparison strips word separation and pointing.
 
+The updated full-difference artifact from [run #38](https://github.com/wjbaker2025/hebrew-holy-tanakh/actions/runs/43585148016) contains **all 6,968** nonmatching or reference-only entries and classifies the **6,630** differing consonant streams:
+
+| Pattern of character-level differences | Verses |
+| --- | ---: |
+| Source contains additional letters only (apparent local omissions) | **4,836** |
+| Mixed insertions, deletions, or replacements | **1,731** |
+| Local contains additional letters only | **63** |
+
+The character-level classification is not itself a word-level textual apparatus; a missing short word can align differently when adjacent words share consonants.
+
+### Isaiah 6:10: immediate relevance to gematria
+
+In the WLC source, Isaiah 6:10 ends **ושב ורפא לו** at the consonantal level, but the local JSON ends **ושב ורפא** and omits `לו`. Under conventional Hebrew gematria (including ordinary values for final forms), the exact WLC consonant stream scores **2,942**, while the local stream scores **2,906**. Under the project's proposed Shin=3 / Tav=4 Biblical Cipher, the scores are **1,754** and **1,718**, respectively. The 36-point difference is `ל` (30) + `ו` (6).
+
+This changes direct calculations on the very Isaiah passage cited in Matthew 13 and Mark 4. It should be tracked as a specific source-fidelity issue and resolved by source-checked token insertion with proper Strong's and morphological alignment, not a blind appended string.
+
 **Action required before representing the local corpus as exact WLC text:** triage all affected references; reconcile source witness, token boundaries, Strong's codes, morphology, glosses, ketiv/qere and verse numbering; keep original hashes and a reviewed change log. The manuscript-text reconstruction and subsequent revalidation must be a separate source-provenance change set. No corpus words were added, deleted or reordered in this PR. The CI artifact records references and representative differing spans; subsequent CI runs retain all differences and classify omission-only versus replacement patterns.
 
 ## Pinned WLC consonantal collation (additional independent job)
