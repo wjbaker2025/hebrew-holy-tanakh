@@ -82,6 +82,23 @@ This PR repairs the auditable tooling and adds whole-repository structural check
 
 **Merge criterion:** CI checks pass; source assets have not been silently rewritten; proposed-model status is explicit; errors and warnings from the machine-readable audit report are reviewed and assigned to documented follow-up work.
 
+## Consonantal source-to-corpus results (verified CI audit)
+
+The pinned comparison completed against all **39** OSHB WLC books, using revision `d4265dfa93b78d82765a557e12d965528c17c1a9`. Results from GitHub Actions run [#32](https://github.com/wjbaker2025/hebrew-holy-tanakh/actions/runs/43584973649), artifact `pinned-wlc-consonant-collation`:
+
+| Compared reading | Verse-level count |
+| --- | ---: |
+| Local stream exactly matches primary qere-preferred source | 16,375 |
+| Local stream matches alternate ketiv-preferred source | 4 |
+| Consonant sequence differs | **6,630** |
+| Local numeric reference absent upstream | 134 |
+| Upstream numeric reference absent locally | 204 |
+| Local verse reference excluded for malformed number | 1 (`Isaiah 64:NaN`) |
+
+**Interpretation:** Of verses sharing the same numeric reference, 6,630 have different consonantal sequences. The local versus source-only reference counts are not yet proven missing or extra scripture because chapter/verse numbering conventions can differ (particularly Psalm titles and Joel/Malachi numbering). Early examples include straightforward omission-only differences, e.g. `Gen 1:11` lacks source `בו` and `Gen 1:28` lacks source `להם`. These are substantive corpus-quality findings. The counts do not establish ancient textual variants, because both datasets are modern transcriptions/derivatives and the comparison strips word separation and pointing.
+
+**Action required before representing the local corpus as exact WLC text:** triage all affected references; reconcile source witness, token boundaries, Strong's codes, morphology, glosses, ketiv/qere and verse numbering; keep original hashes and a reviewed change log. The manuscript-text reconstruction and subsequent revalidation must be a separate source-provenance change set. No corpus words were added, deleted or reordered in this PR. The CI artifact records references and representative differing spans; subsequent CI runs retain all differences and classify omission-only versus replacement patterns.
+
 ## Pinned WLC consonantal collation (additional independent job)
 
 The PR adds `scripts/collate_wlc.py` and a third CI job that downloads the 39 OSHB/WLC XML books from the **pinned** Open Scriptures revision `d4265dfa93b78d82765a557e12d965528c17c1a9` (2026-11-11), and records letter-only matches, divergences, missing verses, extra verses and ketiv/qere alternatives. This is a read-only source-to-source comparison, and its `wlc-collation.json` report is uploaded as an Actions artifact. The WLC text is public domain; Open Scriptures morphology carries CC BY 4.0 attribution. The exact status and discrepancy counts must be read from the completed workflow artifact; no total is asserted before verification. A consonant match does not verify accentuation, punctuation, morphology, translations, manuscript dating or authorial intent.
