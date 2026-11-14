@@ -9,7 +9,7 @@ This repository provides a digitized, parseable version of the Hebrew Bible (Tan
 - `gemantria/mappings/`: separate cross-script correspondences and experimental symbolic metadata.
 - `gemantria/scripts/`: historical calculator resources; not all are standalone modules.
 - `hebrew-bible-cli/`: installable Python CLI. The root package also exposes it as `tanakh`.
-- `scripts/`: corpus audit, Unicode-safe gematria scoring, experimental Greek-letter rendering.
+- `scripts/`: corpus audit, Unicode-safe gematria scoring, legacy Greek-letter rendering, and read-only pinned WLC consonantal collation.
 - `tests/` and `.github/workflows/repository-audit.yml`: regression checks and read-only integrity auditing.
 - `bible_app.html`: web reader; serve over HTTP to enable local JSON fetches.
 - `docs/`: historical/research status, cipher details, and audit notes.
@@ -54,3 +54,7 @@ Contributions are welcome. Please ensure any modifications maintain data integri
 ## License
 
 See LICENSE file for details.
+
+## Manuscript-text collation
+
+Run `py -m scripts.collate_wlc --output wlc-collation.json` from the repository root on Windows 11 to compare all 39 local books against the pinned [Open Scriptures WLC revision](https://github.com/openscriptures/morphhb/tree/d4265dfa93b78d82765a557e12d965528c17c1a9/wlc). The process is read-only: it records differing consonant sequences and missing or extra verses without altering the corpus. It does not establish niqqud, cantillation, ketiv/qere segmentation, Strong's metadata, English-gloss accuracy, or an ancient manuscript autograph. The source text and morphological metadata have their own licensing and attribution.
