@@ -78,7 +78,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Collate all 39 books with pinned WLC source
-        run: python -m scripts.collate_wlc --output wlc-collation.json > wlc-summary.txt
+        run: python -m scripts.collate_wlc --examples 10000 --output wlc-collation.json > wlc-summary.txt
       - name: Upload WLC manuscript-text comparison
         if: always()
         uses: actions/upload-artifact@v4
