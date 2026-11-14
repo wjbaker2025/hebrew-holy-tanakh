@@ -23,7 +23,7 @@ The GitHub Actions workflow runs the audit and produces a downloadable machine-r
 | Duplicated metadata | Beta reversal was 200 in one field, 100 in another | Make the proposed reversal field consistent (200) |
 | HTML reader | Fetched non-existent `gemantria/definitions/` mapping; referred to undefined Greek fallback | Point to maintained `gemantria/mappings/` and use explicit script-specific maps |
 | HTML reader | Corrupted duplicated `loadBook` code, redundant retry path, and unsafe interpolation of word values | Restore single book loading flow, remove unreachable branches, escape displayed text |
-| Hebrew-to-Greek renderer | Used nonexistent `scripts/Tanakh` path and rewrote every file by default | Use repository `Tanakh/`, report only by default, require explicit `--write`, target `hebrew_greek` only |
+| Hebrew-to-Greek renderer | Used nonexistent `scripts/Tanakh` path and rewrote every file by default | Use repository `Tanakh/`, report only by default, require explicit `--write`, and compare against the corpus’s actual legacy glyph conventions |
 | Python root package | Entry point pointed to missing `hebrew_holy_tanakh.cli`; package directory was absent | Install actual `hebrew_bible_cli` package; do not bundle large source corpus in wheel |
 | Equation ranking | Equal similarity scores caused heap comparisons of dictionaries | Add integer tiebreak and validate positive window and result counts |
 | Reproducibility | No tracked regression suite / CI integrity audit | Add Unicode-safe scorer, tests, read-only asset audit, and CI |
@@ -35,8 +35,16 @@ The GitHub Actions workflow runs the audit and produces a downloadable machine-r
 - `syriac_standard` is a traditional Syriac letter-number table. It does not establish what language Jesus spoke in a specific scene, nor the spelling of an autograph.
 - `biblical` (Shin=3, Tav=4), `reversal`, `genesis_order`, and `greek_transposition` are **explicitly proposed/experimental project models**. Under the latter, Ἰησοῦς = **492**. That difference is expected and does not invalidate a model by itself.
 - The `genesis_order` sequence is NOT the literal sequence of first Hebrew consonants encountered in Genesis 1:1. The opening consonant sequence is ב ר א ש י ת.
-- `hebrew_greek` is a numerical-letter substitution of Hebrew script. Do NOT cite it as an extant Septuagint Greek text, translation, Greek papyrus, or independent Gospel witness.
+- `hebrew_greek` is a legacy glyph substitution of Hebrew script, not guaranteed to preserve even the proposed Hebrew numeric values (notably ו → υ). Do NOT cite it as an extant Septuagint Greek text, translation, Greek papyrus, or independent Gospel witness.
 - A numerical equality across Hebrew, Greek, or Aramaic witnesses is meaningful only after recording the exact reading, manuscript/edition, variant scope, normalization and precommitted scoring rules.
+
+### First full-corpus audit result
+
+The first GitHub Actions audit parsed **39 book files, 929 chapters, 23,144 verse rows, and 298,947 word records**. It found **zero structural errors** and two data warnings: the malformed verse key `Isaiah 64:NaN` and nonsequential verse identifiers in Nehemiah 7. It checked 7 mapping JSON files, 3 CSV translations and the complete ZIP CRCs of 8 XLSX translation assets. The ordered 39-file source-bytes SHA-256 fingerprint was:
+
+`7b8ac76ccaa363c979d709114ff38a40952fe02d6304c87bbb8dc0760c98955e`
+
+These two verse-key issues require upstream source comparison before repair. The initial source validation passed despite warnings; the packaging job reported a separate metadata error which was corrected on the audit branch and must pass its next CI run.
 
 ### Known textual discrepancies requiring separate source collation
 
@@ -64,7 +72,7 @@ py -m scripts.gematria_score "ܐܣܐ" --script syriac --cipher syriac_standard
 node scripts/translate_tanakh.js --check
 ```
 
-The last command reports disagreements between existing `hebrew_greek` annotations and the experimental transliteration algorithm; it does **not** rewrite the corpus. Only the explicit `--write` flag changes data. Do not run `--write` to force agreement with a hypothesis before inspecting the reported differences.
+The last command reports disagreements between existing `hebrew_greek` annotations and the existing legacy glyph substitution convention; it does **not** rewrite the corpus. Only the explicit `--write` flag changes data. Do not run `--write` to force agreement with a hypothesis before inspecting the reported differences.
 
 To inspect the HTML reader, serve the repository through a local HTTP server; `file://` does not reliably allow its browser `fetch` requests.
 
