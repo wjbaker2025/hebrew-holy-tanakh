@@ -2,8 +2,8 @@
 const fs = require("fs");
 const path = require("path");
 
-// 1. Define the 1-to-1 Mapping based on the provided Physics & Pneumatic definitions
-// This includes the standard alphabet and the high-value final forms.
+// 1. Existing corpus-specific Hebrew-to-Greek glyph substitutions.
+// These are NOT a historically attested Greek translation or value isomorphism.
 const hebrewToGreek = {
   א: "α", // Alpha (1)
   ב: "β", // Beta (2)
