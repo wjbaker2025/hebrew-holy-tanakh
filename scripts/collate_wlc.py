@@ -121,6 +121,8 @@ def collate(source_dir: Path | None = None, max_examples: int = 80) -> dict:
         counts = Counter()
         try:
             upstream = source_verses(obtain_xml(code, source_dir))
+            if not upstream:
+                raise ValueError(f"No recognized OSIS verses found for {code}")
         except (OSError, ValueError, ET.ParseError) as exc:
             errors.append(f"{code}: {exc}")
             continue
