@@ -168,9 +168,10 @@ def collate(source_dir: Path | None = None, max_examples: int = 80) -> dict:
         summary.update(counts)
         per_book.append({"book": code, **counts})
     return {
-        "source": "Open Scriptures Hebrew Bible, WLC digital transcription",
-        "source_commit": UPSTREAM_COMMIT,
-        "source_url": URL_BASE,
+        "source": ("Local XML witness (revision unverified)" if source_dir is not None
+                   else "Open Scriptures Hebrew Bible, WLC digital transcription"),
+        "source_commit": UPSTREAM_COMMIT if source_dir is None else None,
+        "source_url": URL_BASE if source_dir is None else source_dir.resolve().as_uri(),
         "source_license": "WLC text public domain; morphology CC BY 4.0",
         "status": "complete" if not errors else "incomplete",
         "books_collated": len(per_book),
