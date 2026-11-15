@@ -21,9 +21,10 @@ def load_ciphers(path: Path = MAPPING_FILE) -> dict[str, dict[str, int]]:
     """Load the project's canonical letter-value tables, excluding metadata."""
     raw = json.loads(path.read_text(encoding="utf-8"))
     return {
-        name: entry["mapping"]
+        name: entry.get("mapping", entry.get("values"))
         for name, entry in raw["ciphers"].items()
-        if isinstance(entry, dict) and isinstance(entry.get("mapping"), dict)
+        if isinstance(entry, dict)
+        and isinstance(entry.get("mapping", entry.get("values")), dict)
     }
 
 
