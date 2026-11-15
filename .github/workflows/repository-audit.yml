@@ -1,0 +1,90 @@
+name: Repository integrity audit
+
+on:
+  pull_request:
+  push:
+    branches: [main, "audit/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  corpus-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python sources
+        run: python -m compileall -q scripts hebrew-bible-cli/src tests
+      - name: Run regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate all books, mappings and translation assets
+        run: python -m scripts.audit_repository --deep --output audit-report.json > audit-console.txt
+      - name: Test root package metadata and CLI entrypoint
+        run: |
+          python -m pip install --no-deps -e .
+          python -c "from importlib.metadata import distribution; d=distribution('hebrew_holy_tanakh'); assert any(e.name == 'tanakh' and e.value == 'hebrew_bible_cli.cli:app' for e in d.entry_points)"
+      - name: Upload corpus report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-integrity-audit
+          path: |
+            audit-report.json
+            audit-console.txt
+          if-no-files-found: ignore
+
+  javascript-and-reader:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax-check JavaScript files
+        run: |
+          node --check gemantria/scripts/cipher_builder.js
+          node --check gemantria/scripts/ciphers_2026-01-13_12-36-32.js
+          node --check scripts/translate_tanakh.js
+      - name: Syntax-check inline browser app script
+        run: |
+          python -c "from pathlib import Path; t=Path('bible_app.html').read_text(encoding='utf-8'); Path('reader_check.js').write_text(t.split('<script>',1)[1].split('</script>',1)[0], encoding='utf-8')"
+          node --check reader_check.js
+      - name: Report numeric Greek rendering differences without mutation
+        run: |
+          node scripts/translate_tanakh.js > rendering-report.json
+          python -c "import json; x=json.load(open('rendering-report.json',encoding='utf-8')); assert x['files']==39 and x['tokens']>0, x"
+      - name: Upload rendering report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: numeric-greek-rendering-report
+          path: rendering-report.json
+          if-no-files-found: ignore
+
+  wlc-consonantal-collation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Collate all 39 books with pinned WLC source
+        run: python -m scripts.collate_wlc --examples 10000 --output wlc-collation.json > wlc-summary.txt
+      - name: Upload WLC manuscript-text comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinned-wlc-consonant-collation
+          path: |
+            wlc-collation.json
+            wlc-summary.txt
+          if-no-files-found: ignore

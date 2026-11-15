@@ -8,15 +8,14 @@ version = "0.1.0"
 description = "The Hebrew Holy Tanakh in JSON format with gematria analysis tools, cipher systems, and multiscript mappings."
 readme = "README.md"
 requires-python = ">=3.12.4"
-license = { text = "MIT" }
-license-files = ["LICENSE.md"]
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
   { name = "W. Justin Fournell-Baker", email = "w.justin.fournell-baker@emnous.com" }
 ]
 
 classifiers = [
   "Programming Language :: Python :: 3.12",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
@@ -50,23 +49,16 @@ dev = [
 # Command-prompt entrypoint: `tanakh ...`
 # Change the module/function if your CLI lives elsewhere.
 [project.scripts]
-tanakh = "hebrew_holy_tanakh.cli:main"
+tanakh = "hebrew_bible_cli.cli:app"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = {"" = "hebrew-bible-cli/src"}
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["hebrew-bible-cli/src"]
 
-# Include JSON (and other data files) inside the installed package/wheel.
-# Put your Tanakh JSON under: src/hebrew_holy_tanakh/data/...
-[tool.setuptools.package-data]
-hebrew_holy_tanakh = [
-  "**/*.json",
-  "**/*.txt",
-  "**/*.csv",
-  "**/*.md"
-]
+# The wheel installs the CLI; the large Tanakh/ JSON corpus remains in the
+# checkout and is not embedded in the Python package.
 
 [tool.ruff]
 line-length = 88

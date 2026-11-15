@@ -4,85 +4,23 @@ This repository provides a digitized, parseable version of the Hebrew Bible (Tan
 
 ## Repository Structure
 
-```
-├───.github
-│   ├───agents
-│   └───copilot-instructions.md
-├───gemantria
-│   ├───client
-│   │   ├───cipher_builder.js
-│   │   └───ciphers_2026-01-13_12-36-32.js
-│   ├───definitions
-│   │   ├───gemantria_ciphers.json
-│   │   └───shematria_rules.json
-│   ├───docs
-│   │   ├───CIPHERS.md
-│   │   ├───PHYSICS_MAP.md
-│   │   ├───Place Order Scenock Table.md
-│   │   └───place_order_scenock_table.json
-│   ├───images
-│   │   ├───gates_of_the_palaces.jpg
-│   │   └───the_seven_palaces.jpg
-│   └───mappings
-│       ├───alphabet_map.json
-│       ├───gematria_multiscript_map.json
-│       └───hebrew_parsing_tag_legend.json
-├───Tanakh
-│   ├───1. Torah - Instructions
-│   │   ├───01_genesis.json
-│   │   ├───02_exodus.json
-│   │   ├───03_leviticus.json
-│   │   ├───04_numbers.json
-│   │   └───05_deuteronomy.json
-│   ├───2. Nevi'im - Prophets
-│   │   ├───1. Former Prophets
-│   │   │   ├───06_joshua.json
-│   │   │   ├───07_judges.json
-│   │   │   ├───08_1_samuel.json
-│   │   │   ├───09_2_samuel.json
-│   │   │   ├───10_1_kings.json
-│   │   │   └───11_2_kings.json
-│   │   ├───2. Latter Prophets
-│   │   │   ├───12_isaiah.json
-│   │   │   ├───13_jeremiah.json
-│   │   │   └───14_ezekiel.json
-│   │   └───3. Minor Prophets
-│   │       ├───15_hosea.json
-│   │       ├───16_joel.json
-│   │       ├───17_amos.json
-│   │       ├───18_obadiah.json
-│   │       ├───19_jonah.json
-│   │       ├───20_micah.json
-│   │       ├───21_nahum.json
-│   │       ├───22_habakkuk.json
-│   │       ├───23_zephaniah.json
-│   │       ├───24_haggai.json
-│   │       ├───25_zechariah.json
-│   │   │       └───26_malachi.json
-│   └───3. Ketuvim - Writings
-│       ├───27_psalms.json
-│       ├───28_proverbs.json
-│       ├───29_job.json
-│       ├───30_song_of_solomon.json
-│       ├───31_ruth.json
-│       ├───32_lamentations.json
-│       ├───33_ecclesiastes.json
-│       ├───34_esther.json
-│       ├───35_daniel.json
-│       ├───36_ezra.json
-│       ├───37_nehemiah.json
-│       ├───38_1_chronicles.json
-│       └───39_2_chronicles.json
-├───.gitignore
-├───bootstraps.ps1
-├───bible_app.html
-├───GEMINI.md
-├───get_tree.ps1
-├───LICENSE
-├───pyproject.toml
-├───README.md
-└───tree.md
-```
+- `Tanakh/`: 39 numbered Hebrew biblical book JSON files and a separate `translations/` asset collection.
+- `gemantria/mappings/gemantria_ciphers.json`: authoritative numeric cipher data, including traditional tables and explicitly labeled proposed models.
+- `gemantria/mappings/`: separate cross-script correspondences and experimental symbolic metadata.
+- `gemantria/scripts/`: historical calculator resources; not all are standalone modules.
+- `hebrew-bible-cli/`: installable Python CLI. The root package also exposes it as `tanakh`.
+- `scripts/`: corpus audit, Unicode-safe gematria scoring, legacy Greek-letter rendering, and read-only pinned WLC consonantal collation.
+- `tests/` and `.github/workflows/repository-audit.yml`: regression checks and read-only integrity auditing.
+- `bible_app.html`: web reader; serve over HTTP to enable local JSON fetches.
+- `docs/`: historical/research status, cipher details, and audit notes.
+
+## Provenance and interpretation
+
+The Hebrew JSON files are a derivative digital corpus attributed to the Westminster Leningrad Codex, not scans of an autograph or a guarantee of exact word-level agreement. External source collation is separate from structural validation. The field `hebrew_greek` is a legacy Greek-glyph **substitution of Hebrew**, not reliably value-preserving, NOT the Greek Septuagint or a translation.
+
+Standard Hebrew Mispar Hechrechi, traditional Greek isopsephy, and traditional Syriac numeral values are distinct from the proposed Biblical, reversal, Genesis-order, and Greek-transposition models. Never infer historical authorship or intended encryption from a numerical match alone.
+
+Read [repository audit and outstanding manuscript checks](docs/REPOSITORY_AUDIT_2026-11-14.md) before using numerical data as textual evidence.
 
 ## Key Features
 
@@ -100,8 +38,10 @@ Parse verses by iterating through word arrays and applying gematria calculations
 
 ### Cipher Selection
 
-- Default to "biblical" cipher for Tanakh analysis.
-- Use "standard" for general Hebrew gematria.
+- Use `standard` for conventional Hebrew numerical comparisons.
+- Select `biblical` explicitly for the experimental Shin=3, Tav=4 reconstruction.
+- Use `greek_isopsephy` for conventional Greek and `syriac_standard` for traditional Syriac.
+- Compare models separately, recording the exact text witness, spelling and normalization.
 
 ### Data Integrity
 
@@ -114,3 +54,7 @@ Contributions are welcome. Please ensure any modifications maintain data integri
 ## License
 
 See LICENSE file for details.
+
+## Manuscript-text collation
+
+Run `py -m scripts.collate_wlc --output wlc-collation.json` from the repository root on Windows 11 to compare all 39 local books against the pinned [Open Scriptures WLC revision](https://github.com/openscriptures/morphhb/tree/d4265dfa93b78d82765a557e12d965528c17c1a9/wlc). The process is read-only: it records differing consonant sequences and missing or extra verses without altering the corpus. It does not establish niqqud, cantillation, ketiv/qere segmentation, Strong's metadata, English-gloss accuracy, or an ancient manuscript autograph. The source text and morphological metadata have their own licensing and attribution.

@@ -250,6 +250,11 @@ def map_equation_to_passages(
         eqv[_EQ_IDX_NVARS],                                                      # unique vars
     ], dtype=float)
 
+    if top_k <= 0:
+        raise ValueError("top_k must be a positive integer")
+    if window <= 0:
+        raise ValueError("window must be a positive integer")
+
     if restrict_book:
         if restrict_book not in doc:
             raise KeyError(f"Book '{restrict_book}' not found. Available: {list_books(doc)}")
@@ -259,7 +264,8 @@ def map_equation_to_passages(
 
     # Use a fixed-size min-heap so memory stays O(top_k) instead of
     # accumulating all windows and sorting the entire list.
-    heap: List[tuple[float, Dict[str, Any]]] = []
+    heap: List[tuple[float, int, Dict[str, Any]]] = []
+    insertion_index = 0
 
     for book in books:
         # try chapters sequentially; if book structure differs, skip safely
@@ -299,9 +305,12 @@ def map_equation_to_passages(
                     "preview": preview if preview else chunk[0]["ref"],
                 }
 
+                # Use an integer tiebreaker: dictionaries are not orderable in Python.
+                candidate = (score, insertion_index, entry)
+                insertion_index += 1
                 if len(heap) < top_k:
-                    heapq.heappush(heap, (score, entry))
+                    heapq.heappush(heap, candidate)
                 elif score > heap[0][0]:
-                    heapq.heapreplace(heap, (score, entry))
+                    heapq.heapreplace(heap, candidate)
 
-    return [item for _, item in sorted(heap, key=lambda x: x[0], reverse=True)]
+    return [item for _, _, item in sorted(heap, key=lambda x: (x[0], -x[1]), reverse=True)]
